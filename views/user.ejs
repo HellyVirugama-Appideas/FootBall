@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>User List | <%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+    <%- include('_layouts/sidenavbar') %>
+
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <!-- Search for small screen-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>User</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs modal-trigger" href="#auth">Export</a>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs modal-trigger ml-2" href="#add">Add CSV</a>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs ml-2" href="/user/add">Add User</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="auth" class="modal">
+                <div class="modal-content">
+                    <h6>Provide credentials</h6>
+                    <form method="POST" id="authForm" onsubmit="validateCreds()" action="/user/export">
+                        <div class="col s12">
+                            <div class="input-field">
+                                <input placeholder="Username" id="username" name="username" type="text">
+                                <label for="username">Username</label>
+                                <small>
+                                    <div id="errorUsername" class="error"></div>
+                                </small>
+                            </div>
+                            <div class="input-field">
+                                <input class="password" placeholder="Password" id="password" name="password" type="password" readonly onfocus="this.removeAttribute('readonly');"> <!-- readonly to stop auto fill email pass -->
+                                <label for="password">Password</label>
+                                <small>
+                                    <div id="errorPass" class="error"></div>
+                                </small>
+                            </div>
+                            <p>
+                                <label>
+                                    <input id="showPassword" type="checkbox" onclick="togglePassword()">
+                                    <span>Show Password</span>
+                                </label>
+                            </p>
+                            <button type="submit" class="btn purple right mb-4">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="add" class="modal">
+                <div class="modal-content">
+                    <h6>Add Users</h6>
+                    <form method="POST" id="form" onsubmit="validate()" action="/user/upload" enctype="multipart/form-data">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>File</span>
+                                <input type="file" name="file" id="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                            <small>
+                                <div id="error1" class="error"></div>
+                            </small>
+                        </div>
+                        <button type="submit" class="btn purple right mb-4" id="submitBtn">Submit</button>
+                        <a href="/user_sample.csv" class="btn right mb-4 mr-2">CSV Sample</a>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col s12">
+                <div class="container">
+                    <div class="section section-data-tables">
+                        <!-- Page Length Options -->
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <%- messages('messages', locals) %>
+                                        <div class="row">
+                                            <div class="col s12 overflow">
+                                                <table id="page-length-option" class="display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr</th>
+                                                            <th>Customer ID</th>
+                                                            <th>User Name</th>
+                                                            <th>Email</th>
+                                                            <th>Company Name</th>
+                                                            <th>Last Login</th>
+                                                            <th>Visits</th>
+                                                            <th>View</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for( let i=0; i < users.length; i++ ) { %>
+                                                        <tr>
+                                                            <td><%= i+1 %></td>
+                                                            <td><%= users[i].customerId || '-' %></td>
+                                                            <td><%= users[i].fname + " " + users[i].lname %></td>
+                                                            <td><%= users[i].email %></td>
+                                                            <td><%= users[i].companyName %></td>
+                                                            <td><%= users[i].lastLogin ? users[i].lastLogin.toLocaleDateString(dateLocale, dateOptions) : '-' %></td>
+                                                            <td><%= users[i].visit %></td>
+                                                            <td>
+                                                                <a href="/user/<%= users[i].id %>/order"><i class="material-icons">receipt</i></a>
+                                                                <a href="/user/<%= users[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                                                                <a href="/user/edit/<%= users[i].id %>"><i class="material-icons">edit</i></a>
+                                                                <a href="/user/delete/<%= users[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                            </td>
+                                                            <td>
+                                                                <% if (users[i].blocked) { %>
+                                                                <a href="/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
+                                                                <% } else { %>
+                                                                <a href="/user/block/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2" onclick="return confirm('Are you sure want to block this user?');">block</a>
+                                                                <% } %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+
+    <%- include('_layouts/commonJs') %>
+    <script>
+        $(document).ready(function() {
+            $('.modal').modal();
+        });
+
+        const formC = document.getElementById('form');
+        formC.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validate() {
+            let returnVal = true;
+
+            const fileValue = document.getElementById('file').value;
+            const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
+
+            if (fileValue == '') {
+                document.getElementById('error1').innerText = 'Please upload file.';
+                returnVal = false;
+            } else if (ext != 'csv') {
+                document.getElementById('error1').innerText = 'Please upload csv file.';
+                returnVal = false;
+            } else {
+                document.getElementById('error1').innerText = '';
+            }
+
+            if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
+                formC.submit();
+            }
+        }
+
+        // authForm        
+        const authForm = document.getElementById('authForm');
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validateCreds() {
+            let returnVal = true;
+
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+
+            const usernameValue = username.value.trim();
+            const passwordValue = password.value.trim();
+
+            if (usernameValue == '') {
+                document.getElementById('errorUsername').innerText = 'Please enter username.';
+                returnVal = false;
+            } else {
+                document.getElementById('errorUsername').innerText = '';
+            }
+
+            if (passwordValue == '') {
+                document.getElementById('errorPass').innerText = 'Please enter password.';
+                returnVal = false;
+            } else if (passwordValue.length < 8) {
+                document.getElementById('errorPass').innerText = 'Password should atleast 8 characters long.';
+                returnVal = false;
+            } else {
+                document.getElementById('errorPass').innerText = '';
+            }
+
+            if (returnVal) {
+                authForm.submit();
+                authForm.reset();
+            }
+        }
+
+        function togglePassword() {
+            const x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+    <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <%- include('_layouts/savePageLength') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+</body>
+
+</html>
