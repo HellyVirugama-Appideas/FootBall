@@ -14,7 +14,7 @@ exports.getAbout = async (req, res, next) => {
     let page = await Page.findOne({ key: "about" }).select("-__v -key -_id");
     page = multilingual(page, req);
 
-    res.json({ status: "success", page });
+    res.json({ success : true, page });
   } catch (error) {
     next(error);
   }
@@ -25,7 +25,7 @@ exports.getShipping = async (req, res, next) => {
     let page = await Page.findOne({ key: "shipping" }).select("-__v -key -_id");
     page = multilingual(page, req);
 
-    res.json({ status: "success", page });
+    res.json({ success : true, page });
   } catch (error) {
     next(error);
   }
@@ -36,7 +36,7 @@ exports.getPrivacy = async (req, res, next) => {
     let page = await Page.findOne({ key: "privacy" }).select("-__v -key -_id");
     page = multilingual(page, req);
 
-    res.json({ status: "success", page });
+    res.json({ success : true, page });
   } catch (error) {
     next(error);
   }
@@ -49,7 +49,7 @@ exports.getSpecialOrders = async (req, res, next) => {
     );
     page = multilingual(page, req);
 
-    res.json({ status: "success", page });
+    res.json({ success : true, page });
   } catch (error) {
     next(error);
   }
@@ -58,7 +58,7 @@ exports.getSpecialOrders = async (req, res, next) => {
 exports.getContact = async (req, res, next) => {
   try {
     const contact = await Contact.findOne().select("-_id -__v -mailList");
-    res.json({ status: "success", contact });
+    res.json({ success : true, contact });
   } catch (error) {
     next(error);
   }
@@ -67,7 +67,7 @@ exports.getContact = async (req, res, next) => {
 exports.postContact = async (req, res, next) => {
   try {
     await Message.create(req.body);
-    res.status(201).json({ status: "success", message: "msg" });
+    res.status(201).json({ success : true, message: "msg" });
   } catch (error) {
     next(error);
   }
@@ -83,7 +83,7 @@ exports.newsletter = async (req, res, next) => {
     await Newsletter.create({ email });
 
     res.status(201).json({
-      status: "success",
+      success : true,
       message: "newsletter.success",
     });
   } catch (error) {
@@ -100,7 +100,7 @@ exports.getBanners = async (req, res, next) => {
     ]);
 
     res.json({
-      status: "success",
+      success : true,
       minOrderAmount: config.minOrderAmount,
       filter: convertFilterFormat(config.filter),
       banners,
@@ -116,7 +116,7 @@ exports.getFooterLinks = async (req, res, next) => {
     let pages = await Page.find().select("en.title es.title url -_id");
     pages = pages.map((el) => multilingual(el, req));
 
-    res.json({ status: "success", pages });
+    res.json({ success : true, pages });
   } catch (error) {
     next(error);
   }

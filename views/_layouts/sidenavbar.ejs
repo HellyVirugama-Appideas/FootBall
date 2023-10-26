@@ -23,11 +23,6 @@
                     <li>
                         <a class="grey-text text-darken-1" href="/changepass"><i class="material-icons">lock_outline</i>Change Password</a>
                     </li>
-                    <% if (role === 'superAdmin') { %>
-                    <li>
-                        <a class="grey-text text-darken-1" href="/credentials"><i class="material-icons">block</i>Change Credentials</a>
-                    </li>
-                    <% } %>
                     <li>
                         <a class="grey-text text-darken-1" href="/logout" onclick="return confirm('Are you sure?');"><i class="material-icons">keyboard_tab</i>Logout</a>
                     </li>
@@ -95,7 +90,7 @@
                 <span class="menu-title">Banners</span>
             </a>
         </li>
-        
+
         <li class="navigation-header">
             <a class="navigation-header-text">Users</a>
             <i class="navigation-header-icon material-icons">more_horiz</i>
@@ -106,6 +101,7 @@
                 <span class="menu-title">User Management</span>
             </a>
         </li>
+        
     </ul>
     <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
 </aside>

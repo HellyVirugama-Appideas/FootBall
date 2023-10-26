@@ -72,7 +72,7 @@ exports.register = async (req, res, next) => {
     sendWelcome(user.email, user.fname);
 
     const token = user.generateAuthToken();
-    res.status(201).json({ status: "success", token, user });
+    res.status(201).json({ success : true, token, user });
   } catch (error) {
     next(error);
   }
@@ -102,7 +102,7 @@ exports.login = async (req, res, next) => {
     user.password = undefined;
 
     const token = user.generateAuthToken();
-    res.json({ status: "success", token, user });
+    res.json({ success : true, token, user });
   } catch (error) {
     next(error);
   }
@@ -124,7 +124,7 @@ exports.forgotPassword = async (req, res, next) => {
     sendLink(user.email, link);
 
     res.json({
-      status: "success",
+      success : true,
       message: "resetPassword.linkSent",
     });
   } catch (error) {
@@ -149,7 +149,7 @@ exports.resetPassword = async (req, res, next) => {
 
     const authToken = user.generateAuthToken();
     res.json({
-      status: "success",
+      success : true,
       message: "resetPassword.success",
       token: authToken,
       user,

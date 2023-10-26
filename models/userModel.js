@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-    customerId: String,
     fname: { type: String, required: [true, 'validation.fname'], trim: true },
     lname: { type: String, required: [true, 'validation.lname'], trim: true },
     email: {
@@ -29,12 +28,6 @@ const userSchema = new mongoose.Schema({
             if (!validator.isMobilePhone(value, 'any'))
                 throw new Error('Phone is invalid');
         },
-    },
-
-    companyName: {
-        type: String,
-        trim: true,
-        required: [true, 'validation.companyName'],
     },
     location: {
         type: String,

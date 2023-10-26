@@ -157,19 +157,19 @@ exports.postReset = async (req, res) => {
   }
 };
 
-exports.authenticate = async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-    const creds = await Creds.findOne({ username });
+// exports.authenticate = async (req, res, next) => {
+//   try {
+//     const { username, password } = req.body;
+//     const creds = await Creds.findOne({ username });
 
-    if (!creds || !(await creds.correctPassword(password, creds.password)))
-      return next(createError.Unauthorized("Incorrect username or password"));
+//     if (!creds || !(await creds.correctPassword(password, creds.password)))
+//       return next(createError.Unauthorized("Incorrect username or password"));
 
-    res.json({ status: "success" });
-  } catch (error) {
-    next(error);
-  }
-};
+//     res.json({ success : true });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.getProfile = (req, res) => res.render("profile", { admin: req.admin });
 

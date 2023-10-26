@@ -12,7 +12,7 @@ exports.getProfile = (req, res, next) => {
   delete user.__v;
   delete user.favourites;
 
-  res.json({ status: "success", user });
+  res.json({ success : true, user });
 };
 
 exports.editProfile = async (req, res, next) => {
@@ -26,7 +26,7 @@ exports.editProfile = async (req, res, next) => {
       runValidators: true,
     }).select("-__v -favourites");
 
-    res.json({ status: "success", user });
+    res.json({ success : true, user });
   } catch (error) {
     next(error);
   }
@@ -50,7 +50,7 @@ exports.changePassword = async (req, res, next) => {
     await user.save();
 
     return res.json({
-      status: "success",
+      success : true,
       message: "changePass.updated",
     });
   } catch (error) {
