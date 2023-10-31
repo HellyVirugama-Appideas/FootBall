@@ -11,6 +11,7 @@
     "country": "Please provide country.",
     "postalCode": "Please provide postal code.",
     "comments": "Please enter comments.",
+    "incorrectCredentials": "Provide email and password!",
 
     "oldPassword": "Please provide current password.",
     "newPassword": "Please provide new password.",

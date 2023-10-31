@@ -5,7 +5,6 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const Banner = require('../../models/bannerModel');
 const Featured = require('../../models/featuredModel');
 const Newsletter = require('../../models/newsletterModel');
-const Config = require('../../models/configModel');
 
 exports.getBanners = async (req, res) => {
     try {
@@ -280,41 +279,6 @@ exports.getNewsletterExport = async (req, res) => {
     } catch (error) {
         req.flash('red', error.message);
         res.redirect('/newsletter');
-    }
-};
-
-exports.getConfig = async (req, res) => {
-    try {
-        let config = await Config.findOne().lean();
-        if (!config) config = await Config.create({});
-
-        config.filter = config.filter.map(el => el.toFixed(2));
-
-        res.render('config', { config });
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect('/');
-    }
-};
-
-exports.postConfig = async (req, res) => {
-    try {
-        const config = await Config.findOne();
-
-        config.minOrderAmount = req.body.minOrderAmount;
-        const filterValues = req.body.filter
-            .split(',')
-            .filter(item => item !== '')
-            .map(item => Number(item));
-        config.filter = [...new Set(filterValues)];
-
-        await config.save();
-
-        req.flash('green', 'Updated successfully.');
-        res.redirect(req.originalUrl);
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
     }
 };
 

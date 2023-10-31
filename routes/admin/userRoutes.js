@@ -10,9 +10,4 @@ router.get('/user/block/:id', userController.blockUser);
 
 router.get('/user/unblock/:id', userController.unblockUser);
 
-// message
-router.get('/message', userController.getAllMessages);
-
-router.get('/message/:id', userController.viewMessages);
-
 module.exports = router;

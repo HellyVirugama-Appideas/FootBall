@@ -4,11 +4,7 @@ const cmsController = require('../../controllers/api/cmsController');
 
 router.get('/about', cmsController.getAbout);
 
-router.get('/shipping-freight', cmsController.getShipping);
-
 router.get('/privacy', cmsController.getPrivacy);
-
-router.get('/special-orders', cmsController.getSpecialOrders);
 
 router
     .route('/contact')

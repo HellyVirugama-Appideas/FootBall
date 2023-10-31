@@ -34,12 +34,6 @@ router.get('/newsletter', otherController.getNewsletterList);
 
 router.get('/newsletter/export', otherController.getNewsletterExport);
 
-// config
-router
-    .route('/config')
-    .get(otherController.getConfig)
-    .post(otherController.postConfig);
-
 // media
 router
     .route('/media')

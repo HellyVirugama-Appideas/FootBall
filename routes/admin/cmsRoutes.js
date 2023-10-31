@@ -14,18 +14,8 @@ router
     .post(upload.single('image'), cmsController.postAbout);
 
 router
-    .route('/shipping-freight')
-    .get(cmsController.getShippingFreight)
-    .post(upload.single('image'), cmsController.postShippingFreight);
-
-router
     .route('/privacy')
     .get(cmsController.getPrivacy)
     .post(upload.single('image'), cmsController.postPrivacy);
-
-router
-    .route('/special-orders')
-    .get(cmsController.getSpecialOrders)
-    .post(upload.single('image'), cmsController.postSpecialOrders);
 
 module.exports = router;

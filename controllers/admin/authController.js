@@ -19,7 +19,6 @@ exports.checkAdmin = async (req, res, next) => {
       }
       req.admin = admin;
       res.locals.photo = admin.photo;
-      res.locals.role = admin.role;
       req.session.checkAdminSuccess = undefined;
       next();
     } else {

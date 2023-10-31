@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const validation = require("../../utils/validation.json");
 const { sendWelcome, sendLink } = require("../../utils/sendMail");
 
 const User = require("../../models/userModel");
@@ -9,14 +10,14 @@ exports.checkUser = async (req, res, next) => {
   try {
     const token = req.headers["authorization"];
 
-    if (!token) return next(createError.Unauthorized("auth.provideToken"));
+    if (!token) return next(createError.Unauthorized(validation.provideToken));
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded._id).select("+blocked +password");
 
-    if (!user) return next(createError.Unauthorized("auth.login"));
-    if (user.blocked) return next(createError.Unauthorized("auth.blocked"));
+    if (!user) return next(createError.Unauthorized(validation.login));
+    if (user.blocked) return next(createError.Unauthorized(validation.blocked));
 
     req.user = user;
     next();
@@ -47,7 +48,7 @@ exports.isUser = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     const userExist = await User.findOne({ email: req.body.email });
-    if (userExist) return next(createError.Conflict("auth.alreadyRegistered"));
+    if (userExist) return next(createError.Conflict(validation.alreadyRegistered));
 
     const user = await User.create({
       fname: req.body.fname,
@@ -55,7 +56,6 @@ exports.register = async (req, res, next) => {
       email: req.body.email,
       phone: req.body.phone,
       password: req.body.password,
-      companyName: req.body.companyName,
       location: req.body.location,
       city: req.body.city,
       state: req.body.state,
@@ -82,17 +82,17 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
-      return next(createError.BadRequest("Provide email and password!"));
+      return next(createError.BadRequest(validation.incorrectCredentials));
 
     const user = await User.findOne({ email }).select("+password -__v");
 
-    if (!user) return next(createError.BadRequest("auth.invalidEmail"));
+    if (!user) return next(createError.BadRequest(validation.invalidEmail));
 
     if (!user.password)
-      return next(createError.BadRequest("auth.resetRequired"));
+      return next(createError.BadRequest(validation.resetRequired));
 
     if (!(await user.correctPassword(password, user.password)))
-      return next(createError.BadRequest("auth.invalidPassword"));
+      return next(createError.BadRequest(validation.invalidPassword));
 
     // Update last login
     user.lastLogin = Date.now();
@@ -111,7 +111,7 @@ exports.login = async (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return next(createError.NotFound("resetPassword.notRegistered"));
+    if (!user) return next(createError.NotFound(validation.notRegistered));
 
     // Generate a reset token
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
@@ -125,7 +125,7 @@ exports.forgotPassword = async (req, res, next) => {
 
     res.json({
       success : true,
-      message: "resetPassword.linkSent",
+      message: validation.linkSent,
     });
   } catch (error) {
     next(error);
@@ -143,20 +143,20 @@ exports.resetPassword = async (req, res, next) => {
     // Update the user's password
     const user = await User.findById(userId);
     if (!user)
-      return next(createError.BadRequest("resetPassword.tokenInvalid"));
+      return next(createError.BadRequest(validation.tokenInvalid));
     user.password = password;
     await user.save();
 
     const authToken = user.generateAuthToken();
     res.json({
-      success : true,
-      message: "resetPassword.success",
+      success: true,
+      message: validation.pwSuccess,
       token: authToken,
       user,
     });
   } catch (error) {
     if (error.message == "jwt expired" || error.message == "invalid signature")
-      return next(createError.BadRequest("resetPassword.tokenInvalid"));
+      return next(createError.BadRequest(validation.tokenInvalid));
     next(error);
   }
 };

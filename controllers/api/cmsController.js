@@ -1,29 +1,14 @@
 const createError = require("http-errors");
-const multilingual = require("../../utils/multilingual");
 
 const Page = require("../../models/pageModel");
-const Message = require("../../models/messageModel");
 const Newsletter = require("../../models/newsletterModel");
 const Banner = require("../../models/bannerModel");
 const Featured = require("../../models/featuredModel");
-const Config = require("../../models/configModel");
 const Contact = require("../../models/contactModel");
 
 exports.getAbout = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: "about" }).select("-__v -key -_id");
-    page = multilingual(page, req);
-
-    res.json({ success : true, page });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getShipping = async (req, res, next) => {
-  try {
-    let page = await Page.findOne({ key: "shipping" }).select("-__v -key -_id");
-    page = multilingual(page, req);
 
     res.json({ success : true, page });
   } catch (error) {
@@ -34,20 +19,6 @@ exports.getShipping = async (req, res, next) => {
 exports.getPrivacy = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: "privacy" }).select("-__v -key -_id");
-    page = multilingual(page, req);
-
-    res.json({ success : true, page });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getSpecialOrders = async (req, res, next) => {
-  try {
-    let page = await Page.findOne({ key: "special-orders" }).select(
-      "-__v -key -_id"
-    );
-    page = multilingual(page, req);
 
     res.json({ success : true, page });
   } catch (error) {
@@ -93,16 +64,13 @@ exports.newsletter = async (req, res, next) => {
 
 exports.getBanners = async (req, res, next) => {
   try {
-    let [banners, featured, config] = await Promise.all([
+    let [banners, featured] = await Promise.all([
       Banner.find().sort("sort -_id").select("-_id -__v -name -sort"),
       Featured.find().sort("sort -_id").select("-_id -__v -name -sort"),
-      Config.findOne(),
     ]);
 
     res.json({
       success : true,
-      minOrderAmount: config.minOrderAmount,
-      filter: convertFilterFormat(config.filter),
       banners,
       featured,
     });
@@ -114,26 +82,9 @@ exports.getBanners = async (req, res, next) => {
 exports.getFooterLinks = async (req, res, next) => {
   try {
     let pages = await Page.find().select("en.title es.title url -_id");
-    pages = pages.map((el) => multilingual(el, req));
 
     res.json({ success : true, pages });
   } catch (error) {
     next(error);
   }
 };
-
-function convertFilterFormat(arr) {
-  const formattedArray = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (i === 0) {
-      formattedArray.push("Below $" + arr[i].toFixed(2));
-    } else {
-      const lowerBound = "$" + arr[i - 1].toFixed(2);
-      const upperBound = "$" + arr[i].toFixed(2);
-      const range = lowerBound + " - " + upperBound;
-      formattedArray.push(range);
-    }
-  }
-  formattedArray.push("$" + arr[arr.length - 1].toFixed(2) + " And Above");
-  return formattedArray;
-}

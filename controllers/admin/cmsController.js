@@ -19,14 +19,9 @@ exports.postContact = async (req, res) => {
     try {
         const contact = await Contact.findOne();
 
-        const mailList = req.body.mailList
-            .split(',')
-            .filter(item => item !== '');
-
         contact.address = req.body.address;
         contact.phone = req.body.phone;
         contact.email = req.body.email;
-        contact.mailList = mailList;
 
         await contact.save();
 
@@ -73,42 +68,6 @@ exports.postAbout = async (req, res) => {
     }
 };
 
-exports.getShippingFreight = async (req, res) => {
-    try {
-        const page = await Page.findOne({ key: 'shipping' });
-
-        res.render('shipping', { page });
-    } catch (error) {
-        console.log(error);
-        req.flash('red', error.message);
-        res.redirect('/');
-    }
-};
-
-exports.postShippingFreight = async (req, res) => {
-    try {
-        const page = await Page.findOne({ key: 'shipping' });
-
-        page.en.title = req.body.EnTitle;
-        page.es.title = req.body.EsTitle;
-        page.en.content = req.body.EnContent;
-        page.es.content = req.body.EsContent;
-
-        if (req.file) {
-            deleteFile(page.image);
-            page.image = `/uploads/${req.file.filename}`;
-        }
-
-        await page.save();
-
-        req.flash('green', 'Shipping & freight updated successfully.');
-        res.redirect('/cms/shipping-freight');
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-};
-
 exports.getPrivacy = async (req, res) => {
     try {
         const page = await Page.findOne({ key: 'privacy' });
@@ -138,41 +97,6 @@ exports.postPrivacy = async (req, res) => {
 
         req.flash('green', 'Privacy notice updated successfully.');
         res.redirect('/cms/privacy');
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-};
-
-exports.getSpecialOrders = async (req, res) => {
-    try {
-        const page = await Page.findOne({ key: 'special-orders' });
-
-        res.render('special_orders', { page });
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect('/');
-    }
-};
-
-exports.postSpecialOrders = async (req, res) => {
-    try {
-        const page = await Page.findOne({ key: 'special-orders' });
-
-        page.en.title = req.body.EnTitle;
-        page.es.title = req.body.EsTitle;
-        page.en.content = req.body.EnContent;
-        page.es.content = req.body.EsContent;
-
-        if (req.file) {
-            deleteFile(page.image);
-            page.image = `/uploads/${req.file.filename}`;
-        }
-
-        await page.save();
-
-        req.flash('green', 'Special orders updated successfully.');
-        res.redirect('/cms/special-orders');
     } catch (error) {
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
