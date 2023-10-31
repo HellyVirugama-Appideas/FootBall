@@ -48,7 +48,8 @@ exports.isUser = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     const userExist = await User.findOne({ email: req.body.email });
-    if (userExist) return next(createError.Conflict(validation.alreadyRegistered));
+    if (userExist)
+      return next(createError.Conflict(validation.alreadyRegistered));
 
     const user = await User.create({
       fname: req.body.fname,
@@ -72,7 +73,7 @@ exports.register = async (req, res, next) => {
     sendWelcome(user.email, user.fname);
 
     const token = user.generateAuthToken();
-    res.status(201).json({ success : true, token, user });
+    res.status(201).json({ success: true, token, user });
   } catch (error) {
     next(error);
   }
@@ -102,7 +103,7 @@ exports.login = async (req, res, next) => {
     user.password = undefined;
 
     const token = user.generateAuthToken();
-    res.json({ success : true, token, user });
+    res.json({ success: true, token, user });
   } catch (error) {
     next(error);
   }
@@ -124,7 +125,7 @@ exports.forgotPassword = async (req, res, next) => {
     sendLink(user.email, link);
 
     res.json({
-      success : true,
+      success: true,
       message: validation.linkSent,
     });
   } catch (error) {
@@ -142,8 +143,7 @@ exports.resetPassword = async (req, res, next) => {
 
     // Update the user's password
     const user = await User.findById(userId);
-    if (!user)
-      return next(createError.BadRequest(validation.tokenInvalid));
+    if (!user) return next(createError.BadRequest(validation.tokenInvalid));
     user.password = password;
     await user.save();
 
