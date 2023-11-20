@@ -31,7 +31,6 @@ router.post('/featured/sort', otherController.sortFeatured);
 
 // newsletter
 router.get('/newsletter', otherController.getNewsletterList);
-
 router.get('/newsletter/export', otherController.getNewsletterExport);
 
 // media
