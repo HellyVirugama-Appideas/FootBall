@@ -91,6 +91,13 @@
             </a>
         </li>
 
+        <li class="bold <%= url.startsWith('/message') ? 'active' : '' %>">
+             <a class="waves-effect waves-cyan <%= url.startsWith('/message') ? 'active' : '' %>" href="/message">
+               <i class="material-icons">contact_mail</i>
+               <span class="menu-title">User Messages</span>
+             </a>
+        </li>
+
         <li class="navigation-header">
             <a class="navigation-header-text">Users</a>
             <i class="navigation-header-icon material-icons">more_horiz</i>

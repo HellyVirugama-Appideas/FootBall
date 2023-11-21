@@ -29,7 +29,7 @@
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">Messages</li>
+                                <li class="breadcrumb-item active">User Messages</li>
                             </ol>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                                             <th>Name</th>
                                                             <th>Email</th>
                                                             <th>Phone</th>
-                                                            <th>Comment</th>
+                                                            <th>Message</th>
                                                             <th>View</th>
                                                         </tr>
                                                     </thead>
@@ -61,11 +61,11 @@
                                                         <% for( let i=0; i < msgs.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= msgs[i].fname +" "+ msgs[i].lname %></td>
+                                                            <td><%= msgs[i].name %></td>
                                                             <td><%= msgs[i].email %></td>
                                                             <td><%= msgs[i].phone %></td>
-                                                            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= msgs[i].comments %></td>
-                                                            <td style="max-width: 50px;"><a href="/message/<%= msgs[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"><%= msgs[i].message %></td>
+                                                            <td style="max-width: 50px;"><a href="/message_view/<%= msgs[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                         </tr>
                                                         <% } %>
                                                     </tbody>

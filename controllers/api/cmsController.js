@@ -5,12 +5,13 @@ const Newsletter = require("../../models/newsletterModel");
 const Banner = require("../../models/bannerModel");
 const Featured = require("../../models/featuredModel");
 const Contact = require("../../models/contactModel");
+const Message = require("../../models/messageModel");
 
 exports.getAbout = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: "about" }).select("-__v -key -_id");
 
-    res.json({ success : true, page });
+    res.json({ success: true, page });
   } catch (error) {
     next(error);
   }
@@ -20,7 +21,7 @@ exports.getPrivacy = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: "privacy" }).select("-__v -key -_id");
 
-    res.json({ success : true, page });
+    res.json({ success: true, page });
   } catch (error) {
     next(error);
   }
@@ -29,7 +30,7 @@ exports.getPrivacy = async (req, res, next) => {
 exports.getContact = async (req, res, next) => {
   try {
     const contact = await Contact.findOne().select("-_id -__v -mailList");
-    res.json({ success : true, contact });
+    res.json({ success: true, contact });
   } catch (error) {
     next(error);
   }
@@ -38,7 +39,7 @@ exports.getContact = async (req, res, next) => {
 exports.postContact = async (req, res, next) => {
   try {
     await Message.create(req.body);
-    res.status(201).json({ success : true, message: "msg" });
+    res.status(201).json({ success: true, message: "Message send successfully." });
   } catch (error) {
     next(error);
   }
@@ -54,7 +55,7 @@ exports.newsletter = async (req, res, next) => {
     await Newsletter.create({ email });
 
     res.status(201).json({
-      success : true,
+      success: true,
       message: "newsletter.success",
     });
   } catch (error) {
@@ -70,7 +71,7 @@ exports.getBanners = async (req, res, next) => {
     ]);
 
     res.json({
-      success : true,
+      success: true,
       banners,
       featured,
     });
@@ -83,7 +84,7 @@ exports.getFooterLinks = async (req, res, next) => {
   try {
     let pages = await Page.find().select("en.title es.title url -_id");
 
-    res.json({ success : true, pages });
+    res.json({ success: true, pages });
   } catch (error) {
     next(error);
   }

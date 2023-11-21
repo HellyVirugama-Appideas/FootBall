@@ -20,13 +20,7 @@
                         <div class="col s12 m6 l6">
                             <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/message"><i class="material-icons">arrow_back</i></a><span>Message view</span></h5>
                         </div>
-                        <div class="col s12 m6 l6 right-align-md">
-                            <ol class="breadcrumbs mb-0">
-                                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item"><a href="/message">Messages</a></li>
-                                <li class="breadcrumb-item active">Message view</li>
-                            </ol>
-                        </div>
+                 
                     </div>
                 </div>
             </div>
@@ -44,7 +38,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <th>Name</th>
-                                                            <td><%= message.fname + " " + message.lname %></td>
+                                                            <td><%= message.name %></td>
                                                         </tr>
                                                         <tr>
                                                             <th>Email</th>
@@ -55,12 +49,8 @@
                                                             <td><%= message.phone %></td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Comments</th>
-                                                            <td><%= message.comments %></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Date and Time</th>
-                                                            <td><%= message.date.toLocaleDateString(dateLocale, dateOptions) %></td>
+                                                            <th>Message</th>
+                                                            <td><%= message.message %></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
