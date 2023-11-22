@@ -5,6 +5,7 @@ const Newsletter = require("../../models/newsletterModel");
 const Banner = require("../../models/bannerModel");
 const Contact = require("../../models/contactModel");
 const Message = require("../../models/messageModel");
+const FAQs = require("../../models/faqsModel");
 
 exports.getAbout = async (req, res, next) => {
   try {
@@ -85,6 +86,16 @@ exports.getFooterLinks = async (req, res, next) => {
     let pages = await Page.find().select("en.title es.title url -_id");
 
     res.json({ success: true, pages });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getFAQs = async (req, res, next) => {
+  try {
+    let faqs = await FAQs.find().sort("-_id").select("-_id -__v");
+
+    res.json({ status: "success", content: faqs });
   } catch (error) {
     next(error);
   }

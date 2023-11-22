@@ -3,59 +3,34 @@ const validator = require('validator');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const validate = require("../utils/validation.json")
 
 const userSchema = new mongoose.Schema({
-    fname: { type: String, required: [true, 'validation.fname'], trim: true },
-    lname: { type: String, required: [true, 'validation.lname'], trim: true },
-    email: {
-        type: String,
-        required: [true, 'validation.email'],
-        unique: true,
-        lowercase: true,
-        validate: [validator.isEmail, 'validation.emailInvalid'],
-    },
-    password: {
-        type: String,
-        required: [true, 'validation.password'],
-        minlength: [6, 'Password should be atleast 6 characters long.'],
-        trim: true,
-        select: false,
-    },
-    phone: {
-        type: String,
-        required: [true, 'validation.phone'],
-        validate(value) {
-            if (!validator.isMobilePhone(value, 'any'))
-                throw new Error('Phone is invalid');
-        },
-    },
-    location: {
-        type: String,
-        trim: true,
-        // required: [true, 'validation.location'],
-    },
-    city: { type: String, trim: true, required: [true, 'validation.city'] },
-    state: { type: String, trim: true, required: [true, 'validation.state'] },
-    country: {
-        type: String,
-        trim: true,
-        required: [true, 'validation.country'],
-        default: 'United States',
-    },
-    postalCode: {
-        type: String,
-        trim: true,
-        required: [true, 'validation.postalCode'],
-    },
-
-    favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-
-    blocked: { type: Boolean, default: false, select: false, immutable: true },
-    date: { type: Date, default: Date.now },
-    lastLogin: Date,
-    visit: { type: Number, default: 0 },
-    lastDownload: Date,
-    downloadCount: { type: Number, default: 0 },
+  fname: { type: String, required: [true, validate.fname], trim: true },
+  lname: { type: String, required: [true, validate.lname], trim: true },
+  email: {
+    type: String,
+    required: [true, validate.email],
+    unique: true,
+    lowercase: true,
+    validate: [validator.isEmail, validate.emailInvalid],
+  },
+  password: {
+    type: String,
+    required: [true, validate.password],
+    minlength: [6, "Password should be atleast 6 characters long."],
+    trim: true,
+    select: false,
+  },
+  city: { type: String, trim: true, required: [true, validate.city] },
+  state: { type: String, trim: true, required: [true, validate.state] },
+  country: {
+    type: String,
+    trim: true,
+    required: [true, validate.country],
+    default: "United States",
+  },
+  date: { type: Date, default: Date.now },
 });
 
 // Generating tokens

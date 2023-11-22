@@ -1,48 +1,31 @@
-const User = require('../../models/userModel');
+const User = require("../../models/userModel");
 const Message = require("../../models/messageModel");
 
 exports.getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find().select('+blocked').sort('-_id');
-        res.render('user', { users });
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect('/');
-    }
+  try {
+    const users = await User.find().sort("-_id");
+    res.render("user", { users });
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/");
+  }
 };
 
-exports.blockUser = async (req, res) => {
-    try {
-        const user = await User.findByIdAndUpdate(
-            req.params.id,
-            { blocked: true },
-            { strict: false }
-        );
-        req.flash('green', `'${user.name}' blocked successfully.`);
-        res.redirect('/user');
-    } catch (error) {
-        if (error.name === 'CastError' || error.name === 'TypeError')
-            req.flash('red', 'User not found!');
-        else req.flash('red', error.message);
-        res.redirect('/user');
-    }
-};
+exports.viewUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
 
-exports.unblockUser = async (req, res) => {
-    try {
-        const user = await User.findByIdAndUpdate(
-            req.params.id,
-            { blocked: false },
-            { strict: false }
-        );
-        req.flash('green', `'${user.name}' unblocked successfully.`);
-        res.redirect('/user');
-    } catch (error) {
-        if (error.name === 'CastError' || error.name === 'TypeError')
-            req.flash('red', 'User not found!');
-        else req.flash('red', error.message);
-        res.redirect('/user');
+    if (!user) {
+      req.flash("red", "User not found!");
+      return res.redirect("/user");
     }
+
+    res.render("user_view", { user });
+  } catch (error) {
+    if (error.name === "CastError") req.flash("red", "User not found!");
+    else req.flash("red", error.message);
+    res.redirect("/user");
+  }
 };
 
 exports.getAllMessages = async (req, res) => {

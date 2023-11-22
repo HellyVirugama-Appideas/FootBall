@@ -56,15 +56,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col s12 m5 mt-2">
-                                    <a style="color: #565a65;" href="/user/<%= user.id %>/order" class="tooltipped right" data-tooltip="Orders"><i class="material-icons right">receipt</i></a>
-                                    <% if (cartId) { %>
-                                    <a style="color: #565a65;" href="/incomplete/<%= cartId %>" class="tooltipped right" data-tooltip="Cart"><i class="material-icons right">shopping_cart</i></a>
-                                    <% } %>
-                                    <% if (address) { %>
-                                    <a style="color: #565a65;" href="/user/<%= user.id %>/address" class="tooltipped right" data-tooltip="Address"><i class="material-icons right">location_on</i></a>
-                                    <% } %>
-                                </div>
                             </div>
                         </div>
                         <!-- users view media object ends -->
@@ -76,12 +67,6 @@
                                     <div class="col s12">
                                         <table class="striped">
                                             <tbody>
-                                                <% if (user.customerId) { %>
-                                                <tr>
-                                                    <th style="width: 200px;">Customer ID:</th>
-                                                    <td><%= user.customerId %></td>
-                                                </tr>
-                                                <% } %>
                                                 <tr>
                                                     <th style="width: 200px;">Name:</th>
                                                     <td><%= user.fname + " " + user.lname %></td>
@@ -97,16 +82,6 @@
                                                 </tr>
                                                 <% } %>
                                                 <tr>
-                                                    <th>Company name:</th>
-                                                    <td><%= user.companyName %></td>
-                                                </tr>
-                                                <% if (user.location) { %>
-                                                <tr>
-                                                    <th>Street address:</th>
-                                                    <td><%= user.location %></td>
-                                                </tr>
-                                                <% } %>
-                                                <tr>
                                                     <th>City:</th>
                                                     <td><%= user.city %></td>
                                                 </tr>
@@ -117,26 +92,6 @@
                                                 <tr>
                                                     <th>Country:</th>
                                                     <td><%= user.country %></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Postal code:</th>
-                                                    <td><%= user.postalCode %></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Visit count:</th>
-                                                    <td><%= user.visit %></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Last login:</th>
-                                                    <td><%= user.lastLogin ? user.lastLogin.toLocaleDateString(dateLocale, dateOptions) : '-' %></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Number of downloads:</th>
-                                                    <td><%= user.downloadCount %></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Last download date:</th>
-                                                    <td><%= user.lastDownload ? user.lastDownload.toLocaleDateString(dateLocale, dateOptions) : '-' %></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Date created:</th>

@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 const otherController = require("../../controllers/admin/otherController");
 const {
-  upload,
   uploadMedia,
   uploadVideo,
 } = require("../../controllers/uploadController");

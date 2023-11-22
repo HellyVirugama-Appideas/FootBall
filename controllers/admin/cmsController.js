@@ -2,6 +2,7 @@ const deleteFile = require("../../utils/deleteFile");
 
 const Contact = require("../../models/contactModel");
 const Page = require("../../models/pageModel");
+const FAQs = require("../../models/faqsModel");
 
 exports.getContact = async (req, res) => {
   try {
@@ -94,5 +95,96 @@ exports.postPrivacy = async (req, res) => {
   } catch (error) {
     req.flash("red", error.message);
     res.redirect(req.originalUrl);
+  }
+};
+
+
+exports.getFAQs = async (req, res) => {
+  try {
+    const faqs = await FAQs.find().sort("-_id");
+    res.render("faqs", { faqs, photo: req.admin.photo });
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/");
+  }
+};
+
+exports.getAddFAQ = (req, res) =>
+  res.render("faqs_add", { photo: req.admin.photo });
+
+exports.postAddFAQ = async (req, res) => {
+  try {
+    await FAQs.create({
+        question: req.body.EnQue,
+        answer: req.body.EnAns,
+    });
+
+    req.flash("green", "FAQ added successfully.");
+    res.redirect("/cms/faqs");
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect(req.originalUrl);
+  }
+};
+
+exports.getEditFAQ = async (req, res) => {
+  try {
+    const faq = await FAQs.findById(req.params.id);
+    if (faq == null) {
+      req.flash("red", "FAQ not found!");
+      return res.redirect("/cms/faqs");
+    }
+
+    res.render("faqs_edit", { faq, photo: req.admin.photo });
+  } catch (error) {
+    if (error.name === "CastError") {
+      req.flash("red", "FAQ not found!");
+      res.redirect("/cms/faqs");
+    } else {
+      req.flash("red", error.message);
+      res.redirect("/cms/faqs");
+    }
+  }
+};
+
+exports.postEditFAQ = async (req, res) => {
+  try {
+    const faq = await FAQs.findById(req.params.id);
+    if (faq == null) {
+      req.flash("red", "FAQ not found!");
+      return res.redirect("/cms/faqs");
+    }
+
+    faq.question = req.body.EnQue;
+    faq.answer = req.body.EnAns;
+    await faq.save();
+
+    req.flash("green", "FAQ edited successfully.");
+    res.redirect("/cms/faqs");
+  } catch (error) {
+    if (error.name === "CastError") {
+      req.flash("red", "FAQ not found!");
+      res.redirect("/cms/faqs");
+    } else {
+      req.flash("red", error.message);
+      res.redirect(req.originalUrl);
+    }
+  }
+};
+
+exports.getdeleteFAQ = async (req, res) => {
+  try {
+    await FAQs.findByIdAndRemove(req.params.id);
+
+    req.flash("green", "FAQ deleted successfully.");
+    res.redirect("/cms/faqs");
+  } catch (error) {
+    if (error.name === "CastError" || error.name === "TypeError") {
+      req.flash("red", "FAQ not found!");
+      res.redirect("/cms/faqs");
+    } else {
+      req.flash("red", error.message);
+      res.redirect("/cms/faqs");
+    }
   }
 };

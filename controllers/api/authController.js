@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 const validation = require("../../utils/validation.json");
-const { sendWelcome, sendLink } = require("../../utils/sendMail");
+const { sendLink } = require("../../utils/sendMail");
 
 const User = require("../../models/userModel");
 
@@ -14,10 +14,9 @@ exports.checkUser = async (req, res, next) => {
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id).select("+blocked +password");
+    const user = await User.findById(decoded._id).select("+password");
 
     if (!user) return next(createError.Unauthorized(validation.login));
-    if (user.blocked) return next(createError.Unauthorized(validation.blocked));
 
     req.user = user;
     next();
@@ -35,7 +34,7 @@ exports.isUser = async (req, res, next) => {
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id).select("+blocked +password");
+    const user = await User.findById(decoded._id).select("+password");
 
     if (user) req.user = user;
 
@@ -55,22 +54,13 @@ exports.register = async (req, res, next) => {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
-      phone: req.body.phone,
       password: req.body.password,
-      location: req.body.location,
       city: req.body.city,
       state: req.body.state,
-      country: req.body.country,
-      postalCode: req.body.postalCode,
-      lastLogin: Date.now(),
     });
 
-    // Hide fields
     user.password = undefined;
     user.__v = undefined;
-
-    // Send welcome mail
-    sendWelcome(user.email, user.fname);
 
     const token = user.generateAuthToken();
     res.status(201).json({ success: true, token, user });
@@ -95,11 +85,8 @@ exports.login = async (req, res, next) => {
     if (!(await user.correctPassword(password, user.password)))
       return next(createError.BadRequest(validation.invalidPassword));
 
-    // Update last login
-    user.lastLogin = Date.now();
     await user.save();
 
-    // Hide fields
     user.password = undefined;
 
     const token = user.generateAuthToken();

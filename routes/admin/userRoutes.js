@@ -1,7 +1,6 @@
 const router = require('express').Router();
 
 const userController = require('../../controllers/admin/userController');
-const { uploadCSV } = require('../../controllers/uploadController');
 
 // user
 router.get('/user', userController.getAllUsers);

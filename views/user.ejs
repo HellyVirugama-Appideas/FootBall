@@ -98,10 +98,6 @@
                                                             <th>Sr</th>
                                                             <th>User Name</th>
                                                             <th>Email</th>
-                                                            <th>Company Name</th>
-                                                            <th>Last Login</th>
-                                                            <th>Visits</th>
-                                                            <th>View</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -109,24 +105,10 @@
                                                         <% for( let i=0; i < users.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= users[i].customerId || '-' %></td>
                                                             <td><%= users[i].fname + " " + users[i].lname %></td>
                                                             <td><%= users[i].email %></td>
-                                                            <td><%= users[i].companyName %></td>
-                                                            <td><%= users[i].lastLogin ? users[i].lastLogin.toLocaleDateString(dateLocale, dateOptions) : '-' %></td>
-                                                            <td><%= users[i].visit %></td>
                                                             <td>
-                                                                <a href="/user/<%= users[i].id %>/order"><i class="material-icons">receipt</i></a>
                                                                 <a href="/user/<%= users[i].id %>"><i class="material-icons">remove_red_eye</i></a>
-                                                                <a href="/user/edit/<%= users[i].id %>"><i class="material-icons">edit</i></a>
-                                                                <a href="/user/delete/<%= users[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
-                                                            </td>
-                                                            <td>
-                                                                <% if (users[i].blocked) { %>
-                                                                <a href="/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
-                                                                <% } else { %>
-                                                                <a href="/user/block/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2" onclick="return confirm('Are you sure want to block this user?');">block</a>
-                                                                <% } %>
                                                             </td>
                                                         </tr>
                                                         <% } %>
