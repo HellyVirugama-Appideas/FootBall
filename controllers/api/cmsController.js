@@ -3,7 +3,6 @@ const createError = require("http-errors");
 const Page = require("../../models/pageModel");
 const Newsletter = require("../../models/newsletterModel");
 const Banner = require("../../models/bannerModel");
-const Featured = require("../../models/featuredModel");
 const Contact = require("../../models/contactModel");
 const Message = require("../../models/messageModel");
 
@@ -39,7 +38,9 @@ exports.getContact = async (req, res, next) => {
 exports.postContact = async (req, res, next) => {
   try {
     await Message.create(req.body);
-    res.status(201).json({ success: true, message: "Message send successfully." });
+    res
+      .status(201)
+      .json({ success: true, message: "Message send successfully." });
   } catch (error) {
     next(error);
   }
@@ -65,15 +66,14 @@ exports.newsletter = async (req, res, next) => {
 
 exports.getBanners = async (req, res, next) => {
   try {
-    let [banners, featured] = await Promise.all([
-      Banner.find().sort("sort -_id").select("-_id -__v -name -sort"),
-      Featured.find().sort("sort -_id").select("-_id -__v -name -sort"),
-    ]);
+    const banner = await Banner.findOne().select("-__v");
+    if (banner) {
+      banner.video = process.env.BASE_URL + banner.video;
+    }
 
     res.json({
       success: true,
-      banners,
-      featured,
+      banner,
     });
   } catch (error) {
     next(error);

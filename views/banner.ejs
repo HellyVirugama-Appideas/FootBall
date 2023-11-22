@@ -3,112 +3,96 @@
 <!-- BEGIN: Head-->
 
 <head>
-    <%- include('_layouts/head') %>
-    <title>Banner List | <%= title %></title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script>
-        jQuery(document).ready(function($) {
-            $('#sortable').sortable({
-                update: function(event, ui) {
-                    // Get the new order of the banners
-                    var order = [];
-                    $('#sortable .item').each(function() {
-                        order.push($(this).attr('id'));
-                    });
-
-                    // Make an AJAX call to update the banner order
-                    $.ajax({
-                        url: '/banner/sort',
-                        method: 'POST',
-                        data: {
-                            order
-                        },
-                        success: function(data) {
-                            console.log('Banner order updated successfully');
-                        },
-                        error: function(error) {
-                            console.log('Error updating banner order:', error);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+  <%- include('_layouts/head') %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banner List | <%= title %></title>
+  <link rel="stylesheet" href="/tagsinput.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
 </head>
 <!-- END: Head-->
 
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+  <%- include('_layouts/sidenavbar') %>
 
-    <%- include('_layouts/sidenavbar') %>
-
-    <!-- BEGIN: Page Main-->
-    <div id="main">
-        <div class="row">
-            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
-                <!-- Search for small screen-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Banner List</span></h5>
-                        </div>
-                        <div class="col s12 m6 l6 right-align-md">
-                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/banner/add">Add Banner</a>
-
-                        </div>
-                    </div>
-                </div>
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Banner</span></h5>
             </div>
-            <div class="col s12">
-                <div class="container">
-                    <div class="section">
-                        <!-- Page Length Options -->
-                        <div class="row">
-                            <div class="col s12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <%- messages('messages', locals) %>
-                                        <div class="row">
-                                            <div class="col s12 overflow">
-                                                <table class="striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Name</th>
-                                                            <th>Image</th>
-                                                            <th>Link</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="sortable">
-                                                        <% for( let i=0; i < banners.length; i++ ) { %>
-                                                        <tr class="item" id="<%= banners[i].id %>">
-                                                            <td><%= banners[i].name %></td>
-                                                            <td><img src=" <%= banners[i].image %>" alt="alt" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                            <td><a href="<%= banners[i].link %>" style="color: inherit;" target="_blank"><%= banners[i].link %></a></td>
-                                                            <td style="max-width: 70px;">
-                                                                <a href="/banner/edit/<%= banners[i].id %>"><i class="material-icons">create</i></a>
-                                                                <a href="/banner/delete/<%= banners[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-overlay"></div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Banner</li>
+              </ol>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="">
+        <div class="container">
+          <div class="section">
+            <div class="row">
+              <div class="col s12">
+                <%- messages('messages', locals) %>
+              </div>
+            </div>
+            <form method="POST" onsubmit="validate()" action="/banner" id="form" enctype="multipart/form-data">
+              <div class="col s12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="row">
+                        <video width="450" height="220" controls>
+                          <source src="<%= process.env.BASE_URL + banners.video %>" type="video/mp4">
+                        </video>
+                        <div class="input-field mt-4">
+                            Update banner video
+                            <input type="file" accept="video/*" name="video" id="input-file-now" class="dropify" data-disable-remove="true"  />
+                            <small>
+                              <div id="errorImage" class="error"></div>
+                            </small>
+                        </div>
+                      <div class="col s12">
+                        <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                        <a href="/" class="btn btn-danger ml-1">Cancel</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
     </div>
-    <!-- END: Page Main-->
+  </div>
+  <!-- END: Page Main-->
 
-    <%- include('_layouts/commonJs') %>
+  <script>
+    const formC = document.getElementById('form');
+
+    formC.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+
+    function validate() {
+      let returnVal = true;
+
+      if (returnVal) {
+        document.getElementById('submitBtn').disabled = true;
+        formC.submit();
+      }
+    }
+  </script>
+  <%- include('_layouts/commonJs') %>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+      <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+  <script src="/tagsinput.js"></script>
 </body>
 
 </html>
