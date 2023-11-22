@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>Add Product | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+  <link rel="stylesheet" href="/app-assets/vendors/select2/select2-materialize.css" type="text/css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/product"><i class="material-icons">arrow_back</i></a><span>Add Product</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/product">Job</a></li>
+                <li class="breadcrumb-item active">Add Product</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <div class="container">
+          <div class="section">
+            <div class="row">
+              <div class="col s12">
+                <%- messages('messages', locals) %>
+              </div>
+            </div>
+            <form method="POST" onsubmit="validate()" action="/product/add" id="form" enctype="multipart/form-data">
+              <div class="col s12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="row">
+
+                      <div class="input-field col s12">
+                        <input placeholder="Name" id="name" name="name" type="text" value="<%= product.name %>">
+                        <label for="name">Name</label>
+                        <small>
+                          <div id="errorName" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col s12">
+                        <input placeholder="Short Description" id="shortDesc" name="shortDesc" type="text" value="<%= product.shortDesc %>">
+                        <label for="shortDesc">Short Description</label>
+                      </div>
+                      
+                      <div class="col s12">
+                        <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                        <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+  <%- include('_layouts/commonJs') %>
+  <script src="/app-assets/vendors/select2/select2.full.min.js"></script>
+  <script src="/app-assets/js/scripts/form-select2.js"></script>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+  <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+
+</body>
+
+</html>

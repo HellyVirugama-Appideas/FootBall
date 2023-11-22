@@ -17,4 +17,6 @@ router.get('/banner', cmsController.getBanners);
 
 router.get('/footer-links', cmsController.getFooterLinks);
 
+router.get("/faqs", cmsController.getFAQs);
+
 module.exports = router;

@@ -1,21 +1,32 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const cmsController = require('../../controllers/admin/cmsController');
-const { upload } = require('../../controllers/uploadController');
-
-router
-    .route('/contact')
-    .get(cmsController.getContact)
-    .post(cmsController.postContact);
+const cmsController = require("../../controllers/admin/cmsController");
+const { upload } = require("../../controllers/uploadController");
 
 router
-    .route('/about')
-    .get(cmsController.getAbout)
-    .post(upload.single('image'), cmsController.postAbout);
+  .route("/contact")
+  .get(cmsController.getContact)
+  .post(cmsController.postContact);
 
 router
-    .route('/privacy')
-    .get(cmsController.getPrivacy)
-    .post(upload.single('image'), cmsController.postPrivacy);
+  .route("/about")
+  .get(cmsController.getAbout)
+  .post(upload.single("image"), cmsController.postAbout);
+
+router
+  .route("/privacy")
+  .get(cmsController.getPrivacy)
+  .post(upload.single("image"), cmsController.postPrivacy);
+
+router.get("/faqs", cmsController.getFAQs);
+router
+  .route("/faqs/add")
+  .get(cmsController.getAddFAQ)
+  .post(cmsController.postAddFAQ);
+router
+  .route("/faqs/edit/:id")
+  .get(cmsController.getEditFAQ)
+  .post(cmsController.postEditFAQ);
+router.get("/faqs/delete/:id", cmsController.getdeleteFAQ);
 
 module.exports = router;
