@@ -4,6 +4,8 @@ const cmsController = require('../../controllers/api/cmsController');
 
 router.get('/about', cmsController.getAbout);
 
+router.get("/whoWeAre", cmsController.getWhoWeAre);
+
 router.get('/privacy', cmsController.getPrivacy);
 
 router
@@ -18,5 +20,7 @@ router.get('/banner', cmsController.getBanners);
 router.get('/footer-links', cmsController.getFooterLinks);
 
 router.get("/faqs", cmsController.getFAQs);
+
+router.get("/testimonial", cmsController.getTestimonial);
 
 module.exports = router;

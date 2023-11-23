@@ -4,79 +4,85 @@
 
 <head>
   <%- include('_layouts/head') %>
-  <title>Add Testimonial | <%= title %></title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+  <title>Testimonial | <%= title %>
+  </title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
 </head>
 <!-- END: Head-->
 
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
   <%- include('_layouts/sidenavbar') %>
 
   <!-- BEGIN: Page Main-->
   <div id="main">
     <div class="row">
       <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <!-- Search for small screen-->
         <div class="container">
           <div class="row">
             <div class="col s12 m6 l6">
-              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/testimonial"><i class="material-icons">arrow_back</i></a><span>Add Testimonial</span></h5>
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Testimonial</span></h5>
             </div>
             <div class="col s12 m6 l6 right-align-md">
-              <ol class="breadcrumbs mb-0">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/testimonial">Testimonial</a></li>
-                <li class="breadcrumb-item active">Add Testimonial</li>
-              </ol>
+              <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs ml-2" href="/testimonial/add">Add Testimonial</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="">
+      <div class="col s12">
         <div class="container">
-          <div class="section">
+          <div class="section section-data-tables">
+            <!-- Page Length Options -->
             <div class="row">
-              <div class="col s12">
-                <%- messages('messages', locals) %>
-              </div>
-            </div>
-            <form method="POST" onsubmit="validate()" action="/testimonial/add" id="form" enctype="multipart/form-data">
               <div class="col s12">
                 <div class="card">
                   <div class="card-content">
+                    <%- messages('messages', locals) %>
                     <div class="row">
-                      <div class="input-field col m6 s12">
-                        <input placeholder="Name" id="name" name="name" type="text">
-                        <label for="name">Name</label>
-                        <small>
-                          <div id="errorName" class="error"></div>
-                        </small>
-                      </div>
+                      <div class="col s12 overflow">
+                        <table id="page-length-option" class="display">
+                          <thead>
+                            <tr>
+                              <th>SID</th>
+                              <th>Name</th>
+                              <th>Description</th>
+                              <th>Image</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for( let i=0; i < testimonial.length; i++ ) { %>
+                            <tr>
+                              <td>
+                                <%= i+1 %>
+                              </td>
+                              <td>
+                                <%= testimonial[i].name %>
+                              </td>
+                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <%= testimonial[i].description %>
+                              </td>
+                              <td><img src=" <%= testimonial[i].image %>" alt="alt" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';">
+                              </td>
 
-                      <div class="input-field col m6 s12">
-                        <input placeholder="Description" id="description" name="description" type="text">
-                        <label for="description">Description</label>
-                        <small>
-                          <div id="errorDescription" class="error"></div>
-                        </small>
-                      </div>
-
-                      <div class="input-field col s12">
-                        Upload Image
-                        <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
-                        <small>
-                          <div id="error1" class="error"></div>
-                        </small>
-                      </div>
-                    
-                      <div class="col s12">
-                        <button type="submit" class="btn purple" id="submitBtn">Submit</button>
-                        <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                              <td style="max-width: 70px;">
+                                <a href="/testimonial/edit/<%= testimonial[i].id %>"><i class="material-icons">create</i></a>
+                                <a href="/testimonial/delete/<%= testimonial[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
         <div class="content-overlay"></div>
@@ -85,51 +91,9 @@
   </div>
   <!-- END: Page Main-->
 
-  <script>
-    const formC = document.getElementById('form');
-
-    formC.addEventListener('submit', (e) => {
-      e.preventDefault();
-    })
-
-    function validate() {
-      let returnVal = true;
-
-      const nameValue = document.getElementById('name').value.trim();
-      const descriptionValue = document.getElementById('description').value.trim();
-      const fileValue = document.getElementById('input-file-now').value;
-      const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
-
-      if (nameValue == '') {
-        document.getElementById('errorName').innerText = 'Please enter name.';
-        returnVal = false;
-      } else {
-        document.getElementById('errorName').innerText = '';
-      }
-
-      if (descriptionValue == '') {
-        document.getElementById('errorDescription').innerText = 'Please enter Description.';
-        returnVal = false;
-      } else {
-        document.getElementById('errorDescription').innerText = '';
-      }
-
-      if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
-        document.getElementById('error1').innerText = '';
-      } else {
-        document.getElementById('error1').innerText = 'Wrong file type.';
-        returnVal = false;
-      }
-
-      if (returnVal) {
-        document.getElementById('submitBtn').disabled = true;
-        formC.submit();
-      }
-    }
-  </script>
   <%- include('_layouts/commonJs') %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
-  <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+  <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+  <%- include('_layouts/savePageLength') %>
 </body>
 
 </html>

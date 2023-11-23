@@ -66,6 +66,38 @@ exports.postAbout = async (req, res) => {
   }
 };
 
+exports.getWhoWeAre = async (req, res) => {
+  try {
+    const page = await Page.findOne({ key: "whoWeAre" });
+    res.render("whoWeAre", { page });
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/");
+  }
+};
+
+exports.postWhoWeAre = async (req, res) => {
+  try {
+    const page = await Page.findOne({ key: "whoWeAre" });
+
+    page.title = req.body.title;
+    page.content = req.body.EnContent;
+
+    if (req.file) {
+      deleteFile(page.image);
+      page.image = `/uploads/${req.file.filename}`;
+    }
+
+    await page.save();
+
+    req.flash("green", "Data updated successfully.");
+    res.redirect("/cms/whoWeAre");
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect(req.originalUrl);
+  }
+};
+
 exports.getPrivacy = async (req, res) => {
   try {
     const page = await Page.findOne({ key: "privacy" });

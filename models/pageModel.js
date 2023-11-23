@@ -4,7 +4,7 @@ const pageSchema = mongoose.Schema(
   {
     key: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, "Key is required"],
       unique: true,
     },
     title: { type: String, required: [true, "Title is required"] },

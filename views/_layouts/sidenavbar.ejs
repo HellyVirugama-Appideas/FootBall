@@ -5,26 +5,31 @@
             <div class="nav-wrapper">
                 <ul class="navbar-list right">
                     <li>
-                        <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown">
+                        <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);"
+                            data-target="profile-dropdown">
                             <span class="avatar-status">
-                                <% if (typeof photo != 'undefined') { %>
-                                <img src="<%= photo %>" alt="avatar" onerror="this.onerror=null; this.src='/uploads/default_user.jpg';">
-                                <% } else { %>
-                                <img src="/uploads/default_user.jpg" alt="avatar">
-                                <% } %>
+                                <% if (typeof photo !='undefined' ) { %>
+                                    <img src="<%= photo %>" alt="avatar"
+                                        onerror="this.onerror=null; this.src='/uploads/default_user.jpg';">
+                                    <% } else { %>
+                                        <img src="/uploads/default_user.jpg" alt="avatar">
+                                        <% } %>
                             </span>
                         </a>
                     </li>
                 </ul>
                 <ul class="dropdown-content" id="profile-dropdown">
                     <li>
-                        <a class="grey-text text-darken-1" href="/profile"><i class="material-icons">person_outline</i>Profile</a>
+                        <a class="grey-text text-darken-1" href="/profile"><i
+                                class="material-icons">person_outline</i>Profile</a>
                     </li>
                     <li>
-                        <a class="grey-text text-darken-1" href="/changepass"><i class="material-icons">lock_outline</i>Change Password</a>
+                        <a class="grey-text text-darken-1" href="/changepass"><i
+                                class="material-icons">lock_outline</i>Change Password</a>
                     </li>
                     <li>
-                        <a class="grey-text text-darken-1" href="/logout" onclick="return confirm('Are you sure?');"><i class="material-icons">keyboard_tab</i>Logout</a>
+                        <a class="grey-text text-darken-1" href="/logout" onclick="return confirm('Are you sure?');"><i
+                                class="material-icons">keyboard_tab</i>Logout</a>
                     </li>
                 </ul>
             </div>
@@ -43,7 +48,8 @@
             </a>
         </h1>
     </div>
-    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
+    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out"
+        data-menu="menu-navigation" data-collapsible="accordion">
         <li class="bold <%= url == '/' ? 'active' : '' %>">
             <a class="waves-effect waves-cyan <%= url == '/' ? 'active' : '' %>" href="/">
                 <i class="material-icons">desktop_windows</i>
@@ -74,6 +80,12 @@
                             <span>About us</span>
                         </a>
                     </li>
+                    <li class="<%= url.startsWith('/cms/whoWeAre') ? 'active' : '' %>">
+                           <a class="<%= url == '/cms/whoWeAre' ? 'active' : '' %>" href="/cms/whoWeAre">
+                             <i class="material-icons">radio_button_unchecked</i>
+                             <span>Who We Are</span>
+                           </a>
+                    </li>
                     <li class="<%= url.startsWith('/cms/privacy') ? 'active' : '' %>">
                         <a class="<%= url == '/cms/privacy' ? 'active' : '' %>" href="/cms/privacy">
                             <i class="material-icons">radio_button_unchecked</i>
@@ -97,11 +109,18 @@
             </a>
         </li>
 
+        <li class="bold <%= url.startsWith('/testimonial') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/testimonial') ? 'active' : '' %>" href="/testimonial">
+                <i class="material-icons">picture_in_picture</i>
+                <span class="menu-title">Testimonial</span>
+            </a>
+        </li>
+
         <li class="bold <%= url.startsWith('/message') ? 'active' : '' %>">
-             <a class="waves-effect waves-cyan <%= url.startsWith('/message') ? 'active' : '' %>" href="/message">
-               <i class="material-icons">contact_mail</i>
-               <span class="menu-title">User Messages</span>
-             </a>
+            <a class="waves-effect waves-cyan <%= url.startsWith('/message') ? 'active' : '' %>" href="/message">
+                <i class="material-icons">contact_mail</i>
+                <span class="menu-title">User Messages</span>
+            </a>
         </li>
 
         <li class="navigation-header">
@@ -114,7 +133,9 @@
                 <span class="menu-title">User Management</span>
             </a>
         </li>
-        
+
     </ul>
-    <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+    <div class="navigation-background"></div><a
+        class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
+        href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
 </aside>

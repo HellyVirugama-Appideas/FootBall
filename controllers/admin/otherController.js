@@ -4,6 +4,7 @@ const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 const Banner = require("../../models/bannerModel");
 const Newsletter = require("../../models/newsletterModel");
+const Testimonial = require("../../models/testimonialModel");
 
 exports.getBanners = async (req, res) => {
   try {
@@ -29,6 +30,99 @@ exports.postAddBanner = async (req, res) => {
   } catch (error) {
     req.flash("red", error.message);
     res.redirect("/banner");
+  }
+};
+
+exports.getTestimonial = async (req, res) => {
+  try {
+    const testimonial = await Testimonial.find().sort("-_id");
+    res.render("testimonial", { testimonial });
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/");
+  }
+};
+
+exports.getAddTestimonial = (req, res) => res.render("testimonial_add");
+
+exports.postAddTestimonial = async (req, res) => {
+  try {
+    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+    await Testimonial.create({
+      name: req.body.name,
+      description: req.body.description,
+      image,
+    });
+
+    req.flash("green", "Testimonial added successfully.");
+    res.redirect("/testimonial");
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/testimonial");
+  }
+};
+
+exports.getEditTestimonial = async (req, res) => {
+  try {
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (!testimonial) {
+      req.flash("red", "Testimonial not found!");
+      return res.redirect("/testimonial");
+    }
+
+    res.render("testimonial_edit", { testimonial });
+  } catch (error) {
+    if (error.name === "CastError") req.flash("red", "testimonial not found!");
+    else req.flash("red", error.message);
+    res.redirect("/testimonial");
+  }
+};
+
+exports.postEditTestimonial = async (req, res) => {
+  try {
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (!testimonial) {
+      req.flash("red", "Testimonial not found!");
+      return res.redirect("/testimonial");
+    }
+
+    if (req.file) {
+      const oldImagePath = path.join(__dirname, "../../public", testimonial.image);
+      fs.unlink(oldImagePath, () => {});
+      testimonial.image = `/uploads/${req.file.filename}`;
+    }
+
+    testimonial.name = req.body.name;
+    testimonial.description = req.body.description;
+    await testimonial.save();
+
+    req.flash("green", "Testimonial edited successfully.");
+    res.redirect("/testimonial");
+  } catch (error) {
+    req.flash("red", error.message);
+    res.redirect("/testimonial");
+  }
+};
+
+exports.getDeleteTestimonial = async (req, res) => {
+  try {
+    const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
+
+    const oldImagePath = path.join(
+      __dirname,
+      "../../public",
+      testimonial.image
+    );
+    fs.unlink(oldImagePath, () => {});
+
+    req.flash("green", "Testimonial deleted successfully.");
+    res.redirect("/testimonial");
+  } catch (error) {
+    if (error.name === "CastError" || error.name === "TypeError")
+      req.flash("red", "Testimonial not found!");
+    else req.flash("red", error.message);
+    res.redirect("/testimonial");
   }
 };
 

@@ -4,7 +4,7 @@
 
 <head>
     <%- include('_layouts/head') %>
-    <title>Edit Banner | <%= title %></title>
+    <title>Add Testimonial | <%= title %></title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
 </head>
 <!-- END: Head-->
@@ -19,13 +19,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/banner"><i class="material-icons">arrow_back</i></a><span>Edit Banner</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/testimonial"><i class="material-icons">arrow_back</i></a><span>Add Testimonial</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item"><a href="/banner">Banner</a></li>
-                                <li class="breadcrumb-item active">Edit Banner</li>
+                                <li class="breadcrumb-item"><a href="/testimonial">Testimonial</a></li>
+                                <li class="breadcrumb-item active">Add Testimonial</li>
                             </ol>
                         </div>
                     </div>
@@ -39,35 +39,33 @@
                                 <%- messages('messages', locals) %>
                             </div>
                         </div>
-                        <form method="POST" onsubmit="validate()" action="/banner/edit/<%= banner.id %>" id="form" enctype="multipart/form-data">
+                        <form method="POST" onsubmit="validate()" action="/testimonial/add" id="form" enctype="multipart/form-data">
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="row">
-                                            <div class="input-field col m6 s12">
-                                                <input placeholder="Name" id="name" name="name" type="text" value="<%= banner.name %>">
+                                            <div class="input-field col s12">
+                                                <input placeholder="Name" id="name" name="name" type="text">
                                                 <label for="name">Name</label>
                                                 <small>
                                                     <div id="errorName" class="error"></div>
                                                 </small>
                                             </div>
-                                            <div class="input-field col m6 s12">
-                                                <input placeholder="Link" id="link" name="link" type="text" value="<%= banner.link %>">
-                                                <label for="link">Link</label>
-                                                <small>
-                                                    <div id="errorLink" class="error"></div>
-                                                </small>
+                                            <div>
+                                                 <div class="input-field col s12">
+                                                   <label for="description">Description</label>
+                                                   <textarea name="description" class="materialize-textarea" id="description" cols="30" rows="10" placeholder="description"></textarea>
+                                                   <small>
+                                                     <div id="errorDescription" class="error"></div>
+                                                   </small>
+                                                 </div>
                                             </div>
                                             <div class="input-field col s12">
                                                 Upload Image
-                                                <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= banner.image %>" />
+                                                <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
                                                 <small>
                                                     <div id="error1" class="error"></div>
                                                 </small>
-                                            </div>
-                                            <div class="input-field col s12">
-                                                <input placeholder="Image Alt" id="imageAlt" name="imageAlt" type="text" value="<%= banner.imageAlt %>">
-                                                <label for="imageAlt">Image Alt</label>
                                             </div>
                                             <div class="col s12">
                                                 <button type="submit" class="btn purple" id="submitBtn">Submit</button>
@@ -97,7 +95,7 @@
             let returnVal = true;
 
             const nameValue = document.getElementById('name').value.trim();
-            const linkValue = document.getElementById('link').value.trim();
+            const descValue = document.getElementById('description').value.trim();
             const fileValue = document.getElementById('input-file-now').value;
             const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
 
@@ -108,16 +106,14 @@
                 document.getElementById('errorName').innerText = '';
             }
 
-            if (linkValue == '') {
-                document.getElementById('errorLink').innerText = 'Please enter link.';
+            if (descValue == '') {
+                document.getElementById('errorDescription').innerText = 'Please enter description.';
                 returnVal = false;
             } else {
-                document.getElementById('errorLink').innerText = '';
+                document.getElementById('errorDescription').innerText = '';
             }
 
-            if (fileValue == '') {
-                document.getElementById('error1').innerText = '';
-            } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+            if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
                 document.getElementById('error1').innerText = '';
             } else {
                 document.getElementById('error1').innerText = 'Wrong file type.';

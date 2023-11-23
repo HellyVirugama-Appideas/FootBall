@@ -6,10 +6,21 @@ const Banner = require("../../models/bannerModel");
 const Contact = require("../../models/contactModel");
 const Message = require("../../models/messageModel");
 const FAQs = require("../../models/faqsModel");
+const Testimonial = require("../../models/testimonialModel");
 
 exports.getAbout = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: "about" }).select("-__v -key -_id");
+
+    res.json({ success: true, page });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getWhoWeAre = async (req, res, next) => {
+  try {
+    let page = await Page.findOne({ key: "whoWeAre" }).select("-__v -key -_id");
 
     res.json({ success: true, page });
   } catch (error) {
@@ -83,7 +94,7 @@ exports.getBanners = async (req, res, next) => {
 
 exports.getFooterLinks = async (req, res, next) => {
   try {
-    let pages = await Page.find().select("en.title es.title url -_id");
+    const pages = await Page.find().select("en.title es.title url -_id");
 
     res.json({ success: true, pages });
   } catch (error) {
@@ -93,9 +104,21 @@ exports.getFooterLinks = async (req, res, next) => {
 
 exports.getFAQs = async (req, res, next) => {
   try {
-    let faqs = await FAQs.find().sort("-_id").select("-_id -__v");
+    const faqs = await FAQs.find().sort("-_id").select("-_id -__v");
 
-    res.json({ status: "success", content: faqs });
+    res.json({ success: true, content: faqs });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getTestimonial = async (req, res, next) => {
+  try {
+    const testimonial = await Testimonial.find()
+      .sort("-_id")
+      .select("-_id -__v -updatedAt -createdAt");
+
+    res.json({ success: true, testimonial });
   } catch (error) {
     next(error);
   }

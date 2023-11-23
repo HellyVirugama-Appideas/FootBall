@@ -46,16 +46,16 @@
                 <div class="card">
                   <div class="card-content">
                     <div class="row">
-                        <video width="450" height="220" controls>
-                          <source src="<%= process.env.BASE_URL + banners.video %>" type="video/mp4">
-                        </video>
-                        <div class="input-field mt-4">
-                            Update banner video
-                            <input type="file" accept="video/*" name="video" id="input-file-now" class="dropify" data-disable-remove="true"  />
-                            <small>
-                              <div id="errorImage" class="error"></div>
-                            </small>
-                        </div>
+                      <video width="450" height="220" controls>
+                        <source src="<%= process.env.BASE_URL + banners.video %>" type="video/mp4">
+                      </video>
+                      <div class="input-field mt-4">
+                        Update banner video
+                        <input type="file" accept="video/*" name="video" id="input-file-now" class="dropify" data-disable-remove="true" />
+                        <small>
+                          <div id="errorImage" class="error"></div>
+                        </small>
+                      </div>
                       <div class="col s12">
                         <button type="submit" class="btn purple" id="submitBtn">Submit</button>
                         <a href="/" class="btn btn-danger ml-1">Cancel</a>
@@ -83,6 +83,17 @@
     function validate() {
       let returnVal = true;
 
+      const fileValue = document.getElementById('input-file-now').value;
+      const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
+
+      if (fileValue == '') {
+        document.getElementById('errorImage').innerText = '';
+      } else if (ext == 'mp4' ) {
+        document.getElementById('errorImage').innerText = '';
+      } else {
+        return setError('errorImage', 'Wrong file type. Upload MP4 video');
+      }
+
       if (returnVal) {
         document.getElementById('submitBtn').disabled = true;
         formC.submit();
@@ -90,8 +101,8 @@
     }
   </script>
   <%- include('_layouts/commonJs') %>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
-      <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+  <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
   <script src="/tagsinput.js"></script>
 </body>
 

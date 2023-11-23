@@ -14,6 +14,11 @@ router
   .post(upload.single("image"), cmsController.postAbout);
 
 router
+  .route("/whoWeAre")
+  .get(cmsController.getWhoWeAre)
+  .post(upload.single("image"), cmsController.postWhoWeAre);
+
+router
   .route("/privacy")
   .get(cmsController.getPrivacy)
   .post(upload.single("image"), cmsController.postPrivacy);
