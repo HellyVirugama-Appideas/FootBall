@@ -4,7 +4,7 @@ const userController = require('../../controllers/admin/userController');
 
 // user
 router.get('/user', userController.getAllUsers);
-router.get("/user/:id", userController.viewUser);
+router.get('/user/:id', userController.viewUser);
 
 // message
 router.get('/message', userController.getAllMessages);

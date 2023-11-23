@@ -1,8 +1,8 @@
-const createError = require("http-errors");
-const bcrypt = require("bcryptjs");
-const validation = require("../../utils/validation.json");
+const createError = require('http-errors');
+const bcrypt = require('bcryptjs');
+const validation = require('../../utils/validation.json');
 
-const User = require("../../models/userModel");
+const User = require('../../models/userModel');
 
 exports.getProfile = (req, res, next) => {
   const user = req.user._doc;
@@ -25,7 +25,7 @@ exports.editProfile = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
       runValidators: true,
-    }).select("-__v -favourites");
+    }).select('-__v -favourites');
 
     res.json({ success: true, user });
   } catch (error) {
@@ -57,4 +57,3 @@ exports.changePassword = async (req, res, next) => {
     next(error);
   }
 };
-

@@ -1,16 +1,16 @@
-const createError = require("http-errors");
+const createError = require('http-errors');
 
-const Page = require("../../models/pageModel");
-const Newsletter = require("../../models/newsletterModel");
-const Banner = require("../../models/bannerModel");
-const Contact = require("../../models/contactModel");
-const Message = require("../../models/messageModel");
-const FAQs = require("../../models/faqsModel");
-const Testimonial = require("../../models/testimonialModel");
+const Page = require('../../models/pageModel');
+const Newsletter = require('../../models/newsletterModel');
+const Banner = require('../../models/bannerModel');
+const Contact = require('../../models/contactModel');
+const Message = require('../../models/messageModel');
+const FAQs = require('../../models/faqsModel');
+const Testimonial = require('../../models/testimonialModel');
 
 exports.getAbout = async (req, res, next) => {
   try {
-    let page = await Page.findOne({ key: "about" }).select("-__v -key -_id");
+    let page = await Page.findOne({ key: 'about' }).select('-__v -key -_id');
 
     res.json({ success: true, page });
   } catch (error) {
@@ -20,7 +20,7 @@ exports.getAbout = async (req, res, next) => {
 
 exports.getWhoWeAre = async (req, res, next) => {
   try {
-    let page = await Page.findOne({ key: "whoWeAre" }).select("-__v -key -_id");
+    let page = await Page.findOne({ key: 'whoWeAre' }).select('-__v -key -_id');
 
     res.json({ success: true, page });
   } catch (error) {
@@ -30,7 +30,7 @@ exports.getWhoWeAre = async (req, res, next) => {
 
 exports.getPrivacy = async (req, res, next) => {
   try {
-    let page = await Page.findOne({ key: "privacy" }).select("-__v -key -_id");
+    let page = await Page.findOne({ key: 'privacy' }).select('-__v -key -_id');
 
     res.json({ success: true, page });
   } catch (error) {
@@ -40,7 +40,7 @@ exports.getPrivacy = async (req, res, next) => {
 
 exports.getContact = async (req, res, next) => {
   try {
-    const contact = await Contact.findOne().select("-_id -__v -mailList");
+    const contact = await Contact.findOne().select('-_id -__v -mailList');
     res.json({ success: true, contact });
   } catch (error) {
     next(error);
@@ -52,7 +52,7 @@ exports.postContact = async (req, res, next) => {
     await Message.create(req.body);
     res
       .status(201)
-      .json({ success: true, message: "Message send successfully." });
+      .json({ success: true, message: 'Message send successfully.' });
   } catch (error) {
     next(error);
   }
@@ -63,13 +63,13 @@ exports.newsletter = async (req, res, next) => {
     const { email } = req.body;
 
     const emailExist = await Newsletter.findOne({ email });
-    if (emailExist) return next(createError.BadRequest("newsletter.already"));
+    if (emailExist) return next(createError.BadRequest('newsletter.already'));
 
     await Newsletter.create({ email });
 
     res.status(201).json({
       success: true,
-      message: "newsletter.success",
+      message: 'newsletter.success',
     });
   } catch (error) {
     next(error);
@@ -78,7 +78,7 @@ exports.newsletter = async (req, res, next) => {
 
 exports.getBanners = async (req, res, next) => {
   try {
-    const banner = await Banner.findOne().select("-__v");
+    const banner = await Banner.findOne().select('-__v');
     if (banner) {
       banner.video = process.env.BASE_URL + banner.video;
     }
@@ -94,7 +94,7 @@ exports.getBanners = async (req, res, next) => {
 
 exports.getFooterLinks = async (req, res, next) => {
   try {
-    const pages = await Page.find().select("en.title es.title url -_id");
+    const pages = await Page.find().select('en.title es.title url -_id');
 
     res.json({ success: true, pages });
   } catch (error) {
@@ -104,7 +104,7 @@ exports.getFooterLinks = async (req, res, next) => {
 
 exports.getFAQs = async (req, res, next) => {
   try {
-    const faqs = await FAQs.find().sort("-_id").select("-_id -__v");
+    const faqs = await FAQs.find().sort('-_id').select('-_id -__v');
 
     res.json({ success: true, content: faqs });
   } catch (error) {
@@ -115,8 +115,8 @@ exports.getFAQs = async (req, res, next) => {
 exports.getTestimonial = async (req, res, next) => {
   try {
     const testimonial = await Testimonial.find()
-      .sort("-_id")
-      .select("-_id -__v -updatedAt -createdAt");
+      .sort('-_id')
+      .select('-_id -__v -updatedAt -createdAt');
 
     res.json({ success: true, testimonial });
   } catch (error) {

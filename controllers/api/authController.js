@@ -1,20 +1,20 @@
-const jwt = require("jsonwebtoken");
-const createError = require("http-errors");
-const validation = require("../../utils/validation.json");
-const { sendLink } = require("../../utils/sendMail");
+const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
+const validation = require('../../utils/validation.json');
+const { sendLink } = require('../../utils/sendMail');
 
-const User = require("../../models/userModel");
+const User = require('../../models/userModel');
 
 // To ensure that a valid user is logged in.
 exports.checkUser = async (req, res, next) => {
   try {
-    const token = req.headers["authorization"];
+    const token = req.headers['authorization'];
 
     if (!token) return next(createError.Unauthorized(validation.provideToken));
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id).select("+password");
+    const user = await User.findById(decoded._id).select('+password');
 
     if (!user) return next(createError.Unauthorized(validation.login));
 
@@ -28,13 +28,13 @@ exports.checkUser = async (req, res, next) => {
 // Just check if valid user is logged, doesn't throw error if not
 exports.isUser = async (req, res, next) => {
   try {
-    const token = req.headers["authorization"];
+    const token = req.headers['authorization'];
 
     if (!token) return next();
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id).select("+password");
+    const user = await User.findById(decoded._id).select('+password');
 
     if (user) req.user = user;
 
@@ -75,12 +75,9 @@ exports.login = async (req, res, next) => {
     if (!email || !password)
       return next(createError.BadRequest(validation.incorrectCredentials));
 
-    const user = await User.findOne({ email }).select("+password -__v");
+    const user = await User.findOne({ email }).select('+password -__v');
 
     if (!user) return next(createError.BadRequest(validation.invalidEmail));
-
-    if (!user.password)
-      return next(createError.BadRequest(validation.resetRequired));
 
     if (!(await user.correctPassword(password, user.password)))
       return next(createError.BadRequest(validation.invalidPassword));
@@ -103,7 +100,7 @@ exports.forgotPassword = async (req, res, next) => {
 
     // Generate a reset token
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "15m",
+      expiresIn: '15m',
     });
 
     const link = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
@@ -142,7 +139,7 @@ exports.resetPassword = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    if (error.message == "jwt expired" || error.message == "invalid signature")
+    if (error.message == 'jwt expired' || error.message == 'invalid signature')
       return next(createError.BadRequest(validation.tokenInvalid));
     next(error);
   }

@@ -1,38 +1,38 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
-const otherController = require("../../controllers/admin/otherController");
+const otherController = require('../../controllers/admin/otherController');
 const {
   upload,
   uploadMedia,
   uploadVideo,
-} = require("../../controllers/uploadController");
+} = require('../../controllers/uploadController');
 
 // banner
-router.get("/banner", otherController.getBanners);
+router.get('/banner', otherController.getBanners);
 router
-  .route("/banner")
-  .post(uploadVideo.single("video"), otherController.postAddBanner);
+  .route('/banner')
+  .post(uploadVideo.single('video'), otherController.postAddBanner);
 
 // newsletter
-router.get("/newsletter", otherController.getNewsletterList);
-router.get("/newsletter/export", otherController.getNewsletterExport);
+router.get('/newsletter', otherController.getNewsletterList);
+router.get('/newsletter/export', otherController.getNewsletterExport);
 
 // testimonial
-router.get("/testimonial", otherController.getTestimonial);
+router.get('/testimonial', otherController.getTestimonial);
 router
-  .route("/testimonial/add")
+  .route('/testimonial/add')
   .get(otherController.getAddTestimonial)
-  .post(upload.single("image"), otherController.postAddTestimonial);
+  .post(upload.single('image'), otherController.postAddTestimonial);
 router
-  .route("/testimonial/edit/:id")
+  .route('/testimonial/edit/:id')
   .get(otherController.getEditTestimonial)
-  .post(upload.single("image"), otherController.postEditTestimonial);
-router.get("/testimonial/delete/:id", otherController.getDeleteTestimonial);
+  .post(upload.single('image'), otherController.postEditTestimonial);
+router.get('/testimonial/delete/:id', otherController.getDeleteTestimonial);
 
 // media
 router
-  .route("/media")
+  .route('/media')
   .get(otherController.getMedia)
-  .post(uploadMedia.array("image"), otherController.postMedia);
+  .post(uploadMedia.array('image'), otherController.postMedia);
 
 module.exports = router;

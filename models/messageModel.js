@@ -1,26 +1,26 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const MessageSchema = mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name is required."],
+    required: [true, 'Name is required.'],
     trim: true,
   },
   email: {
     type: String,
-    required: [true, "Email is required."],
+    required: [true, 'Email is required.'],
     trim: true,
   },
   phone: {
     type: String,
-    required: [true, "Phone is required."],
+    required: [true, 'Phone is required.'],
     trim: true,
   },
   message: {
     type: String,
-    required: [true, "Message is required."],
+    required: [true, 'Message is required.'],
     trim: true,
   },
 });
 
-module.exports = mongoose.model("Message", MessageSchema);
+module.exports = mongoose.model('Message', MessageSchema);
