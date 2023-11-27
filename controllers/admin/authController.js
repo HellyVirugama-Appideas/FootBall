@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const createError = require('http-errors');
 const generateCode = require('../../utils/generateCode');
 const { sendOtp } = require('../../utils/sendMail');
 

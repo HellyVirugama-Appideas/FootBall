@@ -17,8 +17,6 @@ router.post('/newsletter', cmsController.newsletter);
 
 router.get('/banner', cmsController.getBanners);
 
-router.get('/footer-links', cmsController.getFooterLinks);
-
 router.get('/faqs', cmsController.getFAQs);
 
 router.get('/testimonial', cmsController.getTestimonial);

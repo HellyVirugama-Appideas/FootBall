@@ -7,6 +7,7 @@ const Contact = require('../../models/contactModel');
 const Message = require('../../models/messageModel');
 const FAQs = require('../../models/faqsModel');
 const Testimonial = require('../../models/testimonialModel');
+const validator = require("../../utils/validation.json")
 
 exports.getAbout = async (req, res, next) => {
   try {
@@ -63,13 +64,13 @@ exports.newsletter = async (req, res, next) => {
     const { email } = req.body;
 
     const emailExist = await Newsletter.findOne({ email });
-    if (emailExist) return next(createError.BadRequest('newsletter.already'));
+    if (emailExist) return next(createError.BadRequest(validator.alreadyRegistered));
 
     await Newsletter.create({ email });
 
     res.status(201).json({
       success: true,
-      message: 'newsletter.success',
+      message: validator.msg,
     });
   } catch (error) {
     next(error);
@@ -87,16 +88,6 @@ exports.getBanners = async (req, res, next) => {
       success: true,
       banner,
     });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getFooterLinks = async (req, res, next) => {
-  try {
-    const pages = await Page.find().select('en.title es.title url -_id');
-
-    res.json({ success: true, pages });
   } catch (error) {
     next(error);
   }
