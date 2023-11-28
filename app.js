@@ -95,6 +95,8 @@ app.use('/', require('./routes/admin/authRoutes'));
 app.use('/cms', require('./routes/admin/cmsRoutes'));
 app.use('/', require('./routes/admin/userRoutes'));
 app.use('/', require('./routes/admin/otherRoutes'));
+app.use('/', require('./routes/admin/categoryRoutes'));
+app.use('/', require('./routes/admin/jobRoutes'));
 
 // 404 admin
 app.all('/*', (req, res) => res.status(404).render('404'));

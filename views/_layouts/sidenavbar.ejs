@@ -109,6 +109,20 @@
             </a>
         </li>
 
+        <li class="bold <%= url.startsWith('/category') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/category') ? 'active' : '' %>" href="/category">
+                <i class="material-icons">view_week</i>
+                <span class="menu-title">Categories</span>
+            </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/job') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/job') ? 'active' : '' %>" href="/job">
+               <i class="material-icons">assignment</i>
+               <span class="menu-title">Add Job</span>
+            </a>
+        </li>
+
         <li class="bold <%= url.startsWith('/testimonial') ? 'active' : '' %>">
             <a class="waves-effect waves-cyan <%= url.startsWith('/testimonial') ? 'active' : '' %>" href="/testimonial">
                 <i class="material-icons">picture_in_picture</i>
