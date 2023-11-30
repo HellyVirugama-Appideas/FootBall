@@ -34,6 +34,22 @@ exports.uploadVideo = multer({
   },
 });
 
+exports.uploadPDF = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + file.originalname.replace(' ', ''));
+    },
+  }),
+  limits: { fileSize: 1024 * 1024 * 10 }, // 10-MB limit on file size for PDF
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') cb(null, true);
+    else cb(new Error('Please upload a valid PDF file.'), false);
+  },
+});
+
 exports.uploadMedia = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {

@@ -66,6 +66,7 @@ app.use('/uploads/*', (req, res) => res.status(404).end());
 app.use('/api', require('./routes/api/authRoutes'));
 app.use('/api', require('./routes/api/cmsRoutes'));
 app.use('/api', require('./routes/api/dashboardRoutes'));
+app.use('/api', require('./routes/api/jobRoutes'));
 
 // 404 api
 app.use('/api', (req, res, next) => {
@@ -96,7 +97,7 @@ app.use('/cms', require('./routes/admin/cmsRoutes'));
 app.use('/', require('./routes/admin/userRoutes'));
 app.use('/', require('./routes/admin/otherRoutes'));
 app.use('/', require('./routes/admin/categoryRoutes'));
-// app.use('/', require('./routes/admin/jobRoutes'));
+app.use('/', require('./routes/admin/jobRoutes'));
 
 // 404 admin
 app.all('/*', (req, res) => res.status(404).render('404'));

@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema({
     trim: true,
     select: false,
   },
+  resumeTitle: { type: String, trim: true },
+  resumePdf: { type: String },
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {
@@ -52,7 +54,10 @@ userSchema.post('validate', async function (doc) {
 });
 
 // check password
-userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 

@@ -4,7 +4,7 @@
 
 <head>
   <%- include('_layouts/head') %>
-  <title>Add Product | <%= title %></title>
+  <title>Add Job | <%= title %></title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
   <link rel="stylesheet" href="/app-assets/vendors/select2/select2-materialize.css" type="text/css">
 </head>
@@ -20,13 +20,13 @@
         <div class="container">
           <div class="row">
             <div class="col s12 m6 l6">
-              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/product"><i class="material-icons">arrow_back</i></a><span>Add Product</span></h5>
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/job"><i class="material-icons">arrow_back</i></a><span>Add Job</span></h5>
             </div>
             <div class="col s12 m6 l6 right-align-md">
               <ol class="breadcrumbs mb-0">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/product">Job</a></li>
-                <li class="breadcrumb-item active">Add Product</li>
+                <li class="breadcrumb-item"><a href="/job">Job</a></li>
+                <li class="breadcrumb-item active">Add Job</li>
               </ol>
             </div>
           </div>
@@ -40,25 +40,90 @@
                 <%- messages('messages', locals) %>
               </div>
             </div>
-            <form method="POST" onsubmit="validate()" action="/product/add" id="form" enctype="multipart/form-data">
+            <form method="POST" onsubmit="validate()" action="/job/add" id="form">
               <div class="col s12">
                 <div class="card">
                   <div class="card-content">
                     <div class="row">
 
-                      <div class="input-field col s12">
-                        <input placeholder="Name" id="name" name="name" type="text" value="<%= product.name %>">
-                        <label for="name">Name</label>
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Recruiter name" id="recruiter" name="recruiter" type="text">
+                        <label for="recruiter">Recruiter name</label>
                         <small>
-                          <div id="errorName" class="error"></div>
+                          <div id="errorRecruiter" class="error"></div>
                         </small>
                       </div>
 
-                      <div class="input-field col s12">
-                        <input placeholder="Short Description" id="shortDesc" name="shortDesc" type="text" value="<%= product.shortDesc %>">
-                        <label for="shortDesc">Short Description</label>
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Job Title" id="title" name="title" type="text">
+                        <label for="title">Job Title</label>
+                        <small>
+                          <div id="errorTitle" class="error"></div>
+                        </small>
                       </div>
-                      
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <select id="category" name="category">
+                          <% categories.forEach(c => { %>
+                          <option value="<%= c._id %>"><%= c.name %></option>
+                          <% }); %>
+                        </select>
+                        <label>Category</label>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <select id="jobType" name="jobType">
+                          <option value="fullTime">Full-time</option>
+                          <option value="partTime">Part-time</option>
+                        </select>
+                        <label>Job Type</label>
+                      </div>
+
+                      <div class="input-field col m6 s12">
+                        <input placeholder="$500-$1000" id="salary" name="salary" type="text">
+                        <label for="salary">Salary</label>
+                        <small>
+                          <div id="errorSalary" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12">
+                        <input placeholder="5 Years" id="experience" name="experience" type="text">
+                        <label for="experience">Experience</label>
+                        <small>
+                          <div id="errorExperience" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <input placeholder="State" id="state" name="state" type="text">
+                        <label for="state">State</label>
+                        <small>
+                          <div id="errorState" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <input placeholder="City" id="city" name="city" type="text">
+                        <label for="city">City</label>
+                        <small>
+                          <div id="errorCity" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col s12 mb-0 mt-0">
+                        <textarea class="materialize-textarea" id="shortDesc" name="shortDesc" placeholder="Description"></textarea>
+                        <label for="shortDesc">Description</label>
+                        <small>
+                          <div id="shortDescErr" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col s12 mt-0">
+                        <small>Skill & Experience</small>
+                        <textarea name="skill" class="form-control ta" id="ta3"></textarea>
+                      </div>
+
                       <div class="col s12">
                         <button type="submit" class="btn purple" id="submitBtn">Submit</button>
                         <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
@@ -75,13 +140,102 @@
     </div>
   </div>
   <!-- END: Page Main-->
+  <script>
+    const formC = document.getElementById('form');
+
+    formC.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+
+    function validate() {
+      let returnVal = true;
+
+      const recruiterValue = document.getElementById('recruiter').value.trim();
+      const shortDescValue = document.getElementById('shortDesc').value.trim();
+      const titleValue = document.getElementById('title').value.trim();
+      const salaryValue = document.getElementById('salary').value.trim();
+      const experienceValue = document.getElementById('experience').value.trim();
+      const stateValue = document.getElementById('state').value.trim();
+      const cityValue = document.getElementById('city').value.trim();
+
+      if (recruiterValue == '') {
+        document.getElementById('errorRecruiter').innerText = 'Please enter recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorRecruiter').innerText = '';
+      }
+
+      if (shortDescValue == '') {
+        document.getElementById('shortDescErr').innerText = 'Please enter description.';
+        returnVal = false;
+      } else {
+        document.getElementById('shortDescErr').innerText = '';
+      }
+
+      if (titleValue == '') {
+        document.getElementById('errorTitle').innerText = 'Please enter title.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorTitle').innerText = '';
+      }
+
+      if (salaryValue == '') {
+        document.getElementById('errorSalary').innerText = 'Please enter salary.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorSalary').innerText = '';
+      }
+
+      if (experienceValue == '') {
+        document.getElementById('errorExperience').innerText = 'Please enter experience.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorExperience').innerText = '';
+      }
+
+      if (stateValue == '') {
+        document.getElementById('errorState').innerText = 'Please enter recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorState').innerText = '';
+      }
+
+      if (cityValue == '') {
+        document.getElementById('errorCity').innerText = 'Please enter recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCity').innerText = '';
+      }
+
+      if (returnVal) {
+        document.getElementById('submitBtn').disabled = true;
+        formC.submit();
+      }
+    }
+  </script>
   <%- include('_layouts/commonJs') %>
   <script src="/app-assets/vendors/select2/select2.full.min.js"></script>
   <script src="/app-assets/js/scripts/form-select2.js"></script>
- 
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
   <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+  <!-- ===== ckeditor JavaScript ===== -->
+  <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+  <script>
+    $(function() {
+      const elements = $('textarea.ta').get();
+      Object.keys(elements).forEach(i => {
+        CKEDITOR.replace(elements[i].id, {
+          filebrowserUploadUrl: '/upload',
+          format_tags: 'p;h1;h2;h3;h4;h5;h6'
+        });
+      });
 
+      if ($("[data-fancybox]").length) {
+        $("[data-fancybox]").fancybox();
+      }
+    });
+  </script>
 </body>
 
 </html>
