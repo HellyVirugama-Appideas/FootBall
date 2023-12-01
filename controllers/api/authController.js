@@ -51,12 +51,12 @@ exports.register = async (req, res, next) => {
       return next(createError.Conflict(validation.alreadyRegistered));
 
     const user = await User.create({
-      fname: req.body.fname,
-      lname: req.body.lname,
+      name: req.body.name,
       email: req.body.email,
       password: req.body.password,
       city: req.body.city,
       state: req.body.state,
+      country: req.body.country,
     });
 
     user.password = undefined;

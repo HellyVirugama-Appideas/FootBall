@@ -7,7 +7,7 @@ const Contact = require('../../models/contactModel');
 const Message = require('../../models/messageModel');
 const FAQs = require('../../models/faqsModel');
 const Testimonial = require('../../models/testimonialModel');
-const validator = require("../../utils/validation.json")
+const validator = require('../../utils/validation.json');
 
 exports.getAbout = async (req, res, next) => {
   try {
@@ -64,7 +64,8 @@ exports.newsletter = async (req, res, next) => {
     const { email } = req.body;
 
     const emailExist = await Newsletter.findOne({ email });
-    if (emailExist) return next(createError.BadRequest(validator.alreadyRegistered));
+    if (emailExist)
+      return next(createError.BadRequest(validator.alreadyRegistered));
 
     await Newsletter.create({ email });
 

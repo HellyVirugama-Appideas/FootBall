@@ -43,12 +43,12 @@ exports.uploadPDF = multer({
       cb(null, Date.now() + file.originalname.replace(' ', ''));
     },
   }),
-  limits: { fileSize: 1024 * 1024 * 10 }, // 10-MB limit on file size for PDF
+  limits: { fileSize: 1024 * 1024 * 10 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'application/pdf') cb(null, true);
     else cb(new Error('Please upload a valid PDF file.'), false);
   },
-});
+}).array('resumes',5);
 
 exports.uploadMedia = multer({
   storage: multer.diskStorage({

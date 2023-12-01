@@ -6,8 +6,7 @@ const bcrypt = require('bcryptjs');
 const validate = require('../utils/validation.json');
 
 const userSchema = new mongoose.Schema({
-  fname: { type: String, required: [true, validate.fname], trim: true },
-  lname: { type: String, required: [true, validate.lname], trim: true },
+  name: { type: String, required: [true, validate.name], trim: true },
   email: {
     type: String,
     required: [true, validate.email],
@@ -22,15 +21,19 @@ const userSchema = new mongoose.Schema({
     trim: true,
     select: false,
   },
-  resumeTitle: { type: String, trim: true },
-  resumePdf: { type: String },
+  resumes: [
+    {
+      resumeTitle: { type: String },
+      resumePdf: { type: String },
+      selected: { type: Boolean, default: false },
+    },
+  ],
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {
     type: String,
     trim: true,
     required: [true, validate.country],
-    default: 'United States',
   },
   date: { type: Date, default: Date.now },
 });
