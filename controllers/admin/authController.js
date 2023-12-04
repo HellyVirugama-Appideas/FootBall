@@ -4,6 +4,7 @@ const { sendOtp } = require('../../utils/sendMail');
 
 const Admin = require('../../models/adminModel');
 const OTP = require('../../models/adminOtpModel');
+const Job = require('../../models/jobModel');
 
 exports.checkAdmin = async (req, res, next) => {
   try {
@@ -33,7 +34,12 @@ exports.checkAdmin = async (req, res, next) => {
 };
 
 exports.getDashboard = async (req, res) => {
-  res.render('index', {});
+  const [job] = await Promise.all([
+    Job.find().populate('category').sort('-_id').limit(5),
+  ]);
+  res.render('index', {
+    job,
+  });
 };
 
 exports.getLogin = async (req, res) => {

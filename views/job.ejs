@@ -63,8 +63,9 @@
                               <td><%= jobs[i].experience %></td>
                               <td><%= jobs[i].createdAt.toLocaleDateString('en-US') %></td>
                               <td style="max-width: 70px;">
-                                <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
-                                <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                              <a href="/job/<%= jobs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                              <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
+                              <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                               </td>
                             </tr>
                             <% } %>

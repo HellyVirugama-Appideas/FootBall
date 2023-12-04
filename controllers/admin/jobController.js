@@ -1,14 +1,37 @@
 const Job = require('../../models/jobModel');
 const Category = require('../../models/categoryModel');
+const AppliedJob = require('../../models/appliedJobModel');
 
 exports.getJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().sort('title').populate('category');
+    const jobs = await Job.find({ isDeleted: false })
+      .sort('-_id')
+      .populate('category');
 
     res.render('job', { jobs });
   } catch (error) {
     req.flash('red', error.message);
     res.redirect('/');
+  }
+};
+
+exports.viewJob = async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.id).populate('category');
+    if (!job) {
+      req.flash('red', 'Job not found.');
+      return res.redirect('/job');
+    }
+
+    const appliedJobs = await AppliedJob.find({
+      job_id: req.params.id,
+    }).populate({ path: 'user_id' });
+
+    res.render('job_view', { job, appliedJobs });
+  } catch (error) {
+    if (error.name == 'CastError') req.flash('red', 'Job not found.');
+    else req.flash('red', error.message);
+    res.redirect('/job');
   }
 };
 
@@ -55,7 +78,7 @@ exports.getEditJob = async (req, res) => {
       req.flash('red', 'Job not found!');
       return res.redirect('/job');
     }
-    
+
     const categories = await Category.find();
 
     res.render('job_edit', { jobs, categories });
@@ -97,7 +120,9 @@ exports.postEditJob = async (req, res) => {
 
 exports.getDeleteJob = async (req, res) => {
   try {
-    await Job.findByIdAndDelete(req.params.id);
+    await Job.findByIdAndUpdate(req.params.id, {
+      isDeleted: true,
+    });
 
     req.flash('green', 'Job deleted successfully.');
     res.redirect('/job');

@@ -7,6 +7,7 @@ router
   .route('/job/add')
   .get(jobController.getAddJob)
   .post(jobController.postAddJob);
+router.get('/job/:id', jobController.viewJob);
 router
   .route('/job/edit/:id')
   .get(jobController.getEditJob)

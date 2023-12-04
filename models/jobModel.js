@@ -52,6 +52,7 @@ const JobSchema = mongoose.Schema(
       required: [true, 'City name is required.'],
       trim: true,
     },
+    isDeleted: { type: Boolean, default: false, select: false },
   },
   {
     timestamps: true,

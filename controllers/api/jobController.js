@@ -4,7 +4,9 @@ const AppliedJob = require('../../models/appliedJobModel');
 
 exports.getAllJob = async (req, res, next) => {
   try {
-    const job = await Job.find().populate('category', 'name').select('-__v');
+    const job = await Job.find({ isDeleted: false })
+      .populate('category', 'name')
+      .select('-__v');
 
     res.json({
       success: true,
@@ -17,7 +19,10 @@ exports.getAllJob = async (req, res, next) => {
 
 exports.getJobByID = async (req, res, next) => {
   try {
-    const job = await Job.findById(req.params.id)
+    const job = await Job.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    })
       .populate('category', 'name')
       .select('-__v');
 
@@ -158,7 +163,7 @@ exports.applyForJob = async (req, res, next) => {
 
 exports.getAppliedJob = async (req, res, next) => {
   try {
-    const appliedJobs = await AppliedJob.find()
+    const appliedJobs = await AppliedJob.find({ isDeleted: false })
       .populate({
         path: 'job_id',
         populate: {
