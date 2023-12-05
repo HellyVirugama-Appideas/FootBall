@@ -136,7 +136,7 @@ exports.resetPassword = async (req, res, next) => {
       success: true,
       message: validation.pwSuccess,
       token: authToken,
-      user,
+      // user,
     });
   } catch (error) {
     if (error.message == 'jwt expired' || error.message == 'invalid signature')

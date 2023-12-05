@@ -35,7 +35,7 @@ exports.checkAdmin = async (req, res, next) => {
 
 exports.getDashboard = async (req, res) => {
   const [job] = await Promise.all([
-    Job.find().populate('category').sort('-_id').limit(5),
+    Job.find({ isDeleted: false }).populate('category').sort('-_id').limit(5),
   ]);
   res.render('index', {
     job,

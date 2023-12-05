@@ -32,7 +32,7 @@
     "addSelected": "Address selected succefully.",
     "notRegistered": "The email provided is not registered.",
     "linkSent": "Password reset link sent to email.",
-    "pwSuccess": "Password updated.",
+    "pwSuccess": "Password updated succefully.",
     "tokenInvalid": "Link is invalid or expired, Please try again.",
     "msg": "Message sent successfully."
 }
