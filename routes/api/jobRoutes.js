@@ -8,7 +8,7 @@ router.get('/all-job', jobController.getAllJob);
 router.get('/job/:id', jobController.getJobByID);
 
 router.get('/apply/job/:id', jobController.getAppliedJob);
-router.post('/apply/job/:jobId',checkUser, jobController.applyForJob);
+router.post('/apply/job/:jobId', checkUser, jobController.applyForJob);
 
 router.get('/resume', checkUser, jobController.getResume);
 router.get('/select/resume/:id', checkUser, jobController.selectResume);

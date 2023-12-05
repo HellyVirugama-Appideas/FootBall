@@ -12,6 +12,10 @@ const appliedJobSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    resumePdf: {
+      type: String,
+      required: [true, 'Resume is required.'],
+    },
   },
   {
     timestamps: true,

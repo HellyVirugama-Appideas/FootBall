@@ -25,9 +25,6 @@ const sendOtp = function (to, otp) {
             <hr style="border:none;border-top:1px solid #eee" />
             <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
               <p>Football Recruitment</p>
-                 <p>F0-6, Raspan Arcade, Haridarshan Road.</p>
-                 <p>Nikol - Naroda Rd,</p>
-                 <p>Ahmedabad, Gujarat 382350</p>
             </div>
             </div>
             </div>`,
@@ -62,9 +59,6 @@ const sendLink = function (to, link) {
             <hr style="border:none;border-top:1px solid #eee" />
             <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
               <p>Football Recruitment</p>
-                 <p>F0-6, Raspan Arcade, Haridarshan Road.</p>
-                 <p>Nikol - Naroda Rd,</p>
-                 <p>Ahmedabad, Gujarat 382350</p>
             </div>
             </div>
             </div>`,

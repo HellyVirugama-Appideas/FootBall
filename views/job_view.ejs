@@ -121,6 +121,9 @@
                               <th>Sr</th>
                               <th>Name</th>
                               <th>Email</th>
+                              <th>City</th>
+                              <th>State</th>
+                              <th>View Resume</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -129,6 +132,13 @@
                               <td><%= i + 1 %></td>
                               <td><%= appliedJobs[i].user_id?.name || '-' %></td>
                               <td><%= appliedJobs[i].user_id?.email || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.city || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.state || '-' %></td>
+                              <td style="max-width: 70px;">
+                                <a href="<%= appliedJobs[i].resumePdf || '-' %>" target="_blank">
+                                  <i class="material-icons">insert_drive_file</i>
+                                </a>
+                              </td>
                             </tr>
                             <% } %>
                           </tbody>

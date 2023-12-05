@@ -9,9 +9,7 @@ exports.getProfile = (req, res, next) => {
 
   // Hide fields
   delete user.password;
-  delete user.blocked;
   delete user.__v;
-  delete user.favourites;
 
   res.json({ success: true, user });
 };
@@ -25,7 +23,7 @@ exports.editProfile = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
       runValidators: true,
-    }).select('-__v -favourites');
+    }).select('-__v');
 
     res.json({ success: true, user });
   } catch (error) {

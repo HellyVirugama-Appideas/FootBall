@@ -144,10 +144,10 @@ exports.applyForJob = async (req, res, next) => {
         message: 'User has already applied for this job',
       });
     }
-
     const appliedJob = new AppliedJob({
       user_id: req.user.id,
       job_id: req.params.jobId,
+      resumePdf: req.body.resumePdf,
     });
 
     await appliedJob.save();
