@@ -15,4 +15,7 @@ router.get('/select/resume/:id', checkUser, jobController.selectResume);
 router.route('/resume').post(checkUser, uploadPDF, jobController.postResume);
 router.get('/resume/:id', checkUser, jobController.deleteResume);
 
+router.get('/autocomplete/title', jobController.findByTitle);
+router.get('/autocomplete/city', jobController.findByCity);
+
 module.exports = router;

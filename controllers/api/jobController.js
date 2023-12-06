@@ -4,12 +4,23 @@ const AppliedJob = require('../../models/appliedJobModel');
 
 exports.getAllJob = async (req, res, next) => {
   try {
-    const job = await Job.find({ isDeleted: false })
+    const query = { isDeleted: false };
+
+    if (req.query.city)
+      query.city = { $regex: new RegExp(req.query.city, 'i') };
+
+    if (req.query.title)
+      query.title = { $regex: new RegExp(req.query.title, 'i') };
+
+    const totalJob = await Job.countDocuments(query);
+
+    const job = await Job.find(query)
       .populate('category', 'name')
-      .select('-__v');
+      .select('-__v -createdAt -updatedAt');
 
     res.json({
       success: true,
+      totalJob,
       job,
     });
   } catch (error) {
@@ -24,7 +35,7 @@ exports.getJobByID = async (req, res, next) => {
       isDeleted: false,
     })
       .populate('category', 'name')
-      .select('-__v');
+      .select('-__v -createdAt -updatedAt');
 
     res.json({
       success: true,
@@ -40,7 +51,7 @@ exports.postResume = async (req, res) => {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Please upload resume PDFs.',
+        message: 'Please upload resume PDF.',
       });
     }
 
@@ -50,7 +61,7 @@ exports.postResume = async (req, res) => {
 
     const newResumes = req.files.map((file) => ({
       resumeTitle: req.body.resumeTitle,
-      resumePdf: process.env.BASE_URL + `/uploads/${file.filename}`,
+      resumePdf: `/uploads/${file.filename}`,
       selected: true,
     }));
 
@@ -144,6 +155,7 @@ exports.applyForJob = async (req, res, next) => {
         message: 'User has already applied for this job',
       });
     }
+
     const appliedJob = new AppliedJob({
       user_id: req.user.id,
       job_id: req.params.jobId,
@@ -178,6 +190,74 @@ exports.getAppliedJob = async (req, res, next) => {
       success: true,
       appliedJobs,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.findByTitle = async (req, res) => {
+  try {
+    const jobs = await Job.aggregate([
+      {
+        $match: {
+          title: { $regex: new RegExp(req.query.title, 'i') },
+        },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$title' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          title: '$_id',
+        },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
+
+    const jobTitle = jobs.map((x) => x.title);
+
+    // const jobs = await Job.distinct('title', {
+    //   title: { $regex: new RegExp(req.query.title, 'i') },
+    // });
+
+    res.status(200).json(jobTitle);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.findByCity = async (req, res, next) => {
+  try {
+    const jobs = await Job.aggregate([
+      {
+        $match: {
+          city: { $regex: new RegExp(req.query.city, 'i') },
+        },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$city' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          city: '$_id',
+        },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
+
+    const jobCity = jobs.map((x) => x.city);
+
+    res.status(200).json(jobCity);
   } catch (error) {
     next(error);
   }
