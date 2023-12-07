@@ -7,8 +7,8 @@ router.post('/register', fileUpload(), authController.register);
 
 router.post('/login', fileUpload(), authController.login);
 
-router.post('/forgot-password', authController.forgotPassword);
+router.post('/forgot-password', fileUpload(), authController.forgotPassword);
 
-router.post('/reset-password', authController.resetPassword);
+router.post('/reset-password', fileUpload(), authController.resetPassword);
 
 module.exports = router;

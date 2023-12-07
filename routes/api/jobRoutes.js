@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const fileUpload = require('express-fileupload');
 
 const { checkUser } = require('../../controllers/api/authController');
 const jobController = require('../../controllers/api/jobController');
@@ -8,7 +9,12 @@ router.get('/all-job', jobController.getAllJob);
 router.get('/job/:id', jobController.getJobByID);
 
 router.get('/apply/job/:id', jobController.getAppliedJob);
-router.post('/apply/job/:jobId', checkUser, jobController.applyForJob);
+router.post(
+  '/apply/job/:jobId',
+  fileUpload(),
+  checkUser,
+  jobController.applyForJob
+);
 
 router.get('/resume', checkUser, jobController.getResume);
 router.get('/select/resume/:id', checkUser, jobController.selectResume);

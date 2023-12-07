@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const fileUpload = require('express-fileupload');
 const cmsController = require('../../controllers/api/cmsController');
 
 router.get('/about', cmsController.getAbout);
@@ -11,9 +11,9 @@ router.get('/privacy', cmsController.getPrivacy);
 router
   .route('/contact')
   .get(cmsController.getContact)
-  .post(cmsController.postContact);
+  .post(fileUpload(), cmsController.postContact);
 
-router.post('/newsletter', cmsController.newsletter);
+router.post('/newsletter', fileUpload(), cmsController.newsletter);
 
 router.get('/banner', cmsController.getBanners);
 

@@ -1,3 +1,4 @@
+const path = require('path');
 const Job = require('../../models/jobModel');
 const User = require('../../models/userModel');
 const AppliedJob = require('../../models/appliedJobModel');
@@ -52,7 +53,7 @@ exports.getJobByID = async (req, res, next) => {
   }
 };
 
-exports.postResume = async (req, res) => {
+exports.postResume = async (req, res, next) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -65,11 +66,15 @@ exports.postResume = async (req, res) => {
       x.selected = false;
     });
 
-    const newResumes = req.files.map((file) => ({
-      resumeTitle: req.body.resumeTitle,
-      resumePdf: `/uploads/${file.filename}`,
-      selected: true,
-    }));
+    const newResumes = req.files.map((file) => {
+      const resumeTitle = path.parse(file.originalname).name;
+
+      return {
+        resumeTitle: req.body.resumeTitle || resumeTitle,
+        resumePdf: `/uploads/${file.filename}`,
+        selected: true,
+      };
+    });
 
     req.user.resumes = req.user.resumes.concat(newResumes);
     await req.user.save();
