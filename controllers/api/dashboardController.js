@@ -16,7 +16,6 @@ exports.getProfile = (req, res, next) => {
 
 exports.editProfile = async (req, res, next) => {
   try {
-    // Not allowed to change
     delete req.body.email;
     delete req.body.password;
 
@@ -34,12 +33,14 @@ exports.editProfile = async (req, res, next) => {
 exports.changePassword = async (req, res, next) => {
   try {
     const user = req.user;
-    const { oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
 
     if (!oldPassword)
       return next(createError.BadRequest(validation.oldPassword));
     if (!newPassword)
       return next(createError.BadRequest(validation.newPassword));
+    if (newPassword !== confirmPassword)
+      return next(createError.BadRequest(validation.confPassword));
 
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) return next(createError.BadRequest(validation.wrongPassword));

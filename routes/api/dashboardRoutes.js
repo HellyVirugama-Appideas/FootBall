@@ -6,7 +6,7 @@ const dashboardController = require('../../controllers/api/dashboardController')
 router
   .route('/profile')
   .get(checkUser, dashboardController.getProfile)
-  .post(checkUser, dashboardController.editProfile);
+  .put(checkUser, dashboardController.editProfile);
 
 router.post('/change-password', checkUser, dashboardController.changePassword);
 

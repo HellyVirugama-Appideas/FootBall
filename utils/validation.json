@@ -16,6 +16,7 @@
 
     "oldPassword": "Please provide current password.",
     "newPassword": "Please provide new password.",
+    "confPassword": "New password & confirm password not match.",
     "wrongPassword": "Password incorrect.",
     "pwUpdated": "Password updated.",
     "invalidEmail": "We can't find your account.",
