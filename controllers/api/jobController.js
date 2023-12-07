@@ -5,6 +5,8 @@ const AppliedJob = require('../../models/appliedJobModel');
 exports.getAllJob = async (req, res, next) => {
   try {
     const query = { isDeleted: false };
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
 
     if (req.query.city)
       query.city = { $regex: new RegExp(req.query.city, 'i') };
@@ -12,15 +14,19 @@ exports.getAllJob = async (req, res, next) => {
     if (req.query.title)
       query.title = { $regex: new RegExp(req.query.title, 'i') };
 
-    const totalJob = await Job.countDocuments(query);
+    const totalJobCount = await Job.countDocuments(query);
 
     const job = await Job.find(query)
       .populate('category', 'name')
-      .select('-__v -createdAt -updatedAt');
+      .select('-__v -createdAt')
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.json({
       success: true,
-      totalJob,
+      totalJobCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalJobCount / limit),
       job,
     });
   } catch (error) {
@@ -35,7 +41,7 @@ exports.getJobByID = async (req, res, next) => {
       isDeleted: false,
     })
       .populate('category', 'name')
-      .select('-__v -createdAt -updatedAt');
+      .select('-__v -createdAt');
 
     res.json({
       success: true,

@@ -21,4 +21,6 @@ router.get('/faqs', cmsController.getFAQs);
 
 router.get('/testimonial', cmsController.getTestimonial);
 
+router.get('/terms', cmsController.getTermsCondition);
+
 module.exports = router;

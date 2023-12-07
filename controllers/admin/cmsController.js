@@ -219,3 +219,35 @@ exports.getdeleteFAQ = async (req, res) => {
     }
   }
 };
+
+exports.getTermsCondi = async (req, res) => {
+  try {
+    const page = await Page.findOne({ key: 'termsConditions' });
+    res.render('terms', { page });
+  } catch (error) {
+    req.flash('red', error.message);
+    res.redirect('/');
+  }
+};
+
+exports.postTermsCondi = async (req, res) => {
+  try {
+    const page = await Page.findOne({ key: 'termsConditions' });
+
+    page.title = req.body.title;
+    page.content = req.body.EnContent;
+
+    if (req.file) {
+      deleteFile(page.image);
+      page.image = `/uploads/${req.file.filename}`;
+    }
+
+    await page.save();
+
+    req.flash('green', 'Terms & conditions updated successfully.');
+    res.redirect('/cms/terms');
+  } catch (error) {
+    req.flash('red', error.message);
+    res.redirect(req.originalUrl);
+  }
+};

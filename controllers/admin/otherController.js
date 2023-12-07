@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const deleteFile = require('../../utils/deleteFile');
 
 const Banner = require('../../models/bannerModel');
 const Newsletter = require('../../models/newsletterModel');
@@ -18,10 +19,11 @@ exports.getBanners = async (req, res) => {
 
 exports.postAddBanner = async (req, res) => {
   try {
-    const video = req.file ? `/uploads/${req.file.filename}` : undefined;
-
     const banner = await Banner.findOne();
-    banner.video = video;
+    if (req.file) {
+      deleteFile(banner.image);
+      banner.image = `/uploads/${req.file.filename}`;
+    }
 
     await banner.save();
 

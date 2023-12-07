@@ -65,6 +65,10 @@
                               <td><%= job.salary %></td>
                             </tr>
                             <tr>
+                              <th>Country</th>
+                              <td><%= job.country %></td>
+                            </tr>
+                            <tr>
                               <th>State</th>
                               <td><%= job.state %></td>
                             </tr>
@@ -123,6 +127,7 @@
                               <th>Email</th>
                               <th>City</th>
                               <th>State</th>
+                              <th>Country</th>
                               <th>Resume</th>
                             </tr>
                           </thead>
@@ -134,6 +139,7 @@
                               <td><%= appliedJobs[i].user_id?.email || '-' %></td>
                               <td><%= appliedJobs[i].user_id?.city || '-' %></td>
                               <td><%= appliedJobs[i].user_id?.state || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.country || '-' %></td>
                               <td style="max-width: 70px;">
                                 <a href="<%= appliedJobs[i].resumePdf || '-' %>" target="_blank">
                                   <i class="material-icons">insert_drive_file</i>

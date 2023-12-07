@@ -34,4 +34,9 @@ router
   .post(cmsController.postEditFAQ);
 router.get('/faqs/delete/:id', cmsController.getdeleteFAQ);
 
+router
+  .route('/terms')
+  .get(cmsController.getTermsCondi)
+  .post(upload.single('image'), cmsController.postTermsCondi);
+
 module.exports = router;

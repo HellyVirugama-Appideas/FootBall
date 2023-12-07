@@ -46,14 +46,12 @@
                 <div class="card">
                   <div class="card-content">
                     <div class="row">
-                      <video width="460" height="260" controls>
-                        <source src="<%= process.env.BASE_URL + banners.video %>" type="video/mp4">
-                      </video>
-                      <div class="input-field mt-4">
-                        Update banner video
-                        <input type="file" accept="video/*" name="video" id="input-file-now" class="dropify" data-disable-remove="true" />
+
+                      <div class="input-field col s12">
+                        Upload Image
+                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= banners.image %>" />
                         <small>
-                          <div id="errorImage" class="error"></div>
+                          <div id="error1" class="error"></div>
                         </small>
                       </div>
                       <div class="col s12">
@@ -87,11 +85,11 @@
       const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
 
       if (fileValue == '') {
-        document.getElementById('errorImage').innerText = '';
-      } else if (ext == 'mp4' ) {
-        document.getElementById('errorImage').innerText = '';
+        document.getElementById('error1').innerText = '';
+      } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+        document.getElementById('error1').innerText = '';
       } else {
-        return setError('errorImage', 'Wrong file type. Upload MP4 video');
+        return setError('error1', 'Wrong file type.');
       }
 
       if (returnVal) {

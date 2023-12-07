@@ -42,6 +42,11 @@ const JobSchema = mongoose.Schema(
       required: [true, 'Experience is required.'],
       trim: true,
     },
+    country: {
+      type: String,
+      required: [true, 'Country name is required.'],
+      trim: true,
+    },
     state: {
       type: String,
       required: [true, 'State name is required.'],

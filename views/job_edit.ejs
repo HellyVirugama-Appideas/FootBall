@@ -95,15 +95,23 @@
                           </small>
                         </div>
 
-                        <div class="input-field col m6 s12 mt-0">
+                        <div class="input-field col m4 s12 mt-0">
+                          <input placeholder="Country" id="country" name="country" type="text" value="<%= jobs.country %>">
+                          <label for="country">Country</label>
+                          <small>
+                            <div id="errorCountry" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m4 s12 mt-0">
                           <input placeholder="State" id="state" name="state" type="text" value="<%= jobs.state %>">
-                          <label for="recruiter">State</label>
+                          <label for="state">State</label>
                           <small>
                             <div id="errorState" class="error"></div>
                           </small>
                         </div>
 
-                        <div class="input-field col m6 s12 mt-0">
+                        <div class="input-field col m4 s12 mt-0">
                           <label for="city">City</label>
                           <input placeholder="City" id="city" name="city" type="text" value="<%= jobs.city %>">
                           <small>
@@ -154,14 +162,62 @@
     function validate() {
       let returnVal = true;
 
-      // const nameValue = document.getElementById('name').value.trim();
+      const nameValue = document.getElementById('recruiter').value.trim();
+      const titleValue = document.getElementById('title').value.trim();
+      const salaryValue = document.getElementById('salary').value.trim();
+      const experienceValue = document.getElementById('experience').value.trim();
+      const countryValue = document.getElementById('country').value.trim();
+      const stateValue = document.getElementById('state').value.trim();
+      const cityValue = document.getElementById('city').value.trim();
 
-      // if (nameValue == '') {
-      //   document.getElementById('error1').innerText = 'Please enter name.';
-      //   returnVal = false;
-      // } else {
-      //   document.getElementById('error1').innerText = '';
-      // }
+      if (nameValue == '') {
+        document.getElementById('errorRecruiter').innerText = 'Please enter recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorRecruiter').innerText = '';
+      }
+
+      if (titleValue == '') {
+        document.getElementById('errorTitle').innerText = 'Please enter title.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorTitle').innerText = '';
+      }
+
+      if (salaryValue == '') {
+        document.getElementById('errorSalary').innerText = 'Please enter salary.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorSalary').innerText = '';
+      }
+
+      if (experienceValue == '') {
+        document.getElementById('errorExperience').innerText = 'Please enter experience.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorExperience').innerText = '';
+      }
+
+      if (countryValue == '') {
+        document.getElementById('errorCountry').innerText = 'Please enter country name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCountry').innerText = '';
+      }
+
+      if (stateValue == '') {
+        document.getElementById('errorState').innerText = 'Please enter state name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorState').innerText = '';
+      }
+
+      if (cityValue == '') {
+      document.getElementById('errorCity').innerText = 'Please enter city name.';
+      returnVal = false;
+      } else {
+      document.getElementById('errorCity').innerText = '';
+      }
 
       if (returnVal) {
         document.getElementById('submitBtn').disabled = true;

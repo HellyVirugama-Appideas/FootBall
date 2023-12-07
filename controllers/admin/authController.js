@@ -5,6 +5,7 @@ const { sendOtp } = require('../../utils/sendMail');
 const Admin = require('../../models/adminModel');
 const OTP = require('../../models/adminOtpModel');
 const Job = require('../../models/jobModel');
+const User = require('../../models/userModel');
 
 exports.checkAdmin = async (req, res, next) => {
   try {
@@ -34,10 +35,13 @@ exports.checkAdmin = async (req, res, next) => {
 };
 
 exports.getDashboard = async (req, res) => {
-  const [job] = await Promise.all([
+  const [user, job] = await Promise.all([
+    User.find(),
     Job.find({ isDeleted: false }).populate('category').sort('-_id').limit(5),
   ]);
+
   res.render('index', {
+    user: user.length,
     job,
   });
 };
@@ -213,13 +217,4 @@ exports.postChangePass = async (req, res) => {
     }
     return res.redirect(req.originalUrl);
   }
-};
-
-const isToday = (someDate) => {
-  const today = new Date();
-  return (
-    someDate.getDate() == today.getDate() &&
-    someDate.getMonth() == today.getMonth() &&
-    someDate.getFullYear() == today.getFullYear()
-  );
 };

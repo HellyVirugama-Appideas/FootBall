@@ -59,6 +59,7 @@ exports.postAddJob = async (req, res) => {
       skill: req.body.skill,
       salary: req.body.salary,
       experience: req.body.experience,
+      country: req.body.country,
       state: req.body.state,
       city: req.body.city,
     });
@@ -105,6 +106,7 @@ exports.postEditJob = async (req, res) => {
     jobs.skill = req.body.skill;
     jobs.salary = req.body.salary;
     jobs.experience = req.body.experience;
+    jobs.country = req.body.country;
     jobs.state = req.body.state;
     jobs.city = req.body.city;
 

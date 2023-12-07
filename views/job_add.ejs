@@ -95,7 +95,15 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m6 s12 mt-0">
+                      <div class="input-field col m4 s12 mt-0">
+                        <input placeholder="Country" id="country" name="country" type="text">
+                        <label for="country">Country</label>
+                        <small>
+                          <div id="errorCountry" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m4 s12 mt-0">
                         <input placeholder="State" id="state" name="state" type="text">
                         <label for="state">State</label>
                         <small>
@@ -103,7 +111,7 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m6 s12 mt-0">
+                      <div class="input-field col m4 s12 mt-0">
                         <input placeholder="City" id="city" name="city" type="text">
                         <label for="city">City</label>
                         <small>
@@ -155,6 +163,7 @@
       const titleValue = document.getElementById('title').value.trim();
       const salaryValue = document.getElementById('salary').value.trim();
       const experienceValue = document.getElementById('experience').value.trim();
+      const countryValue = document.getElementById('country').value.trim();
       const stateValue = document.getElementById('state').value.trim();
       const cityValue = document.getElementById('city').value.trim();
 
@@ -194,14 +203,21 @@
       }
 
       if (stateValue == '') {
-        document.getElementById('errorState').innerText = 'Please enter recruiter name.';
+        document.getElementById('errorState').innerText = 'Please enter state name.';
         returnVal = false;
       } else {
         document.getElementById('errorState').innerText = '';
       }
 
+      if (countryValue == '') {
+        document.getElementById('errorCountry').innerText = 'Please enter country name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCountry').innerText = '';
+      }
+
       if (cityValue == '') {
-        document.getElementById('errorCity').innerText = 'Please enter recruiter name.';
+        document.getElementById('errorCity').innerText = 'Please enter city name.';
         returnVal = false;
       } else {
         document.getElementById('errorCity').innerText = '';

@@ -115,3 +115,15 @@ exports.getTestimonial = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getTermsCondition = async (req, res, next) => {
+  try {
+    let page = await Page.findOne({ key: 'termsConditions' }).select(
+      '-__v -key -_id -createdAt -updatedAt'
+    );
+
+    res.json({ success: true, page });
+  } catch (error) {
+    next(error);
+  }
+};
