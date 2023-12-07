@@ -1,10 +1,11 @@
 const router = require('express').Router();
+const fileUpload = require('express-fileupload');
 
 const authController = require('../../controllers/api/authController');
 
-router.post('/register', authController.register);
+router.post('/register', fileUpload(), authController.register);
 
-router.post('/login', authController.login);
+router.post('/login', fileUpload(), authController.login);
 
 router.post('/forgot-password', authController.forgotPassword);
 
