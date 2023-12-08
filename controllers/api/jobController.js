@@ -15,6 +15,13 @@ exports.getAllJob = async (req, res, next) => {
     if (req.query.title)
       query.title = { $regex: new RegExp(req.query.title, 'i') };
 
+    if (req.query.minSalary || req.query.maxSalary) {
+      const salaryQuery = {};
+      if (req.query.minSalary) salaryQuery.$gte = parseInt(req.query.minSalary);
+      if (req.query.maxSalary) salaryQuery.$lte = parseInt(req.query.maxSalary);
+      query.salary = salaryQuery;
+    }
+
     const totalJobCount = await Job.countDocuments(query);
 
     const job = await Job.find(query)

@@ -33,7 +33,7 @@ const JobSchema = mongoose.Schema(
       trim: true,
     },
     salary: {
-      type: String,
+      type: Number,
       required: [true, 'Salary range is required.'],
       trim: true,
     },

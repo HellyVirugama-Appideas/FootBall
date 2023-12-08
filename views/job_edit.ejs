@@ -192,8 +192,11 @@
         document.getElementById('errorTitle').innerText = '';
       }
 
-      if (salaryValue == '') {
+      if (salaryValue === '') {
         document.getElementById('errorSalary').innerText = 'Please enter salary.';
+        returnVal = false;
+      } else if (isNaN(salaryValue)) {
+        document.getElementById('errorSalary').innerText = 'Please enter a numeric value for salary.';
         returnVal = false;
       } else {
         document.getElementById('errorSalary').innerText = '';
