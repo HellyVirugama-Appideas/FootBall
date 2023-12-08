@@ -62,6 +62,7 @@ exports.postAddJob = async (req, res) => {
       country: req.body.country,
       state: req.body.state,
       city: req.body.city,
+      popular: req.body.popular,
     });
 
     req.flash('green', 'Job added successfully.');
@@ -109,6 +110,7 @@ exports.postEditJob = async (req, res) => {
     jobs.country = req.body.country;
     jobs.state = req.body.state;
     jobs.city = req.body.city;
+    jobs.popular = req.body.popular;
 
     await jobs.save();
 

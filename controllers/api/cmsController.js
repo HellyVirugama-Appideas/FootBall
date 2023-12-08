@@ -31,7 +31,9 @@ exports.getWhoWeAre = async (req, res, next) => {
 
 exports.getPrivacy = async (req, res, next) => {
   try {
-    let page = await Page.findOne({ key: 'privacy' }).select('-__v -key -_id');
+    let page = await Page.findOne({ key: 'privacy' }).select(
+      '-__v -key -_id -createdAt -updatedAt'
+    );
 
     res.json({ success: true, page });
   } catch (error) {

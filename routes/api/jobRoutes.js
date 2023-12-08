@@ -23,5 +23,6 @@ router.get('/resume/:id', checkUser, jobController.deleteResume);
 
 router.get('/autocomplete/title', jobController.findByTitle);
 router.get('/autocomplete/city', jobController.findByCity);
+router.get('/all/jobs', jobController.popularJobs);
 
 module.exports = router;

@@ -62,7 +62,7 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m6 s12 mt-0">
+                      <div class="input-field col m4 s12 mt-0">
                         <select id="category" name="category">
                           <% categories.forEach(c => { %>
                           <option value="<%= c._id %>"><%= c.name %></option>
@@ -71,12 +71,20 @@
                         <label>Category</label>
                       </div>
 
-                      <div class="input-field col m6 s12 mt-0">
+                      <div class="input-field col m4 s12 mt-0">
                         <select id="jobType" name="jobType">
                           <option value="Full time">Full-time</option>
                           <option value="Part time">Part-time</option>
                         </select>
                         <label>Job Type</label>
+                      </div>
+
+                      <div class="input-field col m4 s12 mt-0">
+                        <select id="popular" name="popular">
+                          <option value="true">True</option>
+                          <option value="false">False</option>
+                        </select>
+                        <label>Set job as popular</label>
                       </div>
 
                       <div class="input-field col m6 s12">

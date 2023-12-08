@@ -273,3 +273,13 @@ exports.findByCity = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.popularJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find().sort({ popular: -1, updatedAt: -1 }).limit(3);
+
+    res.status(200).json({ success: true, data: jobs });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -48,7 +48,7 @@
 
                         <div class="input-field col m6 s12">
                           <input placeholder="Recruiter name" id="recruiter" name="recruiter" type="text" value="<%= jobs.recruiter %>">
-                          <label for="recruiter">Recruiter name</label>
+                          <label for="recruiter">Recruiter Name</label>
                           <small>
                             <div id="errorRecruiter" class="error"></div>
                           </small>
@@ -62,7 +62,23 @@
                           </small>
                         </div>
 
-                        <div class="input-field col s12 mt-0 m6">
+                        <div class="input-field col m6 s12 mt-0">
+                          <label for="salary">Salary</label>
+                          <input placeholder="Salary" id="salary" name="salary" type="text" value="<%= jobs.salary %>">
+                          <small>
+                            <div id="errorSalary" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m6 s12 mt-0">
+                          <label for="experience">Experience</label>
+                          <input placeholder="Experience" id="experience" name="experience" type="text" value="<%= jobs.experience %>">
+                          <small>
+                            <div id="errorExperience" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col s12 mt-0 m4">
                           <select id="category" name="category" data-placeholder="Select a category...">
                             <% categories.forEach(category => { %>
                             <option value="<%= category._id %>" <%= category._id.equals(jobs.category) ? 'selected' : '' %>><%= category.name %></option>
@@ -71,7 +87,7 @@
                           <label>Category</label>
                         </div>
 
-                        <div class="input-field col s12 mt-0 m6">
+                        <div class="input-field col s12 mt-0 m4">
                           <select id="job_type" name="job_type">
                             <option value="Full time" <%=jobs.job_type==='Full time' ? 'selected' : '' %>>Full-time</option>
                             <option value="Part time" <%=jobs.job_type==='Part time' ? 'selected' : '' %>>Part-time</option>
@@ -79,20 +95,12 @@
                           <label>Job Type</label>
                         </div>
 
-                        <div class="input-field col m6 s12 mt-0 mb-0">
-                          <label for="salary">Salary</label>
-                          <input placeholder="Salary" id="salary" name="salary" type="text" value="<%= jobs.salary %>">
-                          <small>
-                            <div id="errorSalary" class="error"></div>
-                          </small>
-                        </div>
-
-                        <div class="input-field col m6 s12 mt-0 mb-0">
-                          <label for="experience">Experience</label>
-                          <input placeholder="Experience" id="experience" name="experience" type="text" value="<%= jobs.experience %>">
-                          <small>
-                            <div id="errorExperience" class="error"></div>
-                          </small>
+                        <div class="input-field col s12 mt-0 m4">
+                          <select id="popular" name="popular">
+                            <option value="true" <%=jobs.popular === true ? 'selected' : '' %>>True</option>
+                            <option value="false" <%=jobs.popular === false ? 'selected' : '' %>>False</option>
+                          </select>
+                          <label>Set job as popular</label>
                         </div>
 
                         <div class="input-field col m4 s12 mt-0">
@@ -213,10 +221,10 @@
       }
 
       if (cityValue == '') {
-      document.getElementById('errorCity').innerText = 'Please enter city name.';
-      returnVal = false;
+        document.getElementById('errorCity').innerText = 'Please enter city name.';
+        returnVal = false;
       } else {
-      document.getElementById('errorCity').innerText = '';
+        document.getElementById('errorCity').innerText = '';
       }
 
       if (returnVal) {
