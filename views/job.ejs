@@ -49,8 +49,8 @@
                               <th>Sr</th>
                               <th>Recruiter</th>
                               <th>Title</th>
-                              <th>Experience</th>
                               <th>Job Posted-Date</th>
+                              <th>Set as Popular</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -60,12 +60,21 @@
                               <td><%= i+1 %></td>
                               <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].recruiter %></td>
                               <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].title %></td>
-                              <td><%= jobs[i].experience %></td>
                               <td><%= jobs[i].createdAt.toLocaleDateString('en-US') %></td>
+
+                              <td class="switch">
+                                <form id="switchForm" action="/updateSwitchState" method="post">
+                                  <label>
+                                    <input id="switchCheckbox" type="checkbox" <% if (jobs[i].popular === true) { %>checked<% } %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
+                                    <span class="lever"></span>
+                                  </label>
+                                </form>
+                              </td>
+
                               <td style="max-width: 70px;">
-                              <a href="/job/<%= jobs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
-                              <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
-                              <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                <a href="/job/<%= jobs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                                <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
+                                <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                               </td>
                             </tr>
                             <% } %>
@@ -88,6 +97,25 @@
   <%- include('_layouts/commonJs') %>
   <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
   <%- include('_layouts/savePageLength') %>
+  <script>
+    function updateSwitchState(jobId) {
+      // Get the current state of the switch
+      const switchCheckbox = document.getElementById('switchCheckbox');
+      const switchState = switchCheckbox.checked;
+      console.log("Job ID:", jobId);
+      // Send an AJAX request to update the switch state in the database
+      fetch(`/updateSwitchState/${encodeURIComponent(jobId)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          popular: switchState,
+        }),
+      });
+    }
+  </script>
+
   <script>
     jQuery(document).ready(function($) {
       $(".clickable-row").click(function() {

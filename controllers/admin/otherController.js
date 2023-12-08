@@ -24,6 +24,7 @@ exports.postAddBanner = async (req, res) => {
       deleteFile(banner.image);
       banner.image = `/uploads/${req.file.filename}`;
     }
+    banner.imageAlt = req.body.imageAlt;
 
     await banner.save();
 

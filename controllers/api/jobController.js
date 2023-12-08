@@ -3,7 +3,7 @@ const Job = require('../../models/jobModel');
 const User = require('../../models/userModel');
 const AppliedJob = require('../../models/appliedJobModel');
 
-exports.getAllJob = async (req, res, next) => {
+exports.getJobList = async (req, res, next) => {
   try {
     const query = { isDeleted: false };
     const page = parseInt(req.query.page) || 1;
@@ -14,6 +14,10 @@ exports.getAllJob = async (req, res, next) => {
 
     if (req.query.title)
       query.title = { $regex: new RegExp(req.query.title, 'i') };
+
+    if (req.query.category) query.category = req.query.category;
+
+    if (req.query.jobType) query.job_type = req.query.jobType;
 
     if (req.query.minSalary || req.query.maxSalary) {
       const salaryQuery = {};

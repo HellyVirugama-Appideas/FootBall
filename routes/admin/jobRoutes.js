@@ -13,5 +13,6 @@ router
   .get(jobController.getEditJob)
   .post(jobController.postEditJob);
 router.get('/job/delete/:id', jobController.getDeleteJob);
+router.post('/updateSwitchState/:jobId', jobController.updateSwitch);
 
 module.exports = router;

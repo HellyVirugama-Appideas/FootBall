@@ -53,7 +53,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <% for( let i=0; i < categories.length; i++ ) { %>
-                                                        <tr class="clickable-row" data-href="/category/<%= categories[i].id %>" style="cursor: pointer;">
+                                                        <tr  data-href="/category/<%= categories[i].id %>">
                                                             <td><%= i+1 %></td>
                                                             <td><%= categories[i].name %></td>
                                                             <td style="max-width: 70px;">

@@ -5,7 +5,7 @@ const { checkUser } = require('../../controllers/api/authController');
 const jobController = require('../../controllers/api/jobController');
 const { uploadPDF } = require('../../controllers/uploadController');
 
-router.get('/all-job', jobController.getAllJob);
+router.get('/all-job', jobController.getJobList);
 router.get('/job/:id', jobController.getJobByID);
 
 router.get('/apply/job/:id', jobController.getAppliedJob);

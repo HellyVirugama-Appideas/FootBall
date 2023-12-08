@@ -56,7 +56,7 @@ exports.postAddJob = async (req, res) => {
       category: req.body.category,
       job_type: req.body.jobType,
       short_description: req.body.shortDesc,
-      skill: req.body.skill,
+      description: req.body.skill,
       salary: req.body.salary,
       experience: req.body.experience,
       country: req.body.country,
@@ -104,7 +104,7 @@ exports.postEditJob = async (req, res) => {
     jobs.category = req.body.category;
     jobs.job_type = req.body.job_type;
     jobs.short_description = req.body.short_description;
-    jobs.skill = req.body.skill;
+    jobs.description = req.body.skill;
     jobs.salary = req.body.salary;
     jobs.experience = req.body.experience;
     jobs.country = req.body.country;
@@ -135,5 +135,20 @@ exports.getDeleteJob = async (req, res) => {
       req.flash('red', 'Job not found!');
     else req.flash('red', error.message);
     res.redirect('/job');
+  }
+};
+
+exports.updateSwitch = async (req, res, next) => {
+  try {
+    const job = await Job.findById(req.params.jobId);
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    job.popular = req.body.popular;
+    await job.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
