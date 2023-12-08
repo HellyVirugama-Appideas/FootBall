@@ -132,12 +132,14 @@ exports.resetPassword = async (req, res, next) => {
     user.password = password;
     await user.save();
 
+    user.password = undefined;
+
     const authToken = user.generateAuthToken();
     res.json({
       success: true,
       message: validation.pwSuccess,
       token: authToken,
-      // user,
+      user,
     });
   } catch (error) {
     if (error.message == 'jwt expired' || error.message == 'invalid signature')

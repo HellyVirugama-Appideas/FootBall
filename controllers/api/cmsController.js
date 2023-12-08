@@ -82,10 +82,7 @@ exports.newsletter = async (req, res, next) => {
 
 exports.getBanners = async (req, res, next) => {
   try {
-    const banner = await Banner.findOne().select('-__v');
-    if (banner) {
-      banner.video = process.env.BASE_URL + banner.video;
-    }
+    const banner = await Banner.findOne().select('-__v -_id');
 
     res.json({
       success: true,
