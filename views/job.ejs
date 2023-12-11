@@ -65,7 +65,8 @@
                               <td class="switch">
                                 <form id="switchForm" action="/updateSwitchState" method="post">
                                   <label>
-                                    <input id="switchCheckbox" type="checkbox" <% if (jobs[i].popular === true) { %>checked<% } %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
+                                    <input id="<%= jobs[i].id %>" type="checkbox" <%= jobs[i].popular ? 'checked' : '' %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
+
                                     <span class="lever"></span>
                                   </label>
                                 </form>
@@ -100,9 +101,8 @@
   <script>
     function updateSwitchState(jobId) {
       // Get the current state of the switch
-      const switchCheckbox = document.getElementById('switchCheckbox');
+      const switchCheckbox = document.getElementById(jobId);
       const switchState = switchCheckbox.checked;
-      console.log("Job ID:", jobId);
       // Send an AJAX request to update the switch state in the database
       fetch(`/updateSwitchState/${encodeURIComponent(jobId)}`, {
         method: 'POST',

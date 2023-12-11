@@ -2,10 +2,14 @@ const path = require('path');
 const Job = require('../../models/jobModel');
 const User = require('../../models/userModel');
 const AppliedJob = require('../../models/appliedJobModel');
+const Category = require('../../models/categoryModel');
 
 exports.getJobList = async (req, res, next) => {
   try {
     const query = { isDeleted: false };
+
+    const totalJobCount = await Job.countDocuments(query);
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -25,8 +29,6 @@ exports.getJobList = async (req, res, next) => {
       if (req.query.maxSalary) salaryQuery.$lte = parseInt(req.query.maxSalary);
       query.salary = salaryQuery;
     }
-
-    const totalJobCount = await Job.countDocuments(query);
 
     const job = await Job.find(query)
       .populate('category', 'name')
@@ -55,9 +57,24 @@ exports.getJobByID = async (req, res, next) => {
       .populate('category', 'name')
       .select('-__v -createdAt');
 
+    const criteria = {
+      $or: [
+        { category: job.category },
+        { title: { $regex: new RegExp(job.title, 'i') } },
+        { city: { $regex: new RegExp(job.city, 'i') } },
+      ],
+      _id: { $ne: job._id },
+    };
+
+    const similarJobs = await Job.find(criteria)
+      .populate('category')
+      .limit(3)
+      .select('-__v -createdAt');
+
     res.json({
       success: true,
       job,
+      similarJobs,
     });
   } catch (error) {
     next(error);
@@ -101,9 +118,7 @@ exports.postResume = async (req, res, next) => {
 
 exports.getResume = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id)
-      .select('resumes.resumeTitle resumes.resumePdf resumes.selected')
-      .lean();
+    const user = await User.findById(req.user.id);
 
     res.json({
       success: true,
@@ -290,6 +305,19 @@ exports.popularJobs = async (req, res) => {
     const jobs = await Job.find().sort({ popular: -1, updatedAt: -1 }).limit(3);
 
     res.status(200).json({ success: true, data: jobs });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.GetCategoryList = async (req, res, next) => {
+  try {
+    const data = await Category.find().select('-__v');
+
+    res.json({
+      success: true,
+      data,
+    });
   } catch (error) {
     next(error);
   }

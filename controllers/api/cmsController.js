@@ -43,7 +43,7 @@ exports.getPrivacy = async (req, res, next) => {
 
 exports.getContact = async (req, res, next) => {
   try {
-    const contact = await Contact.findOne().select('-_id -__v -mailList');
+    const contact = await Contact.findOne().select('-_id -__v');
     res.json({ success: true, contact });
   } catch (error) {
     next(error);
