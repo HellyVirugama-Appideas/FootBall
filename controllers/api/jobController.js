@@ -245,6 +245,7 @@ exports.findByTitle = async (req, res) => {
       {
         $match: {
           title: { $regex: new RegExp(req.query.title, 'i') },
+          isDeleted: false,
         },
       },
       {
@@ -289,6 +290,7 @@ exports.findByCity = async (req, res, next) => {
       {
         $match: {
           city: { $regex: new RegExp(req.query.city, 'i') },
+          isDeleted: false,
         },
       },
       {
@@ -325,7 +327,7 @@ exports.findByCity = async (req, res, next) => {
 
 exports.popularJobs = async (req, res) => {
   try {
-    const jobs = await Job.find({isDeleted:false})
+    const jobs = await Job.find({ isDeleted: false })
       .populate('category recruiter', '-__v -createdAt -updatedAt')
       .sort({ popular: -1, updatedAt: -1 })
       .limit(3);
