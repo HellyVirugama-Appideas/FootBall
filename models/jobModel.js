@@ -22,6 +22,11 @@ const JobSchema = mongoose.Schema(
       required: [true, 'Job type is required.'],
       trim: true,
     },
+    work_place: {
+      type: String,
+      required: [true, 'Work place is required.'],
+      trim: true,
+    },
     short_description: {
       type: String,
       required: [true, 'Description is required.'],

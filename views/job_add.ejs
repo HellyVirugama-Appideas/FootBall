@@ -79,7 +79,7 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m6 s12 mt-0">
                         <select id="category" name="category">
                           <% categories.forEach(c => { %>
                           <option value="<%= c._id %>"><%= c.name %></option>
@@ -88,7 +88,7 @@
                         <label>Category</label>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m6 s12 mt-0">
                         <select id="jobType" name="jobType">
                           <option value="Full time">Full-time</option>
                           <option value="Part time">Part-time</option>
@@ -96,7 +96,15 @@
                         <label>Job Type</label>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m6 s12 mt-0">
+                        <select id="workPlace" name="workPlace">
+                          <option value="Work from office">Work from office</option>
+                          <option value="Work from home">Work from home</option>
+                        </select>
+                        <label>Work Place</label>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
                         <select id="popular" name="popular">
                           <option value="true">True</option>
                           <option value="false">False</option>
@@ -104,7 +112,7 @@
                         <label>Set job as popular</label>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m4 s12 ">
                         <input placeholder="Country" id="country" name="country" type="text">
                         <label for="country">Country</label>
                         <small>
@@ -112,7 +120,7 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m4 s12 ">
                         <input placeholder="State" id="state" name="state" type="text">
                         <label for="state">State</label>
                         <small>
@@ -120,7 +128,7 @@
                         </small>
                       </div>
 
-                      <div class="input-field col m4 s12 mt-0">
+                      <div class="input-field col m4 s12 ">
                         <input placeholder="City" id="city" name="city" type="text">
                         <label for="city">City</label>
                         <small>

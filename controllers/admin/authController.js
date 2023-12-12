@@ -37,7 +37,7 @@ exports.checkAdmin = async (req, res, next) => {
 exports.getDashboard = async (req, res) => {
   const [user, job] = await Promise.all([
     User.find(),
-    Job.find({ isDeleted: false }).populate('category').sort('-_id').limit(5),
+    Job.find({ isDeleted: false }).populate('category recruiter').sort('-_id').limit(5),
   ]);
 
   res.render('index', {

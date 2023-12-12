@@ -62,7 +62,7 @@
                             <tbody>
                               <% for (let i = 0; i < job.length; i++) { %>
                               <tr class="clickable-row" data-href="/job/<%= job[i].id %>" style="cursor: pointer;">
-                                <td><%= job[i].recruiter  %></td>
+                                <td><%= job[i].recruiter.recruiterName  %></td>
                                 <td><%= job[i].title  %></td>
                                 <td><%= job[i].category.name  %></td>
                                 <td><%= job[i].state  %></td>
