@@ -53,7 +53,7 @@ exports.postEditCategory = async (req, res) => {
 
     await category.save();
 
-    req.flash('green', 'Category edited successfully');
+    req.flash('green', 'Category updated successfully');
     res.redirect('/category');
   } catch (error) {
     req.flash('red', error.message);

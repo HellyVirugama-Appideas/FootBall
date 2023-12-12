@@ -190,7 +190,7 @@ exports.postEditFAQ = async (req, res) => {
     faq.answer = req.body.EnAns;
     await faq.save();
 
-    req.flash('green', 'FAQ edited successfully.');
+    req.flash('green', 'FAQ updated successfully.');
     res.redirect('/cms/faqs');
   } catch (error) {
     if (error.name === 'CastError') {

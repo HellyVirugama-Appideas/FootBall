@@ -31,7 +31,7 @@ exports.getJobList = async (req, res, next) => {
     }
 
     const job = await Job.find(query)
-      .populate('category', 'name')
+      .populate('category recruiter', '-__v -createdAt -updatedAt')
       .select('-__v -createdAt')
       .skip((page - 1) * limit)
       .limit(limit);
@@ -54,10 +54,10 @@ exports.getJobByID = async (req, res, next) => {
       _id: req.params.id,
       isDeleted: false,
     })
-      .populate('category', 'name')
+      .populate('category recruiter', '-__v -createdAt -updatedAt')
       .select('-__v -createdAt');
 
-    const criteria = {
+    const filter = {
       $or: [
         { category: job.category },
         { title: { $regex: new RegExp(job.title, 'i') } },
@@ -66,8 +66,8 @@ exports.getJobByID = async (req, res, next) => {
       _id: { $ne: job._id },
     };
 
-    const similarJobs = await Job.find(criteria)
-      .populate('category')
+    const similarJobs = await Job.find(filter)
+      .populate('category recruiter', '-__v -createdAt -updatedAt')
       .limit(3)
       .select('-__v -createdAt');
 
@@ -210,15 +210,23 @@ exports.applyForJob = async (req, res, next) => {
   }
 };
 
-exports.getAppliedJob = async (req, res, next) => {
+exports.getAppliedJobs = async (req, res, next) => {
   try {
-    const appliedJobs = await AppliedJob.find({ isDeleted: false })
+    const appliedJobs = await AppliedJob.find({
+      user_id: req.user.id,
+    })
       .populate({
         path: 'job_id',
-        populate: {
-          path: 'category',
-          model: 'Category',
-        },
+        populate: [
+          {
+            path: 'category',
+            model: 'Category',
+          },
+          {
+            path: 'recruiter',
+            model: 'Recruiter',
+          },
+        ],
       })
       .select({ createdAt: 0, __v: 0, user_id: 0 })
       .exec();
@@ -242,7 +250,7 @@ exports.findByTitle = async (req, res) => {
       },
       {
         $group: {
-          _id: { $toUpper: '$title' },
+          _id: { $toLower: '$title' },
         },
       },
       {
@@ -256,7 +264,15 @@ exports.findByTitle = async (req, res) => {
       },
     ]);
 
-    const jobTitle = jobs.map((x) => x.title);
+    const jobTitle = jobs.map((x) => {
+      const titleWords = x.title
+        .split(' ')
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        );
+      const titleCase = titleWords.join(' ');
+      return titleCase;
+    });
 
     // const jobs = await Job.distinct('title', {
     //   title: { $regex: new RegExp(req.query.title, 'i') },
@@ -292,7 +308,15 @@ exports.findByCity = async (req, res, next) => {
       },
     ]);
 
-    const jobCity = jobs.map((x) => x.city);
+    const jobCity = jobs.map((x) => {
+      const cityWords = x.city
+        .split(' ')
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        );
+      const titleCase = cityWords.join(' ');
+      return titleCase;
+    });
 
     res.status(200).json(jobCity);
   } catch (error) {
@@ -302,7 +326,10 @@ exports.findByCity = async (req, res, next) => {
 
 exports.popularJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().sort({ popular: -1, updatedAt: -1 }).limit(3);
+    const jobs = await Job.find()
+      .populate('category recruiter', '-__v -createdAt -updatedAt')
+      .sort({ popular: -1, updatedAt: -1 })
+      .limit(3);
 
     res.status(200).json({ success: true, data: jobs });
   } catch (error) {
@@ -310,7 +337,7 @@ exports.popularJobs = async (req, res) => {
   }
 };
 
-exports.GetCategoryList = async (req, res, next) => {
+exports.getCategoryList = async (req, res, next) => {
   try {
     const data = await Category.find().select('-__v');
 

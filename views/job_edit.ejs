@@ -45,13 +45,14 @@
                     <%- messages('messages', locals) %>
                     <form method="POST" onsubmit="validate()" action="/job/edit/<%= jobs.id %>" id="form">
                       <div class="col s12 ">
-
-                        <div class="input-field col m6 s12">
-                          <input placeholder="Recruiter name" id="recruiter" name="recruiter" type="text" value="<%= jobs.recruiter %>">
-                          <label for="recruiter">Recruiter Name</label>
-                          <small>
-                            <div id="errorRecruiter" class="error"></div>
-                          </small>
+                       
+                        <div class="input-field col s12 m6">
+                          <select id="recruiter" name="recruiter" data-placeholder="Select a Recruiter...">
+                            <% recruiters.forEach(x => { %>
+                            <option value="<%= x._id %>" <%= x._id.equals(jobs.recruiter) ? 'selected' : '' %>><%= x.recruiterName %></option>
+                            <% }); %>
+                          </select>
+                          <label>Recruiter name</label>
                         </div>
 
                         <div class="input-field col m6 s12">
@@ -170,20 +171,12 @@
     function validate() {
       let returnVal = true;
 
-      const nameValue = document.getElementById('recruiter').value.trim();
       const titleValue = document.getElementById('title').value.trim();
       const salaryValue = document.getElementById('salary').value.trim();
       const experienceValue = document.getElementById('experience').value.trim();
       const countryValue = document.getElementById('country').value.trim();
       const stateValue = document.getElementById('state').value.trim();
       const cityValue = document.getElementById('city').value.trim();
-
-      if (nameValue == '') {
-        document.getElementById('errorRecruiter').innerText = 'Please enter recruiter name.';
-        returnVal = false;
-      } else {
-        document.getElementById('errorRecruiter').innerText = '';
-      }
 
       if (titleValue == '') {
         document.getElementById('errorTitle').innerText = 'Please enter title.';

@@ -104,7 +104,7 @@ exports.postEditTestimonial = async (req, res) => {
     testimonial.description = req.body.description;
     await testimonial.save();
 
-    req.flash('green', 'Testimonial edited successfully.');
+    req.flash('green', 'Testimonial updated successfully.');
     res.redirect('/testimonial');
   } catch (error) {
     req.flash('red', error.message);

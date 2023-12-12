@@ -4,7 +4,7 @@
 
 <head>
   <%- include('_layouts/head') %>
-  <title> Job | <%= title %></title>
+  <title> Recruiter | <%= title %></title>
   <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
@@ -24,10 +24,10 @@
         <div class="container">
           <div class="row">
             <div class="col s12 m6 l6">
-              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Job</span></h5>
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Recruiter</span></h5>
             </div>
             <div class="col s12 m6 l6 right-align-md">
-              <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/job/add">Add</a>
+              <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/recruiter/add">Add</a>
             </div>
           </div>
         </div>
@@ -47,35 +47,28 @@
                           <thead>
                             <tr>
                               <th>Sr</th>
-                              <th>Recruiter</th>
-                              <th>Title</th>
-                              <th>Job Posted-Date</th>
-                              <th>Set as Popular</th>
+                              <th>Recruiter Name</th>
+                              <th>Company Name</th>
+                              <th>Email</th>
+                              <th>Location</th>
+                              <th>Logo</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <% for( let i=0; i < jobs.length; i++ ) { %>
+                            <% for( let i=0; i < recruiters.length; i++ ) { %>
                             <tr>
                               <td><%= i+1 %></td>
-                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].recruiter.recruiterName %></td>
-                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].title %></td>
-                              <td><%= jobs[i].createdAt.toLocaleDateString('en-US') %></td>
-
-                              <td class="switch">
-                                <form id="switchForm" action="/updateSwitchState" method="post">
-                                  <label>
-                                    <input id="<%= jobs[i].id %>" type="checkbox" <%= jobs[i].popular ? 'checked' : '' %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
-
-                                    <span class="lever"></span>
-                                  </label>
-                                </form>
+                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= recruiters[i].recruiterName %></td>
+                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= recruiters[i].companyName %></td>
+                              <td><%= recruiters[i].email %></td>
+                              <td><%= recruiters[i].location %></td>
+                              <td><img src=" <%= recruiters[i].image %>" alt="alt" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';">
                               </td>
 
                               <td style="max-width: 70px;">
-                                <a href="/job/<%= jobs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
-                                <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
-                                <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                <a href="/recruiter/edit/<%= recruiters[i].id %>"><i class="material-icons">create</i></a>
+                                <a href="/recruiter/delete/<%= recruiters[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                               </td>
                             </tr>
                             <% } %>
@@ -98,23 +91,6 @@
   <%- include('_layouts/commonJs') %>
   <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
   <%- include('_layouts/savePageLength') %>
-  <script>
-    function updateSwitchState(jobId) {
-      // Get the current state of the switch
-      const switchCheckbox = document.getElementById(jobId);
-      const switchState = switchCheckbox.checked;
-      // Send an AJAX request to update the switch state in the database
-      fetch(`/updateSwitchState/${encodeURIComponent(jobId)}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          popular: switchState,
-        }),
-      });
-    }
-  </script>
 
   <script>
     jQuery(document).ready(function($) {

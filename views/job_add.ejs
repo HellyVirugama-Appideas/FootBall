@@ -47,11 +47,12 @@
                     <div class="row">
 
                       <div class="input-field col m6 s12">
-                        <input placeholder="Recruiter name" id="recruiter" name="recruiter" type="text">
-                        <label for="recruiter">Recruiter name</label>
-                        <small>
-                          <div id="errorRecruiter" class="error"></div>
-                        </small>
+                        <select id="recruiter" name="recruiter">
+                          <% recruiters.forEach(c => { %>
+                          <option value="<%= c._id %>"><%= c.recruiterName %></option>
+                          <% }); %>
+                        </select>
+                        <label>Recruiter name</label>
                       </div>
 
                       <div class="input-field col m6 s12">
@@ -59,6 +60,22 @@
                         <label for="title">Job Title</label>
                         <small>
                           <div id="errorTitle" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <input placeholder="1000" id="salary" name="salary" type="text">
+                        <label for="salary">Salary</label>
+                        <small>
+                          <div id="errorSalary" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12 mt-0">
+                        <input placeholder="5 Years" id="experience" name="experience" type="text">
+                        <label for="experience">Experience</label>
+                        <small>
+                          <div id="errorExperience" class="error"></div>
                         </small>
                       </div>
 
@@ -85,22 +102,6 @@
                           <option value="false">False</option>
                         </select>
                         <label>Set job as popular</label>
-                      </div>
-
-                      <div class="input-field col m6 s12">
-                        <input placeholder="1000" id="salary" name="salary" type="text">
-                        <label for="salary">Salary</label>
-                        <small>
-                          <div id="errorSalary" class="error"></div>
-                        </small>
-                      </div>
-
-                      <div class="input-field col m6 s12">
-                        <input placeholder="5 Years" id="experience" name="experience" type="text">
-                        <label for="experience">Experience</label>
-                        <small>
-                          <div id="errorExperience" class="error"></div>
-                        </small>
                       </div>
 
                       <div class="input-field col m4 s12 mt-0">
@@ -166,7 +167,6 @@
     function validate() {
       let returnVal = true;
 
-      const recruiterValue = document.getElementById('recruiter').value.trim();
       const shortDescValue = document.getElementById('shortDesc').value.trim();
       const titleValue = document.getElementById('title').value.trim();
       const salaryValue = document.getElementById('salary').value.trim();
@@ -174,13 +174,6 @@
       const countryValue = document.getElementById('country').value.trim();
       const stateValue = document.getElementById('state').value.trim();
       const cityValue = document.getElementById('city').value.trim();
-
-      if (recruiterValue == '') {
-        document.getElementById('errorRecruiter').innerText = 'Please enter recruiter name.';
-        returnVal = false;
-      } else {
-        document.getElementById('errorRecruiter').innerText = '';
-      }
 
       if (shortDescValue == '') {
         document.getElementById('shortDescErr').innerText = 'Please enter description.';
