@@ -8,8 +8,6 @@ exports.getJobList = async (req, res, next) => {
   try {
     const query = { isDeleted: false };
 
-    const totalJobCount = await Job.countDocuments(query);
-
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -19,7 +17,7 @@ exports.getJobList = async (req, res, next) => {
     if (req.query.title)
       query.title = { $regex: new RegExp(req.query.title, 'i') };
 
-    if (req.query.category) query.category = req.query.category;
+    if (req.query.category) query.category = { $in: req.query.category };
 
     if (req.query.jobType) query.job_type = req.query.jobType;
 
@@ -29,6 +27,7 @@ exports.getJobList = async (req, res, next) => {
       if (req.query.maxSalary) salaryQuery.$lte = parseInt(req.query.maxSalary);
       query.salary = salaryQuery;
     }
+    const totalJobCount = await Job.countDocuments(query);
 
     const job = await Job.find(query)
       .populate('category recruiter', '-__v -createdAt -updatedAt')
@@ -326,7 +325,7 @@ exports.findByCity = async (req, res, next) => {
 
 exports.popularJobs = async (req, res) => {
   try {
-    const jobs = await Job.find()
+    const jobs = await Job.find({isDeleted:false})
       .populate('category recruiter', '-__v -createdAt -updatedAt')
       .sort({ popular: -1, updatedAt: -1 })
       .limit(3);
