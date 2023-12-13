@@ -9,7 +9,7 @@ exports.getJobList = async (req, res, next) => {
     const query = { isDeleted: false };
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 20;
 
     if (req.query.city)
       query.city = { $regex: new RegExp(req.query.city, 'i') };
