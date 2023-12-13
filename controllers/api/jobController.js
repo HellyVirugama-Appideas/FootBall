@@ -21,6 +21,8 @@ exports.getJobList = async (req, res, next) => {
 
     if (req.query.jobType) query.job_type = req.query.jobType;
 
+    if (req.query.workPlace) query.work_place = req.query.workPlace;
+
     if (req.query.minSalary || req.query.maxSalary) {
       const salaryQuery = {};
       if (req.query.minSalary) salaryQuery.$gte = parseInt(req.query.minSalary);
@@ -63,6 +65,7 @@ exports.getJobByID = async (req, res, next) => {
         { city: { $regex: new RegExp(job.city, 'i') } },
       ],
       _id: { $ne: job._id },
+      isDeleted: false,
     };
 
     const similarJobs = await Job.find(filter)
