@@ -14,6 +14,8 @@ exports.getJobList = async (req, res, next) => {
     if (req.query.city)
       query.city = { $regex: new RegExp(req.query.city, 'i') };
 
+    if (req.query.country) query.country = { $in: req.query.country };
+
     if (req.query.title)
       query.title = { $regex: new RegExp(req.query.title, 'i') };
 
@@ -29,6 +31,14 @@ exports.getJobList = async (req, res, next) => {
       if (req.query.maxSalary) salaryQuery.$lte = parseInt(req.query.maxSalary);
       query.salary = salaryQuery;
     }
+
+    if (req.user) {
+      const appliedJobs = await AppliedJob.find({
+        user_id: req.user.id,
+      }).distinct('job_id');
+      query._id = { $nin: appliedJobs };
+    }
+
     const totalJobCount = await Job.countDocuments(query);
 
     const job = await Job.find(query)
@@ -341,13 +351,20 @@ exports.popularJobs = async (req, res) => {
   }
 };
 
-exports.getCategoryList = async (req, res, next) => {
+exports.categoryCountryList = async (req, res, next) => {
   try {
-    const data = await Category.find().select('-__v');
+    const categoryList = await Category.find().select('-__v');
+
+    const countryData = await Job.distinct('country', { isDeleted: false });
+
+    const countryList = [
+      ...new Set(countryData.map((country) => country.toLowerCase())),
+    ].map((country) => country.charAt(0).toUpperCase() + country.slice(1));
 
     res.json({
       success: true,
-      data,
+      categoryList,
+      countryList,
     });
   } catch (error) {
     next(error);

@@ -3,7 +3,6 @@ const createError = require('http-errors');
 const Page = require('../../models/pageModel');
 const Newsletter = require('../../models/newsletterModel');
 const Banner = require('../../models/bannerModel');
-const Contact = require('../../models/contactModel');
 const Message = require('../../models/messageModel');
 const FAQs = require('../../models/faqsModel');
 const Testimonial = require('../../models/testimonialModel');
@@ -36,15 +35,6 @@ exports.getPrivacy = async (req, res, next) => {
     );
 
     res.json({ success: true, page });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getContact = async (req, res, next) => {
-  try {
-    const contact = await Contact.findOne().select('-_id -__v');
-    res.json({ success: true, contact });
   } catch (error) {
     next(error);
   }

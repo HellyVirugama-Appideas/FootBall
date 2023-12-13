@@ -10,7 +10,6 @@ router.get('/privacy', cmsController.getPrivacy);
 
 router
   .route('/contact')
-  .get(cmsController.getContact)
   .post(fileUpload(), cmsController.postContact);
 
 router.post('/newsletter', fileUpload(), cmsController.newsletter);

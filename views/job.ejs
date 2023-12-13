@@ -66,7 +66,6 @@
                                 <form id="switchForm" action="/updateSwitchState" method="post">
                                   <label>
                                     <input id="<%= jobs[i].id %>" type="checkbox" <%= jobs[i].popular ? 'checked' : '' %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
-
                                     <span class="lever"></span>
                                   </label>
                                 </form>

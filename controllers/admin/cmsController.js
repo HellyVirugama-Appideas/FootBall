@@ -1,38 +1,7 @@
 const deleteFile = require('../../utils/deleteFile');
 
-const Contact = require('../../models/contactModel');
 const Page = require('../../models/pageModel');
 const FAQs = require('../../models/faqsModel');
-
-exports.getContact = async (req, res) => {
-  try {
-    let contact = await Contact.findOne();
-    if (!contact) contact = await Contact.create({});
-
-    res.render('contact', { contact });
-  } catch (error) {
-    req.flash('red', error.message);
-    res.redirect('/');
-  }
-};
-
-exports.postContact = async (req, res) => {
-  try {
-    const contact = await Contact.findOne();
-
-    contact.address = req.body.address;
-    contact.phone = req.body.phone;
-    contact.email = req.body.email;
-
-    await contact.save();
-
-    req.flash('green', 'Contact us updated successfully.');
-    res.redirect('/cms/contact');
-  } catch (error) {
-    req.flash('red', error.message);
-    res.redirect(req.originalUrl);
-  }
-};
 
 exports.getAbout = async (req, res) => {
   try {
