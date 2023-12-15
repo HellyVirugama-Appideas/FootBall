@@ -44,6 +44,7 @@ exports.getJobList = async (req, res, next) => {
     const job = await Job.find(query)
       .populate('category recruiter', '-__v -createdAt -updatedAt')
       .select('-__v -createdAt')
+      .sort({ updatedAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
