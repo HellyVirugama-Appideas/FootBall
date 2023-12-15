@@ -191,7 +191,7 @@ exports.applyForJob = async (req, res, next) => {
     if (!job) {
       return res.status(404).json({
         success: false,
-        message: 'Job not found',
+        message: 'Vacancy not found',
       });
     }
 
@@ -202,7 +202,7 @@ exports.applyForJob = async (req, res, next) => {
     if (existingApplication) {
       return res.status(400).json({
         success: false,
-        message: 'User has already applied for this job',
+        message: 'User has already applied for this Vacancy',
       });
     }
 
@@ -216,7 +216,7 @@ exports.applyForJob = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Applied for the job successfully',
+      message: 'Applied for the Vacancy successfully',
     });
   } catch (error) {
     next(error);

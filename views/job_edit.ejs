@@ -4,7 +4,7 @@
 
 <head>
   <%- include('_layouts/head') %>
-  <title>Edit Job | <%= title %></title>
+  <title>Edit Vacancy | <%= title %></title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
   <link rel="stylesheet" href="/app-assets/vendors/select2/select2-materialize.css" type="text/css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -23,12 +23,12 @@
         <div class="container">
           <div class="row">
             <div class="col s12 m6 l6">
-              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/job"><i class="material-icons">arrow_back</i></a><span>Edit Jobs</span></h5>
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/job"><i class="material-icons">arrow_back</i></a><span>Edit Vacancy</span></h5>
             </div>
             <div class="col s12 m6 l6 right-align-md">
               <ol class="breadcrumbs mb-0">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/job">Job</a></li>
+                <li class="breadcrumb-item"><a href="/job">Vacancies</a></li>
                 <li class="breadcrumb-item active">Edit</li>
               </ol>
             </div>
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="input-field col m6 s12">
-                          <label for="title">Job Title</label>
+                          <label for="title">Title</label>
                           <input placeholder="Title" id="title" name="title" type="text" value="<%= jobs.title %>">
                           <small>
                             <div id="errorTitle" class="error"></div>
@@ -109,7 +109,7 @@
                             <option value="true" <%=jobs.popular === true ? 'selected' : '' %>>True</option>
                             <option value="false" <%=jobs.popular === false ? 'selected' : '' %>>False</option>
                           </select>
-                          <label>Set job as popular</label>
+                          <label>Set as popular</label>
                         </div>
 
                         <div class="input-field col m4 s12 mt-0">

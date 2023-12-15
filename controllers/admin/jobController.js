@@ -22,7 +22,7 @@ exports.viewJob = async (req, res) => {
       'category recruiter'
     );
     if (!job) {
-      req.flash('red', 'Job not found.');
+      req.flash('red', 'Vacancy not found.');
       return res.redirect('/job');
     }
 
@@ -32,7 +32,7 @@ exports.viewJob = async (req, res) => {
 
     res.render('job_view', { job, appliedJobs });
   } catch (error) {
-    if (error.name == 'CastError') req.flash('red', 'Job not found.');
+    if (error.name == 'CastError') req.flash('red', 'Vacancy not found.');
     else req.flash('red', error.message);
     res.redirect('/job');
   }
@@ -73,7 +73,7 @@ exports.postAddJob = async (req, res) => {
       work_place : req.body.workPlace,
     });
 
-    req.flash('green', 'Job added successfully.');
+    req.flash('green', 'Vacancy added successfully.');
     res.redirect('/job');
   } catch (error) {
     req.flash('red', error.message);
@@ -85,7 +85,7 @@ exports.getEditJob = async (req, res) => {
   try {
     const jobs = await Job.findById(req.params.id);
     if (!jobs) {
-      req.flash('red', 'Job not found!');
+      req.flash('red', 'Vacancy not found!');
       return res.redirect('/job');
     }
 
@@ -94,7 +94,7 @@ exports.getEditJob = async (req, res) => {
 
     res.render('job_edit', { jobs, categories, recruiters });
   } catch (error) {
-    if (error.name === 'CastError') req.flash('red', 'Job not found!');
+    if (error.name === 'CastError') req.flash('red', 'Vacancy not found!');
     else req.flash('red', error.message);
     res.redirect('/job');
   }
@@ -104,7 +104,7 @@ exports.postEditJob = async (req, res) => {
   try {
     const jobs = await Job.findById(req.params.id);
     if (!jobs) {
-      req.flash('red', 'Job not found!');
+      req.flash('red', 'Vacancy not found!');
       return res.redirect('/job');
     }
 
@@ -124,7 +124,7 @@ exports.postEditJob = async (req, res) => {
 
     await jobs.save();
 
-    req.flash('green', 'Job updated successfully');
+    req.flash('green', 'Vacancy updated successfully');
     res.redirect('/job');
   } catch (error) {
     req.flash('red', error.message);
@@ -138,11 +138,11 @@ exports.getDeleteJob = async (req, res) => {
       isDeleted: true,
     });
 
-    req.flash('green', 'Job deleted successfully.');
+    req.flash('green', 'Vacancy deleted successfully.');
     res.redirect('/job');
   } catch (error) {
     if (error.name === 'CastError' || error.name === 'TypeError')
-      req.flash('red', 'Job not found!');
+      req.flash('red', 'Vacancy not found!');
     else req.flash('red', error.message);
     res.redirect('/job');
   }
@@ -152,7 +152,7 @@ exports.updateSwitch = async (req, res, next) => {
   try {
     const job = await Job.findById(req.params.jobId);
     if (!job) {
-      return res.status(404).json({ message: 'Job not found' });
+      return res.status(404).json({ message: 'Vacancy not found' });
     }
 
     job.popular = req.body.popular;

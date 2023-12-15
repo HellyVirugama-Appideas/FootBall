@@ -45,7 +45,7 @@ exports.postContact = async (req, res, next) => {
     await Message.create(req.body);
     res
       .status(201)
-      .json({ success: true, message: 'Message send successfully.' });
+      .json({ success: true, message: 'Thank You for Contacting Us.' });
   } catch (error) {
     next(error);
   }
