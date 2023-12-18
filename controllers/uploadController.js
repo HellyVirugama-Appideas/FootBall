@@ -18,22 +18,6 @@ exports.upload = multer({
   },
 });
 
-exports.uploadVideo = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './public/uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname.replace(' ', ''));
-    },
-  }),
-  limits: { fileSize: 1024 * 1024 * 30 }, //30-MB limit on file size
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('video/')) cb(null, true);
-    else cb(new Error('Please upload valid video.'), false);
-  },
-});
-
 exports.uploadPDF = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -49,24 +33,6 @@ exports.uploadPDF = multer({
     else cb(new Error('Please upload a valid PDF file.'), false);
   },
 }).array('resumes',5);
-
-exports.uploadMedia = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './public/uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname.toUpperCase());
-    },
-  }),
-  limits: { fileSize: 1024 * 1024 * 10 },
-  fileFilter: (req, file, cb) => {
-    // reject a file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
-      cb(null, true);
-    else cb(new Error('Please upload jpg or png file.'), false);
-  },
-});
 
 exports.uploadCSV = multer({
   storage: multer.memoryStorage(),

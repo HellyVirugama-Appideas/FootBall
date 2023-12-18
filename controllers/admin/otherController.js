@@ -91,12 +91,7 @@ exports.postEditTestimonial = async (req, res) => {
     }
 
     if (req.file) {
-      const oldImagePath = path.join(
-        __dirname,
-        '../../public',
-        testimonial.image
-      );
-      fs.unlink(oldImagePath, () => {});
+      deleteFile(testimonial.image);
       testimonial.image = `/uploads/${req.file.filename}`;
     }
 
@@ -116,12 +111,7 @@ exports.getDeleteTestimonial = async (req, res) => {
   try {
     const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
 
-    const oldImagePath = path.join(
-      __dirname,
-      '../../public',
-      testimonial.image
-    );
-    fs.unlink(oldImagePath, () => {});
+    deleteFile(testimonial.image);
 
     req.flash('green', 'Testimonial deleted successfully.');
     res.redirect('/testimonial');
@@ -174,18 +164,4 @@ exports.getNewsletterExport = async (req, res) => {
     req.flash('red', error.message);
     res.redirect('/newsletter');
   }
-};
-
-exports.getMedia = async (req, res) => res.render('media');
-
-exports.postMedia = async (req, res) => {
-  const numberOfUploadedFiles = req.files.length;
-
-  let message;
-  if (numberOfUploadedFiles > 0)
-    message = `${numberOfUploadedFiles} files uploaded successfully.`;
-  else message = 'No files were uploaded.';
-
-  req.flash('green', message);
-  res.redirect(req.originalUrl);
 };

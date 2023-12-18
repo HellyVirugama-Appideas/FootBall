@@ -20,8 +20,6 @@ router
   .get(authController.getReset)
   .post(authController.postReset);
 
-// router.post('/auth', authController.authenticate);
-
 router.use(authController.checkAdmin);
 
 router.get('/', authController.getDashboard);

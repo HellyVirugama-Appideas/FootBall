@@ -3,7 +3,6 @@ const router = require('express').Router();
 const otherController = require('../../controllers/admin/otherController');
 const {
   upload,
-  uploadMedia,
 } = require('../../controllers/uploadController');
 
 // banner
@@ -27,11 +26,5 @@ router
   .get(otherController.getEditTestimonial)
   .post(upload.single('image'), otherController.postEditTestimonial);
 router.get('/testimonial/delete/:id', otherController.getDeleteTestimonial);
-
-// media
-router
-  .route('/media')
-  .get(otherController.getMedia)
-  .post(uploadMedia.array('image'), otherController.postMedia);
 
 module.exports = router;

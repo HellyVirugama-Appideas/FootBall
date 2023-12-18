@@ -14,7 +14,7 @@ exports.getRecruiters = async (req, res) => {
 
 exports.getAddRecruiters = async (req, res) => {
   try {
-    const recruiters = await Recruiter.find().sort('name');
+    const recruiters = await Recruiter.find({ isDeleted: false }).sort('name');
 
     res.render('recruiter_add', {
       recruiters,

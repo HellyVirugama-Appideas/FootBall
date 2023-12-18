@@ -40,7 +40,7 @@ exports.viewJob = async (req, res) => {
 
 exports.getAddJob = async (req, res) => {
   try {
-    const categories = await Category.find().sort('name');
+    const categories = await Category.find({ isDeleted: false }).sort('name');
     const recruiters = await Recruiter.find({ isDeleted: false }).sort(
       'recruiterName'
     );
@@ -70,7 +70,7 @@ exports.postAddJob = async (req, res) => {
       state: req.body.state,
       city: req.body.city,
       popular: req.body.popular,
-      work_place : req.body.workPlace,
+      work_place: req.body.workPlace,
     });
 
     req.flash('green', 'Vacancy added successfully.');
@@ -89,7 +89,7 @@ exports.getEditJob = async (req, res) => {
       return res.redirect('/job');
     }
 
-    const categories = await Category.find();
+    const categories = await Category.find({ isDeleted: false });
     const recruiters = await Recruiter.find({ isDeleted: false });
 
     res.render('job_edit', { jobs, categories, recruiters });
@@ -120,7 +120,7 @@ exports.postEditJob = async (req, res) => {
     jobs.state = req.body.state;
     jobs.city = req.body.city;
     jobs.popular = req.body.popular;
-    jobs.work_place = req.body.workPlace
+    jobs.work_place = req.body.workPlace;
 
     await jobs.save();
 

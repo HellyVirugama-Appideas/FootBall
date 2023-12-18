@@ -8,7 +8,6 @@ router.get('/user/:id', userController.viewUser);
 
 // message
 router.get('/message', userController.getAllMessages);
-
 router.get('/message_view/:id', userController.viewMessages);
 
 module.exports = router;
