@@ -2,38 +2,6 @@ const deleteFile = require('../../utils/deleteFile');
 
 const Page = require('../../models/pageModel');
 
-exports.getAbout = async (req, res) => {
-  try {
-    const page = await Page.findOne({ key: 'about' });
-    res.render('about', { page });
-  } catch (error) {
-    req.flash('red', error.message);
-    res.redirect('/');
-  }
-};
-
-exports.postAbout = async (req, res) => {
-  try {
-    const page = await Page.findOne({ key: 'about' });
-
-    page.title = req.body.title;
-    page.content = req.body.EnContent;
-
-    if (req.file) {
-      deleteFile(page.image);
-      page.image = `/uploads/${req.file.filename}`;
-    }
-
-    await page.save();
-
-    req.flash('green', 'About us updated successfully.');
-    res.redirect('/cms/about');
-  } catch (error) {
-    req.flash('red', error.message);
-    res.redirect(req.originalUrl);
-  }
-};
-
 exports.getWhoWeAre = async (req, res) => {
   try {
     const page = await Page.findOne({ key: 'whoWeAre' });

@@ -2,8 +2,6 @@ const router = require('express').Router();
 const fileUpload = require('express-fileupload');
 const cmsController = require('../../controllers/api/cmsController');
 
-router.get('/about', cmsController.getAbout);
-
 router.get('/whoWeAre', cmsController.getWhoWeAre);
 
 router.get('/privacy', cmsController.getPrivacy);

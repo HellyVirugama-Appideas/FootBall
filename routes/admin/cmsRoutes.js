@@ -4,11 +4,6 @@ const cmsController = require('../../controllers/admin/cmsController');
 const { upload } = require('../../controllers/uploadController');
 
 router
-  .route('/about')
-  .get(cmsController.getAbout)
-  .post(upload.single('image'), cmsController.postAbout);
-
-router
   .route('/whoWeAre')
   .get(cmsController.getWhoWeAre)
   .post(upload.single('image'), cmsController.postWhoWeAre);

@@ -7,16 +7,6 @@ const Message = require('../../models/messageModel');
 const Testimonial = require('../../models/testimonialModel');
 const validator = require('../../utils/validation.json');
 
-exports.getAbout = async (req, res, next) => {
-  try {
-    let page = await Page.findOne({ key: 'about' }).select('-__v -key -_id');
-
-    res.json({ success: true, page });
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.getWhoWeAre = async (req, res, next) => {
   try {
     let page = await Page.findOne({ key: 'whoWeAre' }).select('-__v -key -_id');
