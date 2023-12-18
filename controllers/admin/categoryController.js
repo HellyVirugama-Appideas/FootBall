@@ -2,7 +2,7 @@ const Category = require('../../models/categoryModel');
 
 exports.getCategories = async (req, res) => {
   try {
-    const categories = await Category.find().sort('name');
+    const categories = await Category.find({ isDeleted: false }).sort('name');
     res.render('category', { categories });
   } catch (error) {
     req.flash('red', error.message);
@@ -57,6 +57,22 @@ exports.postEditCategory = async (req, res) => {
     res.redirect('/category');
   } catch (error) {
     req.flash('red', error.message);
+    res.redirect('/category');
+  }
+};
+
+exports.getDeleteCategory = async (req, res) => {
+  try {
+    await Category.findByIdAndUpdate(req.params.id, {
+      isDeleted: true,
+    });
+
+    req.flash('green', 'Category deleted successfully.');
+    res.redirect('/category');
+  } catch (error) {
+    if (error.name === 'CastError' || error.name === 'TypeError')
+      req.flash('red', 'Category not found!');
+    else req.flash('red', error.message);
     res.redirect('/category');
   }
 };

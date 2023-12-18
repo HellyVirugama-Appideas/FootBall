@@ -6,6 +6,7 @@ const categorySchema = new mongoose.Schema({
     required: [true, 'Category Name is required.'],
     trim: true,
   },
+  isDeleted: { type: Boolean, default: false, select: false },
 });
 
 module.exports = mongoose.model('Category', categorySchema);

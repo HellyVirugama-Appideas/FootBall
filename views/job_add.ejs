@@ -48,11 +48,15 @@
 
                       <div class="input-field col m6 s12">
                         <select id="recruiter" name="recruiter">
+                          <option value="" disabled selected>Select Recruiter Name</option>
                           <% recruiters.forEach(c => { %>
                           <option value="<%= c._id %>"><%= c.recruiterName %></option>
                           <% }); %>
                         </select>
-                        <label>Recruiter name</label>
+                        <label>Select Recruiter name</label>
+                        <small>
+                          <div id="errorRecruiter" class="error"></div>
+                        </small>
                       </div>
 
                       <div class="input-field col m6 s12">
@@ -81,11 +85,15 @@
 
                       <div class="input-field col m6 s12 mt-0">
                         <select id="category" name="category">
+                          <option value="" disabled selected>Select Category</option>
                           <% categories.forEach(c => { %>
                           <option value="<%= c._id %>"><%= c.name %></option>
                           <% }); %>
                         </select>
                         <label>Category</label>
+                        <small>
+                          <div id="errorCategories" class="error"></div>
+                        </small>
                       </div>
 
                       <div class="input-field col m6 s12 mt-0">
@@ -94,6 +102,9 @@
                           <option value="Part time">Part-time</option>
                         </select>
                         <label>Job Type</label>
+                        <small>
+                          <div id="errorJobType" class="error"></div>
+                        </small>
                       </div>
 
                       <div class="input-field col m6 s12 mt-0">
@@ -182,6 +193,22 @@
       const countryValue = document.getElementById('country').value.trim();
       const stateValue = document.getElementById('state').value.trim();
       const cityValue = document.getElementById('city').value.trim();
+      const categoriesValue = document.getElementById('category').value.trim();
+      const recruiterValue = document.getElementById('recruiter').value.trim();
+
+      if (categoriesValue == '') {
+        document.getElementById('errorCategories').innerText = 'Please select category.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCategories').innerText = '';
+      }
+
+      if (recruiterValue == '') {
+        document.getElementById('errorRecruiter').innerText = 'Please select recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorRecruiter').innerText = '';
+      }
 
       if (shortDescValue == '') {
         document.getElementById('shortDescErr').innerText = 'Please enter description.';

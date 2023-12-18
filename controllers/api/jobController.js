@@ -354,7 +354,9 @@ exports.popularJobs = async (req, res) => {
 
 exports.categoryCountryList = async (req, res, next) => {
   try {
-    const categoryList = await Category.find().select('-__v');
+    const categoryList = await Category.find({ isDeleted: false }).select(
+      '-__v'
+    );
 
     const countryData = await Job.distinct('country', { isDeleted: false });
 

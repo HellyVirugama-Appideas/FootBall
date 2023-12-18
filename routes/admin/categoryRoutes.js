@@ -11,5 +11,6 @@ router
   .route('/category/edit/:id')
   .get(categoryController.getEditCategory)
   .post(categoryController.postEditCategory);
+router.get('/category/delete/:id', categoryController.getDeleteCategory);
 
 module.exports = router;

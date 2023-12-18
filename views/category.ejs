@@ -58,6 +58,7 @@
                                                             <td><%= categories[i].name %></td>
                                                             <td style="max-width: 70px;">
                                                                 <a href="/category/edit/<%= categories[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/category/delete/<%= categories[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>
                                                         </tr>
                                                         <% } %>
