@@ -37,7 +37,6 @@ const userSchema = new mongoose.Schema({
   country: {
     type: String,
     trim: true,
-    required: [true, validate.country],
   },
   date: { type: Date, default: Date.now },
 });
