@@ -18,17 +18,6 @@ router
   .get(cmsController.getPrivacy)
   .post(upload.single('image'), cmsController.postPrivacy);
 
-router.get('/faqs', cmsController.getFAQs);
-router
-  .route('/faqs/add')
-  .get(cmsController.getAddFAQ)
-  .post(cmsController.postAddFAQ);
-router
-  .route('/faqs/edit/:id')
-  .get(cmsController.getEditFAQ)
-  .post(cmsController.postEditFAQ);
-router.get('/faqs/delete/:id', cmsController.getdeleteFAQ);
-
 router
   .route('/terms')
   .get(cmsController.getTermsCondi)

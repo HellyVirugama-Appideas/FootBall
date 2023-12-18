@@ -4,7 +4,6 @@ const Page = require('../../models/pageModel');
 const Newsletter = require('../../models/newsletterModel');
 const Banner = require('../../models/bannerModel');
 const Message = require('../../models/messageModel');
-const FAQs = require('../../models/faqsModel');
 const Testimonial = require('../../models/testimonialModel');
 const validator = require('../../utils/validation.json');
 
@@ -78,16 +77,6 @@ exports.getBanners = async (req, res, next) => {
       success: true,
       banner,
     });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getFAQs = async (req, res, next) => {
-  try {
-    const faqs = await FAQs.find().sort('-_id').select('-_id -__v');
-
-    res.json({ success: true, content: faqs });
   } catch (error) {
     next(error);
   }
