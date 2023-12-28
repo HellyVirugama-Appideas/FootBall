@@ -54,6 +54,7 @@
                                                             <th>Email</th>
                                                             <th>Phone</th>
                                                             <th>Message</th>
+                                                            <th>Date and Time</th>
                                                             <th>View</th>
                                                         </tr>
                                                     </thead>
@@ -64,6 +65,7 @@
                                                             <td><%= msgs[i].name %></td>
                                                             <td><%= msgs[i].email %></td>
                                                             <td><%= msgs[i].phone %></td>
+                                                            <td><%= msgs[i].date %></td>
                                                             <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"><%= msgs[i].message %></td>
                                                             <td style="max-width: 50px;"><a href="/message_view/<%= msgs[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                         </tr>
