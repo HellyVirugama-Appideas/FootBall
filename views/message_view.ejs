@@ -54,7 +54,7 @@
                                                         </tr>
                                                          <tr>
                                                            <th>Date and Time</th>
-                                                           <td><%= message.date %></td>
+                                                            <td><%= message.date.toLocaleDateString(dateLocale, dateOptions) %></td>
                                                          </tr>
                                                     </tbody>
                                                 </table>
