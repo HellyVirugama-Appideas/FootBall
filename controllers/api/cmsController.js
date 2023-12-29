@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const axios = require('axios');
 
 const Page = require('../../models/pageModel');
 const Newsletter = require('../../models/newsletterModel');
@@ -32,6 +33,40 @@ exports.getPrivacy = async (req, res, next) => {
 exports.postContact = async (req, res, next) => {
   try {
     await Message.create(req.body);
+    res
+      .status(201)
+      .json({ success: true, message: 'Thank You for Contacting Us.' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postContact = async (req, res, next) => {
+  try {
+    const { name, email, phone, message, recaptchaToken } = req.body;
+
+    if (!recaptchaToken) {
+      return res
+        .status(400)
+        .json({ success: false, error: 'Invalid reCAPTCHA.' });
+    }
+
+    const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.reCaptchaKey}&response=${recaptchaToken}`;
+
+    const recaptchaResponse = await axios.post(verificationURL);
+    if (!recaptchaResponse.data.success) {
+      return res
+        .status(400)
+        .json({ success: false, error: 'reCAPTCHA verification failed.' });
+    }
+
+    await Message.create({
+      name,
+      email,
+      phone,
+      message,
+    });
+
     res
       .status(201)
       .json({ success: true, message: 'Thank You for Contacting Us.' });
