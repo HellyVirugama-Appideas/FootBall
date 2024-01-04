@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
       resumeTitle: { type: String },
       resumePdf: { type: String },
       selected: { type: Boolean, default: false },
+      date: { type: Date, default: Date.now },
     },
   ],
   city: { type: String, trim: true, required: [true, validate.city] },
