@@ -32,17 +32,6 @@ exports.getPrivacy = async (req, res, next) => {
 
 exports.postContact = async (req, res, next) => {
   try {
-    await Message.create(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: 'Thank You for Contacting Us.' });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.postContact = async (req, res, next) => {
-  try {
     const { name, email, phone, message, recaptchaToken } = req.body;
 
     if (!recaptchaToken) {

@@ -3,7 +3,7 @@ const fileUpload = require('express-fileupload');
 
 const { checkUser, isUser } = require('../../controllers/api/authController');
 const jobController = require('../../controllers/api/jobController');
-const { uploadPDF } = require('../../controllers/uploadController');
+const { uploadResume } = require('../../controllers/uploadController');
 
 router.get('/category', jobController.categoryCountryList);
 router.get('/all-job', isUser, jobController.getJobList);
@@ -19,7 +19,7 @@ router.post(
 
 router.get('/resume', checkUser, jobController.getResume);
 router.get('/select/resume/:id', checkUser, jobController.selectResume);
-router.route('/resume').post(checkUser, uploadPDF, jobController.postResume);
+router.route('/resume').post(checkUser, uploadResume, jobController.postResume);
 router.delete('/resume/:id', checkUser, jobController.deleteResume);
 
 router.get('/autocomplete/title', jobController.findByTitle);

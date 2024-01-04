@@ -18,7 +18,7 @@ exports.upload = multer({
   },
 });
 
-exports.uploadPDF = multer({
+exports.uploadResume = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './public/uploads/');
@@ -29,10 +29,23 @@ exports.uploadPDF = multer({
   }),
   limits: { fileSize: 1024 * 1024 * 10 },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') cb(null, true);
-    else cb(new Error('Please upload a valid PDF file.'), false);
+    const allowedFileTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // DOCX
+      'application/msword',
+      'application/vnd.oasis.opendocument.text', // ODT
+    ];
+
+    if (allowedFileTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(
+        new Error('Please upload a valid PDF, DOC, DOCX, or ODT file.'),
+        false
+      );
+    }
   },
-}).array('resumes',5);
+}).array('resumes', 5);
 
 exports.uploadCSV = multer({
   storage: multer.memoryStorage(),
