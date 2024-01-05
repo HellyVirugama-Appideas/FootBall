@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const deleteFile = require('../../utils/deleteFile');
 

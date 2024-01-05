@@ -33,14 +33,13 @@ exports.uploadResume = multer({
       'application/pdf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // DOCX
       'application/msword',
-      'application/vnd.oasis.opendocument.text', // ODT
     ];
 
     if (allowedFileTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(
-        new Error('Please upload a valid PDF, DOC, DOCX, or ODT file.'),
+        new Error('Please upload a valid PDF, DOC, DOCX file.'),
         false
       );
     }
