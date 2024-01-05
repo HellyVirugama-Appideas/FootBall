@@ -6,11 +6,7 @@ module.exports = (error, req, res, next) => {
   if (error instanceof multer.MulterError) {
     // handle MulterError
     req.flash('red', error.message);
-    if (req.route.path.startsWith('/image/:id/'))
-      url = `/product/image/${req.originalUrl.split('/')[3]}`;
-    else url = req.originalUrl;
-
-    return res.redirect(url);
+    return res.redirect(req.originalUrl);
   }
 
   if (error.code == 11000) {
