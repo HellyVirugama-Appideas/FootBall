@@ -230,6 +230,7 @@ exports.getAppliedJobs = async (req, res, next) => {
     })
       .populate({
         path: 'job_id',
+        match: { isDeleted: false },
         populate: [
           {
             path: 'category',
@@ -244,9 +245,12 @@ exports.getAppliedJobs = async (req, res, next) => {
       .select({ createdAt: 0, __v: 0, user_id: 0 })
       .exec();
 
+    // Filter out null values if jobs with isDeleted : true
+    const filterJobs = appliedJobs.filter((x) => x.job_id);
+
     res.json({
       success: true,
-      appliedJobs,
+      appliedJobs: filterJobs,
     });
   } catch (error) {
     next(error);
