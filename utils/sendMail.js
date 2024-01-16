@@ -22,7 +22,7 @@ const sendOtp = function (to, otp) {
         <div style="margin: 50px auto; width:70%; padding: 20px 0;">
             <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
                 <a href="${process.env.CLIENT_URL}" style="font-size:1.4em; color: #004D7F; text-decoration:none; font-weight:600;">
-                    <img src="${logoLink}" alt="logo" width="100">
+                    <img src="${logoLink}" alt="Football Recruitment" width="100">
                 </a>
             </div>
             <p style="font-size: 1.1em;">Hello,</p>
@@ -56,7 +56,7 @@ const sendLink = function (to, link) {
         <div style="margin: 50px auto; width:70%; padding: 20px 0;">
             <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
                 <a href="${process.env.CLIENT_URL}" style="font-size:1.4em; color: #004D7F; text-decoration:none; font-weight:600;">
-                    <img src="${logoLink}" alt="logo" width="100">
+                    <img src="${logoLink}" alt="Football Recruitment" width="100">
                 </a>
             </div>
             <p style="font-size: 1.1em;">Hello,</p>
