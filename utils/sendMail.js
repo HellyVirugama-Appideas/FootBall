@@ -1,7 +1,12 @@
-const mailjet = require('node-mailjet').connect(
-  process.env.MJ_APIKEY_PUBLIC,
-  process.env.MJ_APIKEY_PRIVATE
-);
+const Mailjet = require('node-mailjet');
+
+const mailjet = new Mailjet({
+  apiKey: process.env.MJ_APIKEY_PUBLIC,
+  apiSecret: process.env.MJ_APIKEY_PRIVATE,
+});
+
+const logoLink =
+  'https://admin.footballrecruitment.eu/app-assets/images/logo/logo.png';
 
 const sendOtp = function (to, otp) {
   const request = mailjet.post('send', { version: 'v3.1' }).request({
@@ -13,21 +18,21 @@ const sendOtp = function (to, otp) {
         },
         To: [{ Email: to }],
         Subject: 'Reset Password',
-        HTMLPart: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:900px;overflow:auto;line-height:2">
-            <div style="margin:50px auto;width:70%;padding:20px 0">
-            <div style="border-bottom:1px solid #eee">
-              <a href="" style="font-size:1.4em;color: #921CAF;text-decoration:none;font-weight:600">Football Recruitment</a>
+        HTMLPart: `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 900px; overflow: auto; line-height: 2; font-size: 1.1em;">
+        <div style="margin: 50px auto; width:70%; padding: 20px 0;">
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                <a href="${process.env.CLIENT_URL}" style="font-size:1.4em; color: #004D7F; text-decoration:none; font-weight:600;">
+                    <img src="${logoLink}" alt="Bois News Media logo" width="100">
+                </a>
             </div>
-            <p style="font-size:1.1em">Hi,</p>
-            <p>Use the following OTP to reset your password. OTP is valid for 5 minutes.</p>
-            <h2 style="background: #921CAF;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
-            <p style="font-size:0.9em;">Regards,<br />Football Recruitment</p>
-            <hr style="border:none;border-top:1px solid #eee" />
-            <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-              <p>Football Recruitment</p>
-            </div>
-            </div>
-            </div>`,
+            <p style="font-size: 1.1em;">Hello,</p>
+            <p>We received a request to reset the password for your account associated with this email address. If you made this request, please use OTP given below to reset your password:</p>
+            <h2 style="background: #004D7F; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${otp}</h2>
+            <p>For security reasons, this OTP will expire in 5 minutes from the time this email was sent.</p>
+            <p>If you didn't request a password reset, please ignore this email. Your account will remain safe as long as you don't share this OTP with anyone.</p>
+            <p style="font-size: 0.9em;">Regards,<br />Football Recruitment</p>
+        </div>
+    </div>`,
       },
     ],
   });
@@ -47,21 +52,23 @@ const sendLink = function (to, link) {
         },
         To: [{ Email: to }],
         Subject: 'Reset Password',
-        HTMLPart: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:900px;overflow:auto;line-height:2">
-            <div style="margin:50px auto;width:70%;padding:20px 0">
-            <div style="border-bottom:1px solid #eee">
-              <a href="" style="font-size:1.4em;color: #921CAF;text-decoration:none;font-weight:600">Football Recruitment</a>
+        HTMLPart: `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 900px; overflow: auto; line-height: 2; font-size: 1.1em;">
+        <div style="margin: 50px auto; width:70%; padding: 20px 0;">
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                <a href="${process.env.CLIENT_URL}" style="font-size:1.4em; color: #004D7F; text-decoration:none; font-weight:600;">
+                    <img src="${logoLink}" alt="Bois News Media logo" width="100">
+                </a>
             </div>
-            <p style="font-size:1.1em">Hi,</p>
-            <p>Use the following Link to reset your password.</p>
-            <h2><a href="${link}" style="background: #921CAF;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">Click me</a></h2>
-            <p style="font-size:0.9em;">Regards,<br />Football Recruitment</p>
-            <hr style="border:none;border-top:1px solid #eee" />
-            <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-              <p>Football Recruitment</p>
-            </div>
-            </div>
-            </div>`,
+            <p style="font-size: 1.1em;">Hello,</p>
+            <p>We received a request to reset the password for your account associated with this email address. To proceed, please click on the link below:</p>
+            <a href="${link}" style="text-decoration: none;">
+                <h2 style="background: #004D7F; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">Reset Password</h2>
+            </a>
+            <p>For security reasons, the provided link will expire within 5 minutes from the time this email was sent.</p>
+            <p>If you didn't request a password reset, please ignore this email. Your account will remain safe as long as you don't click on the link or share it with anyone.</p>
+            <p style="font-size: 0.9em;">Regards,<br />Football Recruitment</p>
+        </div>
+    </div>`,
       },
     ],
   });
