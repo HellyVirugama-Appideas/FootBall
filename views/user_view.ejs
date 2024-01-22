@@ -94,6 +94,14 @@
                           <td><%= user.country %></td>
                         </tr>
                         <tr>
+                          <th>Job Title:</th>
+                          <td>
+                            <%= user.jobTitle && user.jobTitle.length > 0
+                            ? user.jobTitle.map(x => x.name).join(', ')
+                            : '-' %>
+                          </td>
+                        </tr>
+                        <tr>
                           <th>Date created:</th>
                           <td><%= user.date.toLocaleDateString(dateLocale) %></td>
                         </tr>
@@ -108,43 +116,43 @@
               </div>
             </div>
 
-           <!-- Resumes section -->
-           <div class="card">
-             <div class="card-content">
-               <div class="row">
-                 <div class="col s12">
-                   <h5>Resumes</h5>
-                   <% if (user.resumes && user.resumes.length > 0) { %>
-                   <!-- Table for Resumes -->
-                   <table class="striped">
-                     <thead>
-                       <tr>
-                         <th>Resume Title</th>
-                         <th>Actions</th>
-                       </tr>
-                     </thead>
-                     <tbody>
-                       <% user.resumes.forEach((resume, index) => { %>
-                       <tr>
-                         <td><%= resume.resumeTitle %></td>
-                         <% if (resume.resumePdf) { %>
-                         <td>
-                           <a href="<%= resume.resumePdf %>" download="<%= resume.resumeTitle %>"><i class="material-icons">get_app</i></a>
-                         </td>
-                         <% } else { %>
-                         <td colspan="2">No document available for this resume.</td>
-                         <% } %>
-                       </tr>
-                       <% }); %>
-                     </tbody>
-                   </table>
-                   <% } else { %>
-                   <p>No resumes available for this user.</p>
-                   <% } %>
-                 </div>
-               </div>
-             </div>
-           </div>
+            <!-- Resumes section -->
+            <div class="card">
+              <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
+                    <h5>Resumes</h5>
+                    <% if (user.resumes && user.resumes.length > 0) { %>
+                    <!-- Table for Resumes -->
+                    <table class="striped">
+                      <thead>
+                        <tr>
+                          <th>Resume Title</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% user.resumes.forEach((resume, index) => { %>
+                        <tr>
+                          <td><%= resume.resumeTitle %></td>
+                          <% if (resume.resumePdf) { %>
+                          <td>
+                            <a href="<%= resume.resumePdf %>" download="<%= resume.resumeTitle %>"><i class="material-icons">get_app</i></a>
+                          </td>
+                          <% } else { %>
+                          <td colspan="2">No document available for this resume.</td>
+                          <% } %>
+                        </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                    <% } else { %>
+                    <p>No resumes available for this user.</p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

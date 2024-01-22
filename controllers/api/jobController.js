@@ -3,6 +3,7 @@ const Job = require('../../models/jobModel');
 const User = require('../../models/userModel');
 const AppliedJob = require('../../models/appliedJobModel');
 const Category = require('../../models/categoryModel');
+const JobTitle = require('../../models/jobTitleModel');
 
 exports.getJobList = async (req, res, next) => {
   try {
@@ -117,6 +118,7 @@ exports.postResume = async (req, res, next) => {
       };
     });
 
+    req.user.jobTitle = req.body.jobTitle;
     req.user.resumes = req.user.resumes.concat(newResumes);
     await req.user.save();
 
@@ -257,7 +259,7 @@ exports.getAppliedJobs = async (req, res, next) => {
   }
 };
 
-exports.findByTitle = async (req, res) => {
+exports.findByTitle = async (req, res, next) => {
   try {
     const jobs = await Job.aggregate([
       {
@@ -343,7 +345,7 @@ exports.findByCity = async (req, res, next) => {
   }
 };
 
-exports.popularJobs = async (req, res) => {
+exports.popularJobs = async (req, res, next) => {
   try {
     const jobs = await Job.find({ isDeleted: false })
       .populate('category recruiter', '-__v -createdAt -updatedAt')
@@ -373,6 +375,16 @@ exports.categoryCountryList = async (req, res, next) => {
       categoryList,
       countryList,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getJobTitles = async (req, res, next) => {
+  try {
+    const titles = await JobTitle.find({ isDeleted: false }).select('-__v');
+
+    res.status(200).json({ success: true, data: titles });
   } catch (error) {
     next(error);
   }

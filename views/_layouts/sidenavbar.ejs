@@ -118,6 +118,13 @@
             </a>
         </li>
 
+        <li class="bold <%= url.startsWith('/title') ? 'active' : '' %>">
+          <a class="waves-effect waves-cyan <%= url.startsWith('/title') ? 'active' : '' %>" href="/title">
+            <i class="material-icons">title</i>
+            <span class="menu-title">Job Title</span>
+          </a>
+        </li>
+
         <li class="bold <%= url.startsWith('/testimonial') ? 'active' : '' %>">
             <a class="waves-effect waves-cyan <%= url.startsWith('/testimonial') ? 'active' : '' %>" href="/testimonial">
                 <i class="material-icons">picture_in_picture</i>

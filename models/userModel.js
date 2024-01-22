@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema({
       date: { type: Date, default: Date.now },
     },
   ],
+  jobTitle: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Job Title',
+    },
+  ],
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {
