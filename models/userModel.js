@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Job Skill',
     },
   ],
-  experience: { type: Number, required: [true, validate.experience] },
+  experience: { type: String, required: [true, validate.experience] },
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {

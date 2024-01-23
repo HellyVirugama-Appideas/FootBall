@@ -111,7 +111,7 @@
                         </tr>
                         <tr>
                           <th>Experience:</th>
-                          <td><%= user.experience !== undefined && user.experience !== null ? user.experience + ' Year' : '-' %></td>
+                          <td><%= user.experience !== undefined && user.experience !== null ? user.experience === 'Fresher' ? 'Fresher' :  user.experience + ' Year' : '-' %></td>
                         </tr>
                         <tr>
                           <th>Date created:</th>
