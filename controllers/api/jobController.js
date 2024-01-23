@@ -4,6 +4,7 @@ const User = require('../../models/userModel');
 const AppliedJob = require('../../models/appliedJobModel');
 const Category = require('../../models/categoryModel');
 const JobTitle = require('../../models/jobTitleModel');
+const jobSkill = require('../../models/jobSkillModel');
 
 exports.getJobList = async (req, res, next) => {
   try {
@@ -118,8 +119,12 @@ exports.postResume = async (req, res, next) => {
       };
     });
 
-    req.user.jobTitle = req.body.jobTitle;
     req.user.resumes = req.user.resumes.concat(newResumes);
+
+    req.user.jobTitle = req.body.jobTitle;
+    req.user.jobSkill = req.body.jobSkill;
+    req.user.experience = req.body.experience;
+
     await req.user.save();
 
     res.json({
@@ -385,6 +390,16 @@ exports.getJobTitles = async (req, res, next) => {
     const titles = await JobTitle.find({ isDeleted: false }).select('-__v');
 
     res.status(200).json({ success: true, data: titles });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getJobSkills = async (req, res, next) => {
+  try {
+    const skills = await jobSkill.find({ isDeleted: false }).select('-__v');
+
+    res.status(200).json({ success: true, data: skills });
   } catch (error) {
     next(error);
   }

@@ -49,6 +49,7 @@
                               <th>Name</th>
                               <th>Email</th>
                               <th>Phone</th>
+                              <th>City</th>
                               <th>Job Title</th>
                               <th>Resume</th>
                               <th>Action</th>
@@ -61,12 +62,13 @@
                               <td><%= users[i].name %></td>
                               <td><%= users[i].email %></td>
                               <td><%= users[i].phone %></td>
+                              <td style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= users[i].city %></td>
                               <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= users[i].jobTitle.map(x=>x.name).join(', ') %></td>
                               <td>
                                 <% if (users[i].resumes && users[i].resumes.length > 0) { %>
                                 <span class="chip lighten-5 green green-text">Available</span>
                                 <% } else { %>
-                                <span class="chip lighten-5 orange orange-text">Pending</span>
+                                <span class="chip lighten-5 red red-text">Pending</span>
                                 <% } %>
                               </td>
                               <td>

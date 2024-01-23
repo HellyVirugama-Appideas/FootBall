@@ -102,6 +102,18 @@
                           </td>
                         </tr>
                         <tr>
+                          <th>Job Skill:</th>
+                          <td>
+                            <%= user.jobSkill && user.jobSkill.length > 0
+                            ? user.jobSkill.map(x => x.name).join(', ')
+                            : '-' %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Experience:</th>
+                          <td><%= user.experience !== undefined && user.experience !== null ? user.experience + ' Year' : '-' %></td>
+                        </tr>
+                        <tr>
                           <th>Date created:</th>
                           <td><%= user.date.toLocaleDateString(dateLocale) %></td>
                         </tr>

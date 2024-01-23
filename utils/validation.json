@@ -13,6 +13,7 @@
     "postalCode": "Please provide postal code.",
     "comments": "Please enter comments.",
     "incorrectCredentials": "Provide email and password!",
+    "experience": "Please select experience.",
 
     "oldPassword": "Please provide current password.",
     "newPassword": "Please provide new password.",

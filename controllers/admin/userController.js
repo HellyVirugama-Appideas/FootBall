@@ -3,7 +3,7 @@ const Message = require('../../models/messageModel');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().populate('jobTitle').sort('-_id');
+    const users = await User.find().populate('jobTitle jobSkill').sort('-_id');
 
     res.render('user', { users });
   } catch (error) {
@@ -14,7 +14,9 @@ exports.getAllUsers = async (req, res) => {
 
 exports.viewUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate('jobTitle');
+    const user = await User.findById(req.params.id).populate(
+      'jobTitle jobSkill'
+    );
 
     if (!user) {
       req.flash('red', 'User not found!');

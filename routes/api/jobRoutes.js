@@ -28,5 +28,6 @@ router.get('/autocomplete/city', jobController.findByCity);
 router.get('/all/jobs', jobController.popularJobs);
 
 router.get('/job-title', jobController.getJobTitles);
+router.get('/job-skill', jobController.getJobSkills);
 
 module.exports = router;

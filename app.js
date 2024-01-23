@@ -100,6 +100,7 @@ app.use('/', require('./routes/admin/categoryRoutes'));
 app.use('/', require('./routes/admin/jobRoutes'));
 app.use('/', require('./routes/admin/recruiterRoutes'));
 app.use('/', require('./routes/admin/jobTitleRoutes'));
+app.use('/', require('./routes/admin/jobSkillRoutes'));
 
 // 404 admin
 app.all('/*', (req, res) => res.status(404).render('404'));

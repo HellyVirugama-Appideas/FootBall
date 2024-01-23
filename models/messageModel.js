@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const MessageSchema = mongoose.Schema({
   name: {
@@ -15,6 +16,10 @@ const MessageSchema = mongoose.Schema({
     type: String,
     required: [true, 'Phone is required.'],
     trim: true,
+    validate(value) {
+      if (!validator.isMobilePhone(value, 'any', { strictMode: true }))
+        throw new Error('Phone is invalid');
+    },
   },
   message: {
     type: String,

@@ -40,6 +40,14 @@ const userSchema = new mongoose.Schema({
       ref: 'Job Title',
     },
   ],
+  jobSkill: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Job Skill',
+    },
+  ],
+  experience: { type: Number, required: [true, validate.experience] },
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {
