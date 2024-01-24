@@ -105,6 +105,13 @@ exports.postResume = async (req, res, next) => {
       });
     }
 
+    if (!req.body.jobSkill || !req.body.jobTitle || !req.body.experience) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please select Job Title, Skill and Experience.',
+      });
+    }
+
     req.user.resumes.forEach((x) => {
       x.selected = false;
     });

@@ -36,18 +36,16 @@ const userSchema = new mongoose.Schema({
   jobTitle: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: 'Job Title',
     },
   ],
   jobSkill: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: 'Job Skill',
     },
   ],
-  experience: { type: String, required: [true, validate.experience] },
+  experience: { type: String },
   city: { type: String, trim: true, required: [true, validate.city] },
   state: { type: String, trim: true, required: [true, validate.state] },
   country: {
