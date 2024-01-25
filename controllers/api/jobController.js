@@ -105,7 +105,8 @@ exports.postResume = async (req, res, next) => {
       });
     }
 
-    if (!req.body.jobSkill || !req.body.jobTitle || !req.body.experience) {
+    //Add jobSkill in if condition
+    if (!req.body.jobTitle || !req.body.experience) {
       return res.status(400).json({
         success: false,
         message: 'Please select Job Title, Skill and Experience.',
@@ -129,7 +130,7 @@ exports.postResume = async (req, res, next) => {
     req.user.resumes = req.user.resumes.concat(newResumes);
 
     req.user.jobTitle = req.body.jobTitle;
-    req.user.jobSkill = req.body.jobSkill;
+    // req.user.jobSkill = req.body.jobSkill;
     req.user.experience = req.body.experience;
 
     await req.user.save();

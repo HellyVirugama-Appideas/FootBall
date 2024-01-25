@@ -51,7 +51,6 @@
                               <th>Phone</th>
                               <th>City</th>
                               <th>Job Title</th>
-                              <th>Job Skill</th>
                               <th>Experience</th>
                               <th>Resume</th>
                               <th>Action</th>
@@ -66,7 +65,6 @@
                               <td><%= users[i].phone %></td>
                               <td style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= users[i].city %></td>
                               <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= users[i].jobTitle.map(x=>x.name).join(', ') %></td>
-                              <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= users[i].jobSkill.map(x=>x.name).join(', ') %></td>
                               <td><%= users[i].experience !== undefined && users[i].experience !== null ? users[i].experience === 'Fresher' ? 'Fresher' : users[i].experience + ' Year' : ''  %></td>
                               <td>
                                 <% if (users[i].resumes && users[i].resumes.length > 0) { %>

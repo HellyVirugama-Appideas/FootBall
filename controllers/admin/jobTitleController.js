@@ -2,7 +2,7 @@ const JobTitle = require('../../models/jobTitleModel');
 
 exports.getTitles = async (req, res) => {
   try {
-    const titles = await JobTitle.find({ isDeleted: false }).sort('-_id');
+    const titles = await JobTitle.find({ isDeleted: false }).sort('name');
     res.render('title', { titles });
   } catch (error) {
     req.flash('red', error.message);
@@ -17,7 +17,7 @@ exports.postAddTitle = async (req, res) => {
     await JobTitle.create({
       name: req.body.name,
     });
-    
+
     req.flash('green', 'Job title added successfully.');
     res.redirect('/title');
   } catch (error) {
