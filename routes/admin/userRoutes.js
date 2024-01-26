@@ -3,6 +3,7 @@ const router = require('express').Router();
 const userController = require('../../controllers/admin/userController');
 
 // user
+router.post('/user/export', userController.exportUsers);
 router.get('/user', userController.getAllUsers);
 router.get('/user/:id', userController.viewUser);
 

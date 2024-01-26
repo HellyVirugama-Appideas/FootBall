@@ -1,3 +1,6 @@
+const fs = require('fs');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
 const User = require('../../models/userModel');
 const Message = require('../../models/messageModel');
 
@@ -55,5 +58,53 @@ exports.viewMessages = async (req, res) => {
     if (error.name === 'CastError') req.flash('red', 'Message not found!');
     else req.flash('red', error.message);
     res.redirect('/message');
+  }
+};
+
+exports.exportUsers = async (req, res) => {
+  try {
+    const users = await User.find().populate('jobTitle');
+
+    const csvWriter = createCsvWriter({
+      path: 'users.csv',
+      header: [
+        { id: 'name', title: 'Name' },
+        { id: 'email', title: 'Email' },
+        { id: 'phone', title: 'Phone' },
+        { id: 'resumeAvailability', title: 'Resume Status' },
+        { id: 'jobTitle', title: 'Job Title' },
+        { id: 'experience', title: 'Experience' },
+        { id: 'city', title: 'City' },
+        { id: 'date', title: 'Date' },
+      ],
+    });
+
+    // Separate users into two arrays based on resume availability
+    const pendingResumes = users.filter((user) => user.resumes.length === 0);
+    const availableResumes = users.filter((user) => user.resumes.length > 0);
+
+    // Concatenate the arrays to get the pending first, then available
+    const csvData = [...pendingResumes, ...availableResumes].map((user) => ({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      resumeAvailability:
+        user.resumes && user.resumes.length > 0 ? 'Available' : 'Pending',
+      jobTitle: user.jobTitle.map((x) => x.name).join(' | '),
+      experience: user.experience,
+      city: user.city,
+      date: user.date.toLocaleDateString('en-US'),
+    }));
+
+    await csvWriter.writeRecords(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=users.csv');
+
+    const fileStream = fs.createReadStream('users.csv');
+    fileStream.pipe(res);
+  } catch (error) {
+    req.flash('red', error.message);
+    res.redirect('/user');
   }
 };
