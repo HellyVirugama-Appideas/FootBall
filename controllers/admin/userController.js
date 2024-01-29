@@ -89,7 +89,7 @@ exports.exportUsers = async (req, res) => {
       email: user.email,
       phone: user.phone,
       resumeAvailability:
-        user.resumes && user.resumes.length > 0 ? 'Available' : 'Pending',
+      user.resumes && user.resumes.length > 0 ? 'Available' : 'Pending',
       jobTitle: user.jobTitle.map((x) => x.name).join(' | '),
       experience: user.experience,
       city: user.city,
