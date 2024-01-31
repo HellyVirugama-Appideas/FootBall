@@ -78,4 +78,39 @@ const sendLink = function (to, link) {
   });
 };
 
-module.exports = { sendOtp, sendLink };
+const sendPassword = function (to, password) {
+  const request = mailjet.post('send', { version: 'v3.1' }).request({
+    Messages: [
+      {
+        From: {
+          Email: process.env.MJ_FROM,
+          Name: process.env.MJ_NAME,
+        },
+        To: [{ Email: to }],
+        Subject: 'Welcome to Football Recruitment',
+        HTMLPart: `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 900px; overflow: auto; line-height: 2; font-size: 1.1em;">
+         <div style="margin: 50px auto; width:70%; padding: 20px 0;">
+         <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
+            <a href="${process.env.CLIENT_URL}" style="font-size:1.4em; color: #004D7F; text-decoration:none; font-weight:600;">
+                <img src="${logoLink}" alt="Football Recruitment" width="100">
+            </a>
+        </div>
+        <p style="font-size: 1.1em;">Hello,</p>
+        <p>Welcome to Football Recruitment!</p>
+        <p>Your account has been created, and here is your generated password:</p>
+        <p style="font-size: 1.2em; background: #004D7F; margin: 10px auto; width: max-content; padding: 10px; color: #fff; border-radius: 4px;">${password}</p>
+        <p>Please keep your password secure and consider changing it after your first login for added security.</p>
+        <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+        <p style="font-size: 0.9em;">Regards,<br />Football Recruitment</p>
+        </div>
+        </div>`,
+      },
+    ],
+  });
+
+  request.catch((error) => {
+    console.error('Error sending email', error);
+  });
+};
+
+module.exports = { sendOtp, sendLink, sendPassword };

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const createError = require('http-errors');
+const crypto = require('crypto');
 const validation = require('../../utils/validation.json');
 const { sendLink } = require('../../utils/sendMail');
 
@@ -50,22 +52,49 @@ exports.register = async (req, res, next) => {
     if (userExist)
       return next(createError.Conflict(validation.alreadyRegistered));
 
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please upload resume PDF.',
+      });
+    }
+
+    const newResumes = req.files.map((file) => {
+      const resumeTitle = path.parse(file.originalname).name;
+
+      return {
+        resumeTitle: req.body.resumeTitle || resumeTitle,
+        resumePdf: `/uploads/${file.filename}`,
+        selected: true,
+      };
+    });
+
+    const userPassword = generateRandomPassword(14);
+    console.log('userPassword', userPassword);
+
     const user = await User.create({
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
-      password: req.body.password,
+      password: userPassword,
       city: req.body.city,
       state: req.body.state,
       country: req.body.country,
+      experience: req.body.experience,
+      jobTitle: req.body.jobTitle,
+      resumes: newResumes,
     });
+
+    //! send in email password
 
     user.password = undefined;
     user.__v = undefined;
 
     const token = user.generateAuthToken();
+
     res.status(201).json({ success: true, token, user });
   } catch (error) {
+    console.log('error', error);
     next(error);
   }
 };
@@ -147,3 +176,10 @@ exports.resetPassword = async (req, res, next) => {
     next(error);
   }
 };
+
+function generateRandomPassword(length) {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString('hex') // Convert to hexadecimal
+    .slice(0, length); // Trim to the desired length
+}
