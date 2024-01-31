@@ -3,7 +3,7 @@ const path = require('path');
 const createError = require('http-errors');
 const crypto = require('crypto');
 const validation = require('../../utils/validation.json');
-const { sendLink } = require('../../utils/sendMail');
+const { sendLink, sendPassword } = require('../../utils/sendMail');
 
 const User = require('../../models/userModel');
 
@@ -70,7 +70,6 @@ exports.register = async (req, res, next) => {
     });
 
     const userPassword = generateRandomPassword(14);
-    console.log('userPassword', userPassword);
 
     const user = await User.create({
       name: req.body.name,
@@ -85,16 +84,21 @@ exports.register = async (req, res, next) => {
       resumes: newResumes,
     });
 
-    //! send in email password
+    // Send an email to the user with the password
+    if (user.email) {
+      sendPassword(user.email, userPassword);
+    };
 
     user.password = undefined;
+    user.jobTitle = undefined;
+    user.jobSkill = undefined;
+    user.date = undefined;
     user.__v = undefined;
 
     const token = user.generateAuthToken();
 
     res.status(201).json({ success: true, token, user });
   } catch (error) {
-    console.log('error', error);
     next(error);
   }
 };

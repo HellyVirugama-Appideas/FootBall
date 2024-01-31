@@ -100,6 +100,7 @@ const sendPassword = function (to, password) {
         <p>Your account has been created, and here is your generated password:</p>
         <p style="font-size: 1.2em; background: #004D7F; margin: 10px auto; width: max-content; padding: 10px; color: #fff; border-radius: 4px;">${password}</p>
         <p>Please keep your password secure and consider changing it after your first login for added security.</p>
+        <a href="https://www.footballrecruitment.eu/">Login link</a>
         <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
         <p style="font-size: 0.9em;">Regards,<br />Football Recruitment</p>
         </div>
