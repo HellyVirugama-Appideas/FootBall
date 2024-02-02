@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const createError = require('http-errors');
-const crypto = require('crypto');
 const validation = require('../../utils/validation.json');
+const generatePassword = require('../../utils/generatePassword');
 const { sendLink, sendPassword } = require('../../utils/sendMail');
 
 const User = require('../../models/userModel');
@@ -69,7 +69,7 @@ exports.register = async (req, res, next) => {
       };
     });
 
-    const userPassword = generateRandomPassword(14);
+    const userPassword = generatePassword(14);
 
     const user = await User.create({
       name: req.body.name,
@@ -87,7 +87,7 @@ exports.register = async (req, res, next) => {
     // Send an email to the user with the password
     if (user.email) {
       sendPassword(user.email, userPassword);
-    };
+    }
 
     user.password = undefined;
     user.jobTitle = undefined;
@@ -97,7 +97,12 @@ exports.register = async (req, res, next) => {
 
     const token = user.generateAuthToken();
 
-    res.status(201).json({ success: true, token, user });
+    res.status(201).json({
+      success: true,
+      message: validation.passwordSendSuccess,
+      token,
+      user,
+    });
   } catch (error) {
     next(error);
   }
@@ -119,6 +124,10 @@ exports.login = async (req, res, next) => {
     await user.save();
 
     user.password = undefined;
+    user.jobTitle = undefined;
+    user.jobSkill = undefined;
+    user.date = undefined;
+    user.__v = undefined;
 
     const token = user.generateAuthToken();
     res.json({ success: true, token, user });
@@ -180,10 +189,3 @@ exports.resetPassword = async (req, res, next) => {
     next(error);
   }
 };
-
-function generateRandomPassword(length) {
-  return crypto
-    .randomBytes(Math.ceil(length / 2))
-    .toString('hex') // Convert to hexadecimal
-    .slice(0, length); // Trim to the desired length
-}
