@@ -37,5 +37,6 @@
   "pwSuccess": "Password updated succefully.",
   "tokenInvalid": "Link is invalid or expired, Please try again.",
   "msg": "Message sent successfully.",
+  "registerSuccefully": "Register Succefully.",
   "passwordSendSuccess": "User created successfully. A password has been sent to your email."
 }

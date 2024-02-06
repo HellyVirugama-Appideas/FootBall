@@ -108,6 +108,59 @@ exports.register = async (req, res, next) => {
   }
 };
 
+exports.signup = async (req, res, next) => {
+  try {
+    const userExist = await User.findOne({ email: req.body.email });
+    if (userExist)
+      return next(createError.Conflict(validation.alreadyRegistered));
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please upload resume PDF.',
+      });
+    }
+
+    const newResumes = req.files.map((file) => {
+      const resumeTitle = path.parse(file.originalname).name;
+
+      return {
+        resumeTitle: req.body.resumeTitle || resumeTitle,
+        resumePdf: `/uploads/${file.filename}`,
+        selected: true,
+      };
+    });
+
+    const user = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      password: req.body.password,
+      city: req.body.city,
+      state: req.body.state,
+      country: req.body.country,
+      resumes: newResumes,
+    });
+
+    user.password = undefined;
+    user.jobTitle = undefined;
+    user.jobSkill = undefined;
+    user.date = undefined;
+    user.__v = undefined;
+
+    const token = user.generateAuthToken();
+
+    res.status(201).json({
+      success: true,
+      message: validation.registerSuccefully,
+      token,
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
