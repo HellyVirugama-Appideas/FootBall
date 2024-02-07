@@ -231,7 +231,9 @@ exports.applyForJob = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Applied for the Vacancy successfully',
+      message: `You have applied for the ${
+        req.body.title ? req.body.title : 'Job'
+      } successfully.`,
     });
   } catch (error) {
     next(error);

@@ -156,6 +156,7 @@ exports.signup = async (req, res, next) => {
     user.password = undefined;
     user.jobTitle = undefined;
     user.jobSkill = undefined;
+    user.resumes = undefined;
     user.date = undefined;
     user.__v = undefined;
 
