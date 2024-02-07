@@ -6,7 +6,7 @@ const authController = require('../../controllers/api/authController');
 
 router.post('/register', uploadResume, authController.register);
 
-router.post('/signup', uploadResume, authController.signup);
+router.post('/signup', authController.signup);
 
 router.post('/login', fileUpload(), authController.login);
 
