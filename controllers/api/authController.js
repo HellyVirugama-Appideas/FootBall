@@ -47,11 +47,19 @@ exports.isUser = async (req, res, next) => {
   }
 };
 
+//Apply Job Without SignUp
 exports.register = async (req, res, next) => {
   try {
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist)
       return next(createError.Conflict(validation.alreadyRegistered));
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please upload resume.',
+      });
+    }
 
     const newResumes = req.files.map((file) => {
       const resumeTitle = path.parse(file.originalname).name;
@@ -78,7 +86,7 @@ exports.register = async (req, res, next) => {
       resumes: newResumes,
     });
 
-    // Send an email to the user with the password
+    // Send an email with the password & Apply For Job
     if (user.email) {
       sendPassword(user.email, userPassword);
 
