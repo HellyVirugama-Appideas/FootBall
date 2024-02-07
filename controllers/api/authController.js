@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const createError = require('http-errors');
+const AppliedJob = require('../../models/appliedJobModel');
 const validation = require('../../utils/validation.json');
 const generatePassword = require('../../utils/generatePassword');
 const { sendLink, sendPassword } = require('../../utils/sendMail');
@@ -47,17 +48,10 @@ exports.isUser = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  try {
+  try { //!pending
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist)
       return next(createError.Conflict(validation.alreadyRegistered));
-
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please upload resume PDF.',
-      });
-    }
 
     const newResumes = req.files.map((file) => {
       const resumeTitle = path.parse(file.originalname).name;
@@ -87,6 +81,14 @@ exports.register = async (req, res, next) => {
     // Send an email to the user with the password
     if (user.email) {
       sendPassword(user.email, userPassword);
+
+      const appliedJob = new AppliedJob({
+        user_id: user._id,
+        job_id: req.body.jobId,
+        resumePdf: newResumes[0].resumePdf,
+      });
+
+      await appliedJob.save();
     }
 
     user.password = undefined;
@@ -99,7 +101,9 @@ exports.register = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: validation.passwordSendSuccess,
+      message: `You have applied for the ${
+        req.body.title ? req.body.title : 'Job'
+      } successfully.`,
       token,
       user,
     });
@@ -114,22 +118,22 @@ exports.signup = async (req, res, next) => {
     if (userExist)
       return next(createError.Conflict(validation.alreadyRegistered));
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please upload resume PDF.',
-      });
-    }
+    // if (!req.files || req.files.length === 0) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: 'Please upload resume PDF.',
+    //   });
+    // }
 
-    const newResumes = req.files.map((file) => {
-      const resumeTitle = path.parse(file.originalname).name;
+    // const newResumes = req.files.map((file) => {
+    //   const resumeTitle = path.parse(file.originalname).name;
 
-      return {
-        resumeTitle: req.body.resumeTitle || resumeTitle,
-        resumePdf: `/uploads/${file.filename}`,
-        selected: true,
-      };
-    });
+    //   return {
+    //     resumeTitle: req.body.resumeTitle || resumeTitle,
+    //     resumePdf: `/uploads/${file.filename}`,
+    //     selected: true,
+    //   };
+    // });
 
     const user = await User.create({
       name: req.body.name,
@@ -139,7 +143,6 @@ exports.signup = async (req, res, next) => {
       city: req.body.city,
       state: req.body.state,
       country: req.body.country,
-      resumes: newResumes,
     });
 
     user.password = undefined;
