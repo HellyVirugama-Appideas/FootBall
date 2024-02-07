@@ -48,7 +48,7 @@ exports.isUser = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  try { //!pending
+  try {
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist)
       return next(createError.Conflict(validation.alreadyRegistered));
