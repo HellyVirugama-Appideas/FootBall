@@ -88,7 +88,7 @@ exports.register = async (req, res, next) => {
 
     // Send an email with the password & Apply For Job
     if (user.email) {
-      sendPassword(user.email, userPassword);
+      sendPassword(user.email, userPassword, req.body.title, user.name);
 
       const appliedJob = new AppliedJob({
         user_id: user._id,

@@ -5,6 +5,7 @@ const AppliedJob = require('../../models/appliedJobModel');
 const Category = require('../../models/categoryModel');
 const JobTitle = require('../../models/jobTitleModel');
 const jobSkill = require('../../models/jobSkillModel');
+const { sendApplicationConfirmation } = require('../../utils/sendMail');
 
 exports.getJobList = async (req, res, next) => {
   try {
@@ -228,6 +229,14 @@ exports.applyForJob = async (req, res, next) => {
     });
 
     await appliedJob.save();
+
+    if (appliedJob) {
+      sendApplicationConfirmation(
+        req.user.email,
+        req.body.title,
+        req.user.name
+      );
+    }
 
     res.json({
       success: true,

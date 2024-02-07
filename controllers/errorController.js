@@ -1,7 +1,6 @@
 const multer = require('multer');
 
 module.exports = (error, req, res, next) => {
-  // console.log(error);
 
   if (error instanceof multer.MulterError) {
     // handle MulterError
