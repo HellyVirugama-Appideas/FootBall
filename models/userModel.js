@@ -52,7 +52,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  isDeleted: { type: Boolean, default: false, select: false },
   date: { type: Date, default: Date.now },
 });
 
