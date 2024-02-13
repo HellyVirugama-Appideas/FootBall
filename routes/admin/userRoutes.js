@@ -6,6 +6,7 @@ const userController = require('../../controllers/admin/userController');
 router.post('/user/export', userController.exportUsers);
 router.get('/user', userController.getAllUsers);
 router.get('/user/:id', userController.viewUser);
+router.get('/user/delete/:id', userController.getDeleteUser);
 
 // message
 router.get('/message', userController.getAllMessages);

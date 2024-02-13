@@ -283,6 +283,7 @@ exports.getAppliedJobs = async (req, res, next) => {
   }
 };
 
+// ? Get Autocomplete title
 exports.findByTitle = async (req, res, next) => {
   try {
     const jobs = await Job.aggregate([
@@ -328,6 +329,7 @@ exports.findByTitle = async (req, res, next) => {
   }
 };
 
+// ? Get Autocomplete city
 exports.findByCity = async (req, res, next) => {
   try {
     const jobs = await Job.aggregate([

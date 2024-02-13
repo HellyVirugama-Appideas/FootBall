@@ -2,6 +2,7 @@ const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const User = require('../../models/userModel');
+const AppliedJob = require('../../models/appliedJobModel');
 const Message = require('../../models/messageModel');
 
 exports.getAllUsers = async (req, res) => {
@@ -29,6 +30,23 @@ exports.viewUser = async (req, res) => {
     res.render('user_view', { user });
   } catch (error) {
     if (error.name === 'CastError') req.flash('red', 'User not found!');
+    else req.flash('red', error.message);
+    res.redirect('/user');
+  }
+};
+
+exports.getDeleteUser = async (req, res) => {
+  try {
+    await Promise.all([
+      User.findByIdAndDelete(req.params.id),
+      AppliedJob.deleteOne({ user_id: req.params.id }),
+    ]);
+
+    req.flash('green', 'User deleted successfully.');
+    res.redirect('/user');
+  } catch (error) {
+    if (error.name === 'CastError' || error.name === 'TypeError')
+      req.flash('red', 'User not found!');
     else req.flash('red', error.message);
     res.redirect('/user');
   }
