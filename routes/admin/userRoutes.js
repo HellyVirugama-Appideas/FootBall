@@ -11,5 +11,6 @@ router.get('/user/delete/:id', userController.getDeleteUser);
 // message
 router.get('/message', userController.getAllMessages);
 router.get('/message_view/:id', userController.viewMessages);
+router.get('/message/delete/:id', userController.getDeleteMessages);
 
 module.exports = router;

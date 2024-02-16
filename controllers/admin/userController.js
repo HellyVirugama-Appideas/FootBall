@@ -79,6 +79,20 @@ exports.viewMessages = async (req, res) => {
   }
 };
 
+exports.getDeleteMessages = async (req, res) => {
+  try {
+    await Message.findByIdAndDelete(req.params.id);
+
+    req.flash('green', 'Message deleted successfully.');
+    res.redirect('/message');
+  } catch (error) {
+    if (error.name === 'CastError' || error.name === 'TypeError')
+      req.flash('red', 'Message not found!');
+    else req.flash('red', error.message);
+    res.redirect('/message');
+  }
+};
+
 exports.exportUsers = async (req, res) => {
   try {
     const users = await User.find().populate('jobTitle');
@@ -107,7 +121,7 @@ exports.exportUsers = async (req, res) => {
       email: user.email,
       phone: user.phone,
       resumeAvailability:
-      user.resumes && user.resumes.length > 0 ? 'Available' : 'Pending',
+        user.resumes && user.resumes.length > 0 ? 'Available' : 'Pending',
       jobTitle: user.jobTitle.map((x) => x.name).join(' | '),
       experience: user.experience,
       city: user.city,
