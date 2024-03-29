@@ -6,7 +6,7 @@ exports.upload = multer({
       cb(null, './public/uploads/');
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname.replace(' ', ''));
+      cb(null, Date.now() + file.originalname.replaceAll(' ', ''));
     },
   }),
   limits: { fileSize: 1024 * 1024 * 10 },
