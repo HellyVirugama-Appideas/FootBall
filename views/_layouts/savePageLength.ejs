@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     $(document).ready(function() {
         // Initialize DataTable
         $('#page-length-option').on('page.dt', function() {
@@ -15,4 +15,39 @@
             lengthMenu: [10, 25, 50, 100],
         });
     });
+</script> -->
+
+<script>
+// $(document).ready(function() {
+//     $('#page-length-option').on('page.dt', function() {
+//         $(document).on('click', '.clickable-row', function() {
+//             window.location.href = $(this).data("href");
+//         });
+//     }).DataTable({
+//         stateSave: true,
+//         responsive: true,
+//         scrollX: true,
+//         lengthMenu: [10, 25, 50, 100],
+//     });
+// });
+
+$(document).ready(function() {
+
+    var table = $('#page-length-option').on('page.dt', function() {
+        $(document).on('click', '.clickable-row', function() {
+            window.location.href = $(this).data("href");
+        });
+    }).DataTable({
+        stateSave: true,
+        responsive: true,
+        scrollX: true,
+        lengthMenu: [10, 25, 50, 100],
+
+        initComplete: function () {
+            // show table AFTER restore applied
+            $('#page-length-option').css('visibility', 'visible');
+        }
+    });
+
+});
 </script>
